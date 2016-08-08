@@ -287,47 +287,47 @@
 
 
         //go
-//        $('.btn').each(function () {
-//            var $this = $(this);
-//            $this.on('click', function () {
-//                var fd = new FormData();
-//                var api = $this.attr('data-api'),
-//                        param = $this.attr('data-param'),
-//                        value = $this.attr('data-value');
-//                if (param) {
-//                    var p_str = new Array(); //定义一数组
-//                    var v_str = new Array(); //定义一数组
-//                    p_str = param.split(","); //字符分割
-//                    v_str = value.split(","); //字符分割
-//                    for (var i = 0; i < p_str.length; i++) {
-//                        fd.append(p_str[i], v_str[i]);
-//                    }
-//                }
-//
-//                $.ajax({
-//
-//                    type: 'post',
-//                    url: '__SITE__' + api,
-//                    data: fd,
-//                    dataType: 'text',
-//                    success: function (msg) {
-//
-//                        $('.json>textarea').empty().append(msg);
-//                        var options = {
-//                            dom: '.json' //对应容器的css选择器
-//                        };
-//                        var jf = new JsonFormater(options); //创建对象
-//                        jf.doFormat(msg); //格式化json
-//
-//                        $('#myModal').modal();
-//                    },
-//                    processData: false,  // 告诉jQuery不要去处理发送的数据
-//                    contentType: false   // 告诉jQuery不要去设置Content-Type请求头
-//
-//                });
-//
-//            });
-//        });
+        $('.btn').each(function () {
+            var $this = $(this);
+            $this.on('click', function () {
+                var fd = new FormData();
+                var api = $this.attr('data-api'),
+                        param = $this.attr('data-param'),
+                        value = $this.attr('data-value');
+                if (param) {
+                    var p_str = new Array(); //定义一数组
+                    var v_str = new Array(); //定义一数组
+                    p_str = param.split(","); //字符分割
+                    v_str = value.split(","); //字符分割
+                    for (var i = 0; i < p_str.length; i++) {
+                        fd.append(p_str[i], v_str[i]);
+                    }
+                }
+
+                $.ajax({
+
+                    type: 'post',
+                    url: '__SITE__' + api,
+                    data: fd,
+                    dataType: 'text',
+                    success: function (msg) {
+
+                        $('.json>textarea').empty().append(msg);
+                        var options = {
+                            dom: '.json' //对应容器的css选择器
+                        };
+                        var jf = new JsonFormater(options); //创建对象
+                        jf.doFormat(msg); //格式化json
+
+                        $('#myModal').modal();
+                    },
+                    processData: false,  // 告诉jQuery不要去处理发送的数据
+                    contentType: false   // 告诉jQuery不要去设置Content-Type请求头
+
+                });
+
+            });
+        });
 
     });
 </script>
