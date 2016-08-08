@@ -1,0 +1,26 @@
+<footer class="footer bg-default" id="footer-bottom" style="padding: 10px 0;display: none">
+
+        <p class="text-muted" style="margin: 0 20px"><small>Copyright © 2016 Haier lnc. All rights reserved.  技术支持：亿点时代</small></p>
+
+</footer>
+<script>
+    $(function(){
+        //footer:margin-top
+        var $prevDiv = $(".right-content");
+        var $footer = $("footer");
+        var all = $(window).height();//是文档窗口高度
+        var top = $prevDiv.offset().top;//是标签距离顶部高度
+        var scroll = $(document).scrollTop();//是滚动条高度
+        var height = $prevDiv.height();//是标签高度
+        var f = $footer.height();
+        //你要的高度
+        var margin_top = all - height - (top - scroll) - f - 51;
+        if (margin_top > 0) {
+            $footer.css('margin-top', margin_top);
+        } else {
+            $footer.css('margin-top', '10px');
+        }
+        $footer.fadeIn("slow");
+    });
+
+</script>

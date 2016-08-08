@@ -1,0 +1,96 @@
+h3 {
+  color: #337ab7;
+  font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.api-header {
+  border-bottom: solid 2px #337ab7;
+  padding: 40px 0 0 0;
+  margin-bottom: 30px;
+  position: relative;
+  height: 100px;
+}
+.api-header .header-title {
+  float: left;
+}
+.api-header .header-title h2 {
+  font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+  color: #337ab7;
+  line-height: 60px;
+  float: left;
+}
+.api-header .header-title p {
+  line-height: 15px;
+  color: #777777;
+  float: left;
+  margin-top: 30px;
+  margin-left: 10px;
+}
+.api-header .header-link {
+  float: right;
+  margin-top: 30px;
+  line-height: 15px;
+}
+.api-header .header-link a {
+  margin-left: 10px;
+}
+.api-body label {
+  font-weight: 500;
+}
+.api-body .list-header h4 {
+  font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 3px 0 9px 0;
+  color: #5cb85c;
+}
+.api-body .list-header p {
+  color: #777777;
+  margin: 7px 0 0 0;
+}
+.api-body .list-header p .label {
+  padding: 2px 5px;
+  font-weight: 500;
+}
+.api-body .list-header p a {
+  margin-right: 10px;
+  font-size: 12px;
+}
+.api-body .request-param {
+  margin-bottom: 0;
+}
+.api-body .param-div {
+  border: solid 1px #dddddd;
+  padding: 5px;
+}
+.api-body .param-div > span {
+  margin: 0 15px 5px 0;
+}
+.api-body .param-div > span .span-key {
+  color: #5cb85c;
+}
+.api-body .param-div > span .span-comment {
+  color: #777777;
+}
+.api-nav {
+  margin-top: 20px;
+  position: fixed;
+}
+.alert-div {
+  display: none;
+  z-index: 99999;
+  position: fixed;
+  left: 15%;
+  right: 10%;
+  top: 46%;
+  width: auto;
+  padding: 0 30px;
+  text-align: center;
+}
+.alert-div .alert {
+  font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 2em;
+  opacity: 0.9;
+  border-radius: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+}

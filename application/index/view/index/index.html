@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+{__NOLAYOUT__}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MaMa-API助手</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="__S__bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="__S__fonts/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__S__fonts/fontawesome/css/font-awesome-ie7.min.css">
+    <link rel="stylesheet" href="__S__jsonFormater/jsonFormater.css">
+    <link rel="stylesheet" href="__S__css/mama-api.css">
+
+</head>
+<body>
+
+
+<script src="__S__js/jquery-1.12.4.js"></script>
+<script src="__S__jsonFormater/jsonFormater.js"></script>
+
+
+<div class="container">
+    <div class="api-header">
+        <div class="header-title">
+
+            <h2>MaMa-API助手</h2>
+            <p>接口地址：<span class="text-primary">{$site.site}</span></p>
+        </div>
+        <div class="header-link">
+            <a href="javascript:void(0);" id="add-api-cate-btn">添加API分类</a>
+            <a href="javascript:void(0);" id="add-api">添加API</a>
+            <a href="javascript:void(0);" id="add-api-site-btn">设置接口主地址</a>
+            <a href="__SITE__">后台管理</a>
+
+        </div>
+
+    </div>
+    <div class="row" id="api-main">
+        <div class="col-md-2">
+
+            <ul class="api-nav nav nav-pills nav-stacked">
+
+                {foreach $cate as $v}
+
+                <li><a href="#{$v.id}">{$v.name}</a></li>
+             {/foreach}
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <div class="api-body">
+                {foreach $list as $vc}
+                {notempty name="vc.api"}
+                <h3 class="text-center" id="{$vc.id}">{$vc.name}</h3>
+
+                <ul class="list-group ">
+
+                    {foreach $vc.api as $v}
+                    <li class="list-group-item ">
+                        <div class="row">
+                            <div class="col-md-3 list-header">
+
+                                <h4>{$v.name}</h4>
+                                <p><span class="label {switch name='v.status'}{case value='1'}label-primary{/case}{case value='2'}label-success{/case}{case value='3'}label-danger{/case}{/switch}">{$v.status_cn}</span>
+                                    <small>接口:{$v.api}</small>
+                                </p>
+                                <p>
+                                    <a href="">编辑</a><a href="">删除</a>
+                                </p>
+                            </div>
+
+
+                            <div class="col-md-9">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group form-group-sm">
+                                        <label class="control-label col-md-2">请求参数:</label>
+                                        <div class="col-md-10">
+
+                                            <div class="input-group">
+                                                <input type="text" class="form-control request-param-input"
+                                                       placeholder="{foreach $v.param as $vp}{$vp.name}:{$vp.value},{/foreach}">
+                                           <span class="input-group-btn">
+                                              <button class="btn btn-success btn-sm" type="button">
+                                                  Go!
+                                              </button>
+                                           </span>
+                                            </div><!-- /input-group -->
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group-sm request-param">
+                                        <label class="control-label col-md-2">请求说明:</label>
+                                        <div class="col-md-10">
+                                            <div class="param-div">
+                                                {foreach $v.param as $vp}
+
+                                                <span><small class="span-key">{$vp.name}</small>:<small class="span-comment">{$vp.comment}</small></span>
+
+                                                {/foreach}
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+
+                            </div>
+                        </div>
+
+                    </li>
+                    {/foreach}
+                </ul>
+                {/notempty}
+                {/foreach}
+            </div>
+        </div>
+    </div>
+    <footer class="footer " style="padding: 10px 0;display: none;border-top: solid 1px #dddddd;">
+        <div class="container">
+            <p class="text-muted" style="margin: 0"><a href="__SITE__" target="_blank">MaMa-2016</a>&nbsp;|&nbsp;API调试助手2.0</p>
+        </div>
+    </footer>
+</div>
+
+{include file="public/modal"/}
+<script src="__S__bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //初始化placeholder
+        $('.request-param-input').each(function(){
+            var $this=$(this);
+            var p=$this.attr('placeholder');
+            console.log(p);
+
+            var len=p.length;
+            var ss=p.substring(0,len-1);
+            $this.attr('placeholder',ss);
+        });
+
+
+        //删除参数
+        $('#add-api-tbody').on('click','[data-operate="delete-param"]',function(){
+
+            $(this).parent().parent().remove();
+        });
+
+
+        //添加参数
+        $('#add-param').on('click',function(){
+
+            var $tr=$('<tr>'+
+                    '<td> <input type="text" class="form-control" placeholder="请输入参数名"></td>'+
+                    '<td> <input type="text" class="form-control" placeholder="请输入参数值"></td>'+
+                    '<td> <input type="text" class="form-control" placeholder="请输入参数说明"></td>'+
+                    '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param">删除</a></td>'+
+                    '</tr>');
+            $('#add-api-tbody').append($tr);
+        });
+
+        //提交添加site
+        $('#add-api-site-submit').on('click',function(){
+
+            $.post('__INDEX__index/saveSite',{site:$('#api-site-name').val(),project:$('#api-site-project').val()},function(msg){
+                if(msg.status==1){
+
+                    var alert = $('<div class="alert-div"><div class="alert alert-success">保存根地址成功</div></div>');
+                    $('body').prepend(alert);
+                    alert.fadeIn("slow");
+                    setTimeout(function () {
+                                alert.fadeOut("slow");
+                                setTimeout(function () {
+                                            alert.remove();
+
+                                        },
+                                        2000);
+                                api_site_modal.modal('hide');
+                        window.location.reload();
+                            },
+                            2000);
+                }
+            });
+        });
+
+
+        //提交添加cate
+        $('#add-api-cate-submit').on('click',function(){
+
+            $.post('__INDEX__index/addCate',{name:$('#api-cate-name').val(),id:$('#api-cate-id').val()},function(msg){
+                if(msg.status==1){
+
+                    var alert = $('<div class="alert-div"><div class="alert alert-success">添加分类成功</div></div>');
+                    $('body').prepend(alert);
+                    alert.fadeIn("slow");
+                    setTimeout(function () {
+                                alert.fadeOut("slow");
+                                setTimeout(function () {
+                                            alert.remove();
+
+                                        },
+                                        2000);
+                                api_cate_modal.modal('hide');
+                            },
+                            2000);
+                }
+            });
+
+        });
+
+        //提交添加api
+        $('#add-api-submit').on('click',function(){
+
+            var param=[];
+            $('.input-param').each(function(index){
+                var $this=$(this);
+                var arr=[];
+                arr.push($this.find('input[name="param_key"]').val());
+                arr.push($this.find('input[name="param_value"]').val());
+                arr.push($this.find('input[name="param_comment"]').val());
+                param.push(arr);
+            });
+            var name=$('#api-name').val();
+            var site=$('#api-site').val();
+            var cate=$('#api_cate').val();
+            $.post('__INDEX__index/addApi',{param:param,name:name,api:site,cate_id:cate},function(msg){
+                if(msg.status==1){
+
+                    var alert = $('<div class="alert-div"><div class="alert alert-success">添加API成功</div></div>');
+                    $('body').prepend(alert);
+                    alert.fadeIn("slow");
+                    setTimeout(function () {
+                                alert.fadeOut("slow");
+                                setTimeout(function () {
+                                            alert.remove();
+
+                                        },
+                                        2000);
+                                api_modal.modal('hide');
+                            },
+                            2000);
+                }
+            });
+
+            console.log(param);
+        });
+
+
+
+
+        //footer:margin-top
+        var $prevDiv = $("#api-main");
+        var $footer = $("footer");
+        var all = $(window).height();//是文档窗口高度
+        var top = $prevDiv.offset().top;//是标签距离顶部高度
+        var scroll = $(document).scrollTop();//是滚动条高度
+        var height = $prevDiv.height();//是标签高度
+        var f = $footer.height();
+        //你要的高度
+        var margin_top = all - height - (top - scroll) - f - 20;
+        if (margin_top > 0) {
+            $footer.css('margin-top', margin_top);
+        } else {
+            $footer.css('margin-top', '10px');
+        }
+        $footer.fadeIn("slow");
+
+
+        //添加api按钮
+        var api_modal=$('#add-api-list');
+        $('#add-api').on('click',function(){
+            api_modal.modal();
+
+        });
+        //添加api-cate按钮
+        var api_cate_modal = $('#add-api-cate');
+        $('#add-api-cate-btn').on('click', function () {
+            api_cate_modal.modal();
+        });
+        //添加api-site按钮
+        var api_site_modal = $('#add-api-site');
+        $('#add-api-site-btn').on('click', function () {
+
+            api_site_modal.modal();
+        });
+
+
+
+        //go
+//        $('.btn').each(function () {
+//            var $this = $(this);
+//            $this.on('click', function () {
+//                var fd = new FormData();
+//                var api = $this.attr('data-api'),
+//                        param = $this.attr('data-param'),
+//                        value = $this.attr('data-value');
+//                if (param) {
+//                    var p_str = new Array(); //定义一数组
+//                    var v_str = new Array(); //定义一数组
+//                    p_str = param.split(","); //字符分割
+//                    v_str = value.split(","); //字符分割
+//                    for (var i = 0; i < p_str.length; i++) {
+//                        fd.append(p_str[i], v_str[i]);
+//                    }
+//                }
+//
+//                $.ajax({
+//
+//                    type: 'post',
+//                    url: '__SITE__' + api,
+//                    data: fd,
+//                    dataType: 'text',
+//                    success: function (msg) {
+//
+//                        $('.json>textarea').empty().append(msg);
+//                        var options = {
+//                            dom: '.json' //对应容器的css选择器
+//                        };
+//                        var jf = new JsonFormater(options); //创建对象
+//                        jf.doFormat(msg); //格式化json
+//
+//                        $('#myModal').modal();
+//                    },
+//                    processData: false,  // 告诉jQuery不要去处理发送的数据
+//                    contentType: false   // 告诉jQuery不要去设置Content-Type请求头
+//
+//                });
+//
+//            });
+//        });
+
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+{__NOLAYOUT__}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>海尔词典接口开发文档</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="__S__bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="__S__jsonFormater/jsonFormater.css">
+    <style>
+        .receive {
+            color: red;
+        }
+
+        .send {
+            color: #4cae4c;
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+
+<script src="__S__js/jquery-1.12.4.js"></script>
+<script src="__S__jsonFormater/jsonFormater.js"></script>
+<div style="margin: 20px">
+    <div class="header">
+
+        <h2 style='font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif' class="center-block">
+            海尔词典接口开发文档</h2>
+        <p><span>访问地址：http://192.168.1.138/haier_abc/public/&nbsp;&nbsp;</span><span class="receive">红色参数：请求（post）&nbsp;&nbsp;</span>
+            <span class="send">绿色参数：响应&nbsp;&nbsp;</span><a href="__SITE__" class="btn btn-success pull-right">后台管理</a></p>
+
+    </div>
+
+    <table class="table  table-condensed table-hover table-striped">
+        <thead>
+        <tr>
+            <th>数据页面</th>
+            <th>demo</th>
+            <th>接口</th>
+            <th>注释</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="4"><strong class="send">词条</strong></td>
+        </tr>
+        <tr>
+            <td>首页</td>
+            <td><a href="javascript:void (0);" data-api="api" data-param="" data-value="" class="btn btn-xs btn-success"
+                   >demo</a></td>
+            <td>/api</td>
+            <td>
+                <span class="send">focus->path</span>:焦点图 地址：/static/upload/focus-img/;
+                <span class="send">word_cate</span>:查找词条（词条分类）全部 分类图标地址：/static/upload/cate-img/;
+                <span class="send">lately</span>:最新发布词条;
+                <span class="send">expert</span>:权威专家4条;
+                <span class="send">record</span>:用户动态(分页4条);
+                <span class="send">record->type</span>:1：添加 2：编辑 3：删除
+            </td>
+        </tr>
+
+        <tr>
+            <td >换一换（首页）</td>
+            <td><a href="javascript:void (0);" data-api="api/index/changeWord" data-param="" data-value="" class="btn btn-xs btn-success"
+            >demo</a></td>
+            <td>/api/index/changeWord</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>分类详情</td>
+            <td><a href="javascript:void (0);" data-api="api/word/cateDetail" data-param="cate" data-value="1"
+                   data-toggle="modal"
+                   data-target="#myModal" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/cateDetail</td>
+            <td>
+
+                <span class="receive">cate</span>:词条分类id;
+                <span class="send">cover->path</span>:焦点图 地址：/static/upload/focus-img/;
+
+            </td>
+        </tr>
+        <tr class="send">
+            <td >词条页面</td>
+            <td><a href="javascript:void (0);" data-api="api/word/word" data-param="id" data-value="1"
+                   data-toggle="modal"
+                   data-target="#myModal" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/word</td>
+            <td>
+
+                <span class="receive">id</span>:词条id;
+                <span class="send">name</span>:模块名;
+                <span class="send">data</span>:[<span class="send">id</span>:模块id&nbsp;
+                <span class="send">lately_editor</span>:最后编辑者&nbsp;
+                <span class="send">lately_time</span>:最后编辑时间&nbsp;
+                <span class="send">content</span>:内容&nbsp;];
+                <span class="send">builder_id</span>:创建者id&nbsp;];
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <td >词条评论列表</td>
+            <td><a href="javascript:void (0);" data-api="api/word/commentList" data-param="id,uid" data-value="1,1"
+                   data-toggle="modal"
+                   data-target="#myModal" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/commentList</td>
+            <td>
+
+                <span class="receive">id</span>:词条id;
+                <span class="receive">uid</span>:用户id;
+                <span class="send">like_status</span>:0:未点赞  1：点赞;
+
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>发布词条</td>
+            <td><a href="javascript:void (0);" data-api="api/word/addword" data-param="name,cate,uid"
+                   data-value="金陵十三钗,2,1" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/addWord</td>
+            <td>
+
+                <span class="receive">name</span>:词条名
+                <span class="receive">uid</span>:用户id
+                <!--<span class="receive">cate</span>:词条分类id-->
+
+            </td>
+        </tr>
+
+        <tr>
+            <td >删除词条</td>
+            <td><a href="javascript:void (0);" data-api="api/word/delWord" data-param="id"
+                   data-value="7" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/delWord</td>
+            <td>
+
+
+                <span class="receive">id</span>:词条id
+                <!--<span class="receive">cate</span>:词条分类id-->
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>提交编辑词条</td>
+            <td><a href="javascript:void (0);" data-api="api/word/editPart"
+                   data-param="content,lately_editor,id" data-value="API测试数据-提交编辑词条字段的内容,3,1"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/editPart</td>
+            <td>
+
+
+
+                &nbsp;<span class="receive">content</span>:模块内容（富文本）
+                &nbsp; <span class="receive">lately_editor</span>:编辑者uid
+                &nbsp; <span class="receive">id</span>:词条模块id
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>发表词条评论</td>
+            <td><a href="javascript:void (0);" data-api="api/word/commentWord"
+                   data-param="wid,uid,content" data-value="1,2,我是评论内容"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/commentWord</td>
+            <td>
+
+                <span class="receive">wid</span>:词条id
+                &nbsp;<span class="receive">uid</span>:用户id
+                &nbsp;<span class="receive">content</span>:评论内容
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>词条评论的回复</td>
+            <td><a href="javascript:void (0);" data-api="api/word/replyComment"
+                   data-param="uid,comment_id,content" data-value="3,2,回复评论内容"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/replyComment</td>
+            <td>
+
+                <span class="receive">uid</span>:用户id
+                &nbsp;<span class="receive">comment_id</span>:回复评论的id
+                &nbsp;<span class="receive">content</span>:回复内容
+
+            </td>
+        </tr>
+
+        <tr>
+            <td >回复词条评论的回复</td>
+            <td><a href="javascript:void (0);" data-api="api/word/wordReplyAgain"
+                   data-param="uid,reply_id,content" data-value="3,15,回复评论内容"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/wordReplyAgain</td>
+            <td>
+
+                <span class="receive">uid</span>:用户id
+                &nbsp;<span class="receive">reply_id</span>:被回复内容的回复id
+                &nbsp;<span class="receive">content</span>:回复内容
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>点赞</td>
+            <td><a href="javascript:void (0);" data-api="api/word/like"
+                   data-param="uid,like_id,type,status" data-value="1,1,1,2"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/like</td>
+            <td>
+
+                <span class="receive">uid</span>:用户id
+                &nbsp;<span class="receive">like_id</span>:被点赞评论的id
+                &nbsp;<span class="receive">type(int)</span>:点赞类型：词条评论的点赞->1  资讯评论的点赞->2
+                &nbsp;<span class="receive">status(int)</span>:1:点赞 2：取消点赞
+
+            </td>
+        </tr>
+
+        <tr class="send">
+            <td>抢单按钮</td>
+            <td><a href="javascript:void (0);" data-api="api/word/winWord"
+                   data-param="uid,wid" data-value="1,1"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/winWord</td>
+            <td>
+                <span class="receive">uid</span>:用户id
+                <span class="receive">wid</span>:词条id
+            </td>
+        </tr>
+
+
+
+        <tr>
+            <td>我创建的词条</td>
+            <td><a href="javascript:void (0);" data-api="api/word/myWord"
+                   data-param="uid" data-value="1"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/myWord</td>
+            <td>
+                <span class="receive">uid</span>:用户id
+            </td>
+        </tr>
+        <tr class="send">
+            <td>我参与的词条(已抢单)</td>
+            <td><a href="javascript:void (0);" data-api="api/word/myWinWord"
+                   data-param="uid" data-value="1"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/myWinWord</td>
+            <td>
+                <span class="receive">uid</span>:用户id
+
+            </td>
+        </tr>
+        <tr class="send">
+            <td >我参与的词条(不含已抢单)</td>
+            <td><a href="javascript:void (0);" data-api="api/word/myPart"
+                   data-param="uid,status" data-value="1,0"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/myPart</td>
+            <td>
+                <span class="receive">uid</span>:用户id
+
+                <span class="receive">status</span>:   未审核：1  &nbsp; &nbsp; &nbsp;   审核：2
+                <span class="send">id</span>:版本id
+            </td>
+        </tr>
+
+        <tr class="send">
+            <td>修改未审核的词条字段</td>
+            <td><a href="javascript:void (0);" data-api="api/word/editVersion"
+                   data-param="id,content" data-value="1,'更改内容'"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/editVersion</td>
+            <td>
+                <span class="receive">id</span>:词条字段的版本id
+                <span class="receive">content</span>:编辑的新内容
+            </td>
+        </tr>
+
+        <tr>
+            <td>删除词条未审核的part</td>
+            <td><a href="javascript:void (0);" data-api="api/word/delVersion"
+                   data-param="id" data-value="1"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/delVersion</td>
+            <td>
+                <span class="receive">id</span>:版本id
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>邀请专家编辑</td>
+            <td><a href="javascript:void (0);" data-api="api/word/inviteEdit"
+                   data-param="uid" data-value="1"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/inviteEdit</td>
+            <td>
+            </td>
+        </tr>
+
+        <tr>
+            <td>提交邀请专家</td>
+            <td><a href="javascript:void (0);" data-api="api/word/doInvite"
+                   data-param="i_uid,e_uid,wid" data-value="1,'2-4-3',1"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/doInvite</td>
+            <td>
+
+                <span class="receive">i_uid</span>:用户id
+                <span class="receive">e_uid</span>:邀请专家的uid 字符串相隔  例:'3-4-5-6'
+                <span class="receive">wid</span>:词条id
+            </td>
+        </tr>
+
+        <tr>
+            <td>热搜关键字</td>
+            <td><a href="javascript:void (0);" data-api="api/word/keywordList"
+                   data-param="" data-value=""
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/keywordList</td>
+            <td>
+                默认最大15条
+            </td>
+        </tr>
+
+        <tr>
+            <td>搜索关键字请求</td>
+            <td><a href="javascript:void (0);" data-api="api/word/search"
+                   data-param="keyword" data-value="金"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/search</td>
+            <td>
+                <span class="receive">keyword</span>:搜索关键字
+                &nbsp;&nbsp;成功返回数据，失败返回当前所搜<span class="receive">关键词</span>
+            </td>
+        </tr>
+
+        <tr>
+            <td>分享加积分</td>
+            <td><a href="javascript:void (0);" data-api="api/word/share"
+                   data-param="uid" data-value="1"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/word/share</td>
+            <td>
+
+                <span class="receive">uid</span>:用户id
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4"><strong class="send">用户</strong></td>
+        </tr>
+
+
+        <tr>
+            <td>我的主页</td>
+            <td><a href="javascript:void (0);" data-api="api/user/center" data-param="uid"
+                   data-value="1" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/center</td>
+
+            <td>
+
+                <span class="receive">uid</span>:用户id
+                &nbsp;<span class="send">score</span>:积分
+                &nbsp;<span class="send">grade</span>:等级
+                &nbsp;<span class="send">exp</span>:经验
+                &nbsp;<span class="send">distance</span>:差多少经验到下一级
+                &nbsp;<span class="send">mes_count</span>:消息数量
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td >专家详情</td>
+            <td><a href="javascript:void (0);" data-api="api/user/expert" data-param="uid"
+                   data-value="6" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/expert</td>
+
+            <td>
+
+                <span class="receive">uid</span>:用户id
+
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>修改昵称</td>
+            <td><a href="javascript:void (0);" data-api="api/user/updateName" data-param="uid,name"
+                   data-value="1,'汤姆" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/updateName</td>
+            <td>
+                <span class="receive">uid</span>:用户id
+                &nbsp;<span class="receive">name</span>:新昵称
+            </td>
+        </tr>
+
+        <tr class="send">
+            <td>消息中心</td>
+            <td><a href="javascript:void (0);" data-api="api/user/message" data-param="uid"
+                   data-value="1" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/message</td>
+            <td>
+                <span class="receive">uid</span>:用户id
+                &nbsp;<span class="send">id</span>:消息id
+                &nbsp;<span class="send">wid</span>:词条id
+                &nbsp;<span class="send">commenter</span>:评论者
+                &nbsp;<span class="send">word_name</span>:词条名
+
+
+            </td>
+        </tr>
+
+        <tr class="send">
+            <td>更改消息读取状态</td>
+            <td><a href="javascript:void (0);" data-api="api/user/readMes" data-param="id"
+                   data-value="1" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/readMes</td>
+            <td>
+                <span class="receive">id</span>:消息id
+                <span class="send">status</span>:1:读取  0：未读
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4"><strong class="send">登录</strong></td>
+        </tr>
+
+
+        <tr>
+            <td>微信资料入库</td>
+            <td><a href="javascript:void (0);" data-api="api/user/weiXin" data-param="wei_name,openid,head_img"
+                   data-value="微信,111111,xiaoming.png" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/weiXin</td>
+
+            <td>
+
+                <span class="receive">wei_name</span>:用户名
+                &nbsp;<span class="receive">openid</span>:openid
+
+                &nbsp;<span class="receive">head_img</span>:头像
+
+
+
+            </td>
+        </tr>
+        <tr>
+            <td>发送验证码(注册)</td>
+            <td><a href="javascript:void (0);" data-api="api/user/registerPhone" data-param="phone"
+                   data-value="13295452227" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/registerPhone</td>
+
+            <td>
+
+                <span class="receive">phone</span>:手机号
+
+
+
+
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>手机注册</td>
+            <td><a href="javascript:void (0);" data-api="api/user/register" data-param="phone,password,code"
+                   data-value="13295452227,111111,3973" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/register</td>
+
+            <td>
+
+                <span class="receive">phone</span>:手机号
+                &nbsp;<span class="receive">password</span>:密码
+
+                &nbsp;<span class="receive">code</span>:验证码
+
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>发送验证码(修改密码)</td>
+            <td><a href="javascript:void (0);" data-api="api/user/editPhone" data-param="phone"
+                   data-value="13295452227" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/editPhone</td>
+
+            <td>
+
+                <span class="receive">phone</span>:手机号
+
+
+
+
+
+            </td>
+        </tr>
+        <tr>
+            <td >重置密码</td>
+            <td><a href="javascript:void (0);" data-api="api/user/resetPassword" data-param="phone,password,code"
+                   data-value="13295452227,111114,7437" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/resetPassword</td>
+
+            <td>
+
+                <span class="receive">phone</span>:手机号
+                &nbsp;<span class="receive">password</span>:密码
+
+                &nbsp;<span class="receive">code</span>:验证码
+
+
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>旧密码验证</td>
+            <td><a href="javascript:void (0);" data-api="api/user/checkPassword" data-param="uid,password"
+                   data-value="1,111111" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/checkPassword</td>
+
+            <td>
+                <span class="receive">uid</span>:用户id
+                <span class="receive">password</span>:旧密码
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>修改密码</td>
+            <td><a href="javascript:void (0);" data-api="api/user/updatePassword" data-param="uid,new_password"
+                   data-value="1,222212" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/updatePassword</td>
+
+            <td>
+
+                <span class="receive">uid</span>:用户id
+                <span class="receive">new_password</span>:新密码
+
+
+
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>登录验证</td>
+            <td><a href="javascript:void (0);" data-api="api/user/login" data-param="phone,password"
+                   data-value="13295452227,111111" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/login</td>
+
+            <td>
+
+                <span class="receive">phone</span>:手机号
+                &nbsp;<span class="receive">password</span>:密码(登录测试帐号：10086 密码：111111)
+                &nbsp;<span class="send">head_img</span>:头像 : /static/upload/head-img/
+                &nbsp;<span class="send">id</span>:用户id
+                <span class="send">user_name</span>:用户名
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>登录加积分</td>
+            <td><a href="javascript:void (0);" data-api="api/user/loginAddScore" data-param="uid"
+                   data-value="1" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/loginAddScore</td>
+            <td>
+                <span class="receive">uid</span>:用户uid
+            </td>
+        </tr>
+
+        <tr>
+            <td>头像上传</td>
+            <td><a href="javascript:void (0);" data-api="api/user/uploadHeadImg" data-param=""
+                   data-value="" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/user/uploadHeadImg</td>
+
+            <td>
+
+                <span class="receive">uid</span>:用户id
+                <span class="receive">file</span>:文件
+
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4"><strong class="send">资讯</strong></td>
+        </tr>
+        <tr>
+            <td>资讯详情</td>
+            <td><a href="javascript:void (0);" data-api="api/news/newsDetail" data-param="id,uid"
+                   data-value="1,1" class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/news/newsDetail</td>
+            <td>
+                <span class="receive">id</span>:资讯id
+                <span class="receive">uid</span>:用户id
+            </td>
+        </tr>
+
+        <tr>
+            <td>发表资讯评论</td>
+            <td><a href="javascript:void (0);" data-api="api/news/commentNews"
+                   data-param="nid,uid,content" data-value="1,2,我是评论内容"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/news/commentNews</td>
+            <td>
+
+                <span class="receive">nid</span>:资讯id
+                &nbsp;<span class="receive">uid</span>:用户id
+                &nbsp;<span class="receive">content</span>:评论内容
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>资讯评论的回复</td>
+            <td><a href="javascript:void (0);" data-api="api/news/replyNews"
+                   data-param="uid,comment_id,content" data-value="3,2,回复评论内容"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/news/replyNews</td>
+            <td>
+
+                <span class="receive">uid</span>:用户id
+                &nbsp;<span class="receive">comment_id</span>:回复评论的id
+                &nbsp;<span class="receive">content</span>:回复内容
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>回复资讯评论的回复</td>
+            <td><a href="javascript:void (0);" data-api="api/news/newsReplyAgain"
+                   data-param="uid,reply_id,content" data-value="3,15,回复评论内容"
+                   class="btn btn-xs btn-success" >demo</a></td>
+            <td>/api/news/newsReplyAgain</td>
+            <td>
+
+                <span class="receive">uid</span>:用户id
+                &nbsp;<span class="receive">reply_id</span>:被回复内容的回复id
+                &nbsp;<span class="receive">content</span>:回复内容
+
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="json">
+                <textarea class="form-control" id="" cols="30" rows="10"></textarea>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<script src="__S__bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $('.btn').each(function () {
+            var $this = $(this);
+            $this.on('click', function () {
+                var fd = new FormData();
+                var api = $this.attr('data-api'),
+                        param = $this.attr('data-param'),
+                        value = $this.attr('data-value');
+                if (param) {
+                    var p_str = new Array(); //定义一数组
+                    var v_str = new Array(); //定义一数组
+                    p_str = param.split(","); //字符分割
+                    v_str = value.split(","); //字符分割
+                    for (var i = 0; i < p_str.length; i++) {
+                        fd.append(p_str[i], v_str[i]);
+                    }
+                }
+
+                $.ajax({
+
+                    type: 'post',
+                    url: '__SITE__' + api,
+                    data: fd,
+                    dataType: 'text',
+                    success: function (msg) {
+
+                        $('.json>textarea').empty().append(msg);
+                        var options = {
+                            dom: '.json' //对应容器的css选择器
+                        };
+                        var jf = new JsonFormater(options); //创建对象
+                        jf.doFormat(msg); //格式化json
+
+                        $('#myModal').modal();
+                    },
+                    processData: false,  // 告诉jQuery不要去处理发送的数据
+                    contentType: false   // 告诉jQuery不要去设置Content-Type请求头
+
+                });
+
+            });
+        });
+
+    });
+</script>
+
+
+</body>
+</html>
