@@ -79,9 +79,9 @@
                                                 <input type="text" class="form-control request-param-input"
                                                        placeholder="{foreach $v.param as $vp}{$vp.name}:{$vp.value},{/foreach}">
                                            <span class="input-group-btn">
-                                              <button class="btn btn-success btn-sm" type="button">
+                                              <a class="btn btn-success btn-sm api-go" href="javascript:void (0);">
                                                   Go!
-                                              </button>
+                                              </a>
                                            </span>
                                             </div><!-- /input-group -->
                                         </div>
@@ -287,7 +287,7 @@
 
 
         //go
-        $('.btn').each(function () {
+        $('.api-go').each(function () {
             var $this = $(this);
             $this.on('click', function () {
                 var fd = new FormData();
@@ -304,10 +304,11 @@
                     }
                 }
 
+                var url='http://'+'<?php echo $site["site"] ;?>' +'/'+ api;
                 $.ajax({
 
                     type: 'post',
-                    url: '__SITE__' + api,
+                    url: 'http://sp.com/index/index/test',
                     data: fd,
                     dataType: 'text',
                     success: function (msg) {
