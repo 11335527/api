@@ -1,12 +1,26 @@
 <!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="alert-modal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="json">
-                <textarea class="form-control" id="" cols="30" rows="10"></textarea>
+        <div class="modal-content" style="margin-top: 320px;;background-color: rgba(10,167,112,.8)">
+            <div class="modal-header" style="border-bottom: none;">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h2 class="modal-title " style="color: white;text-align: center;font-family: 'Microsoft Yahei', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+                    无提示内容！
+                </h2>
+                <div style="text-align: center;margin-top: 10px">
+                    <a type="button" class="btn btn-default"
+                       data-dismiss="modal">关闭
+                    </a>
+                    <a type="button" class="btn btn-success confirm" data-type="">
+                        确认
+                    </a>
+                </div>
             </div>
+
 
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

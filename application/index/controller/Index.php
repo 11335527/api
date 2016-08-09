@@ -70,6 +70,12 @@ class Index extends Controller
         $api->param;
         return $api;
     }
+    public function deleteApi(Request $request){
+        $post=$request->post('id');
+        db('list')->delete($post);
+        db('request')->where(['list_id'=>$post])->delete();
+        return success();
+    }
 
     public function addCate(Request $request){
         $post=$request->post();

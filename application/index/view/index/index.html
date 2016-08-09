@@ -119,7 +119,7 @@
     </div>
     <footer class="footer " style="padding: 10px 0;display: none;border-top: solid 1px #dddddd;">
         <div class="container">
-            <p class="text-muted" style="margin: 0"><a href="__SITE__" target="_blank">MaMa-2016</a>&nbsp;|&nbsp;API调试助手2.0</p>
+            <p class="text-muted" style="margin: 0"><small><a href="__SITE__" target="_blank">MaMa-2016</a>&nbsp;&nbsp;|&nbsp;&nbsp;API调试助手2.0&nbsp;&nbsp;|&nbsp;&nbsp;使用帮助</small></p>
         </div>
     </footer>
 </div>
@@ -247,10 +247,11 @@
                                         },
                                         2000);
                                 api_modal.modal('hide');
+                                window.location.reload();
                             },
                             2000);
                 }
-                window.location.reload();
+
             });
 
 
@@ -276,7 +277,6 @@
         }
         $footer.fadeIn("slow");
 
-
         //添加api按钮
         var api_modal=$('#add-api-list');
         $('#add-api').on('click',function(){
@@ -284,9 +284,15 @@
 
         });
 
+//        api_modal.on('hidden.bs.modal', function (e) {
+//            window.location.reload();
+//        });
+
+
         //编辑api按钮
         var api_id;
-       $('.api-body').on('click','.edit-api',function(){
+        var $api_body=$('.api-body');
+        $api_body.on('click','.edit-api',function(){
            var id=$(this).attr('data-id');
            $.post('__INDEX__index/getApi',{id:id},function(msg){
                api_id=msg.id;
@@ -311,6 +317,42 @@
 
            });
        });
+        //删除api按钮
+        var $alert = $('#alert-modal'),$current_audit;
+        $api_body.on('click','.delete-api',function(){
+            $current_audit = $(this);
+            $alert.find('h2').html('确认删除？');
+            var $confirm = $alert.find('.confirm');
+            $confirm.attr('id', 'delete-confirm');
+            $alert.modal();
+        });
+
+        //删除弹出框确认操作
+        $alert.on('click', '#delete-confirm', function () {
+            var $this=$current_audit;
+            var id=$this.attr('data-id');
+            $.post('__INDEX__index/deleteApi',{id:id},function(msg){
+                if(msg.status==1){
+
+
+                    var alert = $('<div class="alert-div"><div class="alert alert-success">删除成功</div></div>');
+                    $('body').prepend(alert);
+                    alert.fadeIn("slow");
+                    setTimeout(function () {
+                                alert.fadeOut("slow");
+                                setTimeout(function () {
+                                            alert.remove();
+
+                                        },
+                                        2000);
+                                $alert.modal('hide');
+                                $this.parent().parent().parent().parent().remove();
+                            },
+                            2000);
+                }
+            });
+        });
+
 
         //添加api-cate按钮
         var api_cate_modal = $('#add-api-cate');
