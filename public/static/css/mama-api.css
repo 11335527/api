@@ -49,6 +49,7 @@ h3 {
 .api-body .list-header p .label {
   padding: 2px 5px;
   font-weight: 500;
+  cursor: pointer;
 }
 .api-body .list-header p a {
   margin-right: 10px;
@@ -93,4 +94,33 @@ h3 {
   margin-left: auto;
   margin-right: auto;
   display: inline-block;
+}
+.mr_title {
+  margin: 30px 0;
+  font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #777777;
+}
+.mr_title span {
+  vertical-align: middle;
+  display: inline-block;
+}
+.mr_title .mr_title_l {
+  width: 10%;
+  height: 0;
+  border-top: 1px solid #ededed;
+}
+.mr_title .mr_title_c {
+  font-size: 18px;
+  padding: 6px 24px;
+  text-align: center;
+  background-color: #eee;
+  -moz-border-radius: 26px;
+  -webkit-border-radius: 26px;
+  border-radius: 26px;
+  margin: 0 13px;
+}
+.mr_title .mr_title_r {
+  width: 10%;
+  height: 0;
+  border-top: 1px solid #ededed;
 }

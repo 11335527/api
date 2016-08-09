@@ -76,6 +76,24 @@ class Index extends Controller
         db('request')->where(['list_id'=>$post])->delete();
         return success();
     }
+    public function updateStatus(Request $request){
+        $post=$request->post();
+        $status=db('list')->where(['id'=>$post['id']])->value('status');
+        switch($status){
+            case 1:
+                $post['status']=2;
+                break;
+            case 2;
+                $post['status']=3;
+                break;
+            case 3:
+                $post['status']=2;
+                break;
+        }
+
+        db('list')->update($post);
+        return success($post['status']);
+    }
 
     public function addCate(Request $request){
         $post=$request->post();

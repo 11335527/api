@@ -50,7 +50,10 @@
             <div class="api-body">
                 {foreach $list as $vc}
                 {notempty name="vc.api"}
-                <h3 class="text-center" id="{$vc.id}">{$vc.name}</h3>
+                <!--<h3 class="text-center" id="{$vc.id}">{$vc.name}</h3>-->
+                <div class="mr_title text-center" id="{$vc.id}">
+                    <span class="mr_title_l"></span><span class="mr_title_c">{$vc.name}</span><span class="mr_title_r"></span>
+                </div>
 
                 <ul class="list-group ">
 
@@ -60,7 +63,7 @@
                             <div class="col-md-3 list-header">
 
                                 <h4>{$v.name}</h4>
-                                <p><span class="label {switch name='v.status'}{case value='1'}label-primary{/case}{case value='2'}label-success{/case}{case value='3'}label-danger{/case}{/switch}">{$v.status_cn}</span>
+                                <p><span class="label api-status {switch name='v.status'}{case value='1'}label-primary{/case}{case value='2'}label-success{/case}{case value='3'}label-danger{/case}{/switch}" data-id="{$v.id}">{$v.status_cn}</span>
                                     <small>接口:{$v.api}</small>
                                 </p>
                                 <p>
@@ -77,7 +80,7 @@
 
                                             <div class="input-group">
                                                 <input type="text" class="form-control request-param-input" name="param" value=""
-                                                       placeholder="{foreach $v.param as $vp}{$vp.name}:{$vp.value},{/foreach}">
+                                                       placeholder='{foreach $v.param as $vp}{$vp.name}={$vp.value}&{/foreach}'>
                                            <span class="input-group-btn">
                                               <a class="btn btn-success btn-sm api-go" data-api="{$v.api}" href="javascript:void (0);">
                                                   Go!
@@ -90,13 +93,16 @@
                                         <label class="control-label col-md-2">请求说明:</label>
                                         <div class="col-md-10">
                                             <div class="param-div">
-                                                {foreach $v.param as $vp}
+                                                {empty name="v.param"}
 
+                                                <span>&nbsp;</span>
+                                               {else /}
+                                                {foreach $v.param as $vp}
                                                 <span><small class="span-key">{$vp.name}</small>:<small class="span-comment">{$vp.comment}</small></span>
 
                                                 {/foreach}
 
-
+                                                {/empty}
 
                                             </div>
                                         </div>
@@ -128,6 +134,7 @@
 <script src="__S__bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     $(function () {
+
         //初始化placeholder
         $('.request-param-input').each(function(){
             var $this=$(this);
@@ -138,7 +145,31 @@
             var ss=p.substring(0,len-1);
             $this.attr('placeholder',ss);
         });
+        var $api_body=$('.api-body');
+        //更新状态
+        $api_body.on('click','.api-status',function(){
+            var $this=$(this);
+            $.post('__INDEX__index/updateStatus',{id:$(this).attr('data-id')},function(msg){
 
+                if(msg.status==1){
+                    switch (msg.content){
+                        case 2:
+                                $this.removeClass('label-primary');
+                                $this.removeClass('label-danger');
+                                $this.addClass('label-success');
+                            $this.html('已完成');
+                                console.log(2);
+                            break;
+                        case 3:
+                            $this.removeClass('label-success');
+                            $this.addClass('label-danger');
+                            $this.html('修改中');
+                            console.log(3);
+                            break;
+                    }
+                }
+            });
+        });
 
         //删除参数
         $('#add-api-tbody').on('click','[data-operate="delete-param"]',function(){
@@ -150,11 +181,12 @@
         //添加参数
         $('#add-param').on('click',function(){
 
-            var $tr=$('<tr>'+
-                    '<td> <input type="text" class="form-control" placeholder="请输入参数名"></td>'+
-                    '<td> <input type="text" class="form-control" placeholder="请输入参数值"></td>'+
-                    '<td> <input type="text" class="form-control" placeholder="请输入参数说明"></td>'+
-                    '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param">删除</a></td>'+
+
+            var $tr=$(' <tr class="input-param">'+
+                    '<td> <input type="text" name="param_key" class="form-control" placeholder="请输入参数名"></td>'+
+                    '<td> <input type="text" name="param_value" class="form-control" placeholder="请输入参数值"></td>'+
+                    '<td> <input type="text" name="param_comment" class="form-control" placeholder="请输入参数说明"></td>'+
+                    '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param" >删除</a></td>'+
                     '</tr>');
             $('#add-api-tbody').append($tr);
         });
@@ -211,6 +243,7 @@
         //提交添加api
         $('#add-api-submit').on('click',function(){
 
+
             var param=[];
             $('.input-param').each(function(index){
                 var $this=$(this);
@@ -223,6 +256,7 @@
             var name=$('#api-name').val();
             var site=$('#api-site').val();
             var cate=$('#api_cate').val();
+
             if(api_id){
                 var data={param:param,name:name,api:site,cate_id:cate,id:api_id}
             }else {
@@ -291,7 +325,7 @@
 
         //编辑api按钮
         var api_id;
-        var $api_body=$('.api-body');
+
         $api_body.on('click','.edit-api',function(){
            var id=$(this).attr('data-id');
            $.post('__INDEX__index/getApi',{id:id},function(msg){
@@ -305,9 +339,9 @@
                $tbody.empty();
                for (var key in msg.param){
                    var $tr = $('<tr class="input-param">' +
-                           '<td> <input type="text" name="param_key" class="form-control" placeholder="请输入参数名" value="'+msg.param[key].name+'"></td>' +
-                           '<td> <input type="text" name="param_value" class="form-control" placeholder="请输入参数值" value="'+msg.param[key].value+'"></td>' +
-                           ' <td> <input type="text" name="param_comment" class="form-control" placeholder="请输入参数说明" value="'+msg.param[key].comment+'"></td>' +
+                           '<td> <input type="text" name="param_key" class="form-control" placeholder="请输入参数名" value='+"'"+msg.param[key].name+"'"+'></td>' +
+                           '<td> <input type="text" name="param_value" class="form-control" placeholder="请输入参数值" value='+"'"+msg.param[key].value+"'"+'></td>' +
+                           ' <td> <input type="text" name="param_comment" class="form-control" placeholder="请输入参数说明" value='+"'"+msg.param[key].comment+"'"+'></td>' +
                            '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param" >删除</a></td>' +
                            '</tr>');
                    $tbody.append($tr);
@@ -373,16 +407,17 @@
             var $this = $(this);
             var input=$this.parent().prev();
             var param=input.val();
-            console.log(param);
+
             if(!param){
                 param=input.attr('placeholder');
             }
-            var param_arr=param.split(","); //字符分割
+            var param_arr=param.split("&"); //字符分割
             var arr_post={};
             for(var key in param_arr){
-                var pp=param_arr[key].split(':');
+                var pp=param_arr[key].split('=');
 
                 arr_post[pp[0]]=pp[1];
+
             }
             var api = $this.attr('data-api');
             var url='http://'+'<?php echo $site["site"] ;?>' +'/'+ api;
