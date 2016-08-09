@@ -27,10 +27,10 @@
             <p>接口地址：<span class="text-primary">{$site.site}</span></p>
         </div>
         <div class="header-link">
-            <a href="javascript:void(0);" id="add-api-cate-btn">添加API分类</a>
-            <a href="javascript:void(0);" id="add-api">添加API</a>
-            <a href="javascript:void(0);" id="add-api-site-btn">设置接口主地址</a>
-            <a href="__SITE__">后台管理</a>
+            <a href="javascript:void(0);" id="add-api-cate-btn"><small>添加API分类</small></a>
+            <a href="javascript:void(0);" id="add-api"><small>添加API</small></a>
+            <a href="javascript:void(0);" id="add-api-site-btn"><small>设置接口主地址</small></a>
+            <a href="__SITE__"><small>后台管理</small></a>
 
         </div>
 
@@ -64,7 +64,7 @@
                                     <small>接口:{$v.api}</small>
                                 </p>
                                 <p>
-                                    <a href="">编辑</a><a href="">删除</a>
+                                    <a href="javascript:void (0);" class="edit-api" data-id="{$v.id}">编辑</a><a  href="javascript:void (0);" class="delete-api" data-id="{$v.id}">删除</a>
                                 </p>
                             </div>
 
@@ -76,10 +76,10 @@
                                         <div class="col-md-10">
 
                                             <div class="input-group">
-                                                <input type="text" class="form-control request-param-input"
+                                                <input type="text" class="form-control request-param-input" name="param" value=""
                                                        placeholder="{foreach $v.param as $vp}{$vp.name}:{$vp.value},{/foreach}">
                                            <span class="input-group-btn">
-                                              <a class="btn btn-success btn-sm api-go" href="javascript:void (0);">
+                                              <a class="btn btn-success btn-sm api-go" data-api="{$v.api}" href="javascript:void (0);">
                                                   Go!
                                               </a>
                                            </span>
@@ -223,10 +223,20 @@
             var name=$('#api-name').val();
             var site=$('#api-site').val();
             var cate=$('#api_cate').val();
-            $.post('__INDEX__index/addApi',{param:param,name:name,api:site,cate_id:cate},function(msg){
+            if(api_id){
+                var data={param:param,name:name,api:site,cate_id:cate,id:api_id}
+            }else {
+                var data={param:param,name:name,api:site,cate_id:cate}
+            }
+            $.post('__INDEX__index/addApi',data,function(msg){
                 if(msg.status==1){
 
-                    var alert = $('<div class="alert-div"><div class="alert alert-success">添加API成功</div></div>');
+                    if(api_id){
+                        var alert='保存API成功';
+                    }else{
+                        var alert='添加API成功';
+                    }
+                    var alert = $('<div class="alert-div"><div class="alert alert-success">'+alert+'</div></div>');
                     $('body').prepend(alert);
                     alert.fadeIn("slow");
                     setTimeout(function () {
@@ -240,6 +250,7 @@
                             },
                             2000);
                 }
+                window.location.reload();
             });
 
 
@@ -272,6 +283,35 @@
             api_modal.modal();
 
         });
+
+        //编辑api按钮
+        var api_id;
+       $('.api-body').on('click','.edit-api',function(){
+           var id=$(this).attr('data-id');
+           $.post('__INDEX__index/getApi',{id:id},function(msg){
+               api_id=msg.id;
+               api_modal.find('.modal-title').html('编辑API');
+               api_modal.find('#add-api-submit').html('保存');
+               api_modal.find('option[value="'+msg.cate_id+'"]').attr('selected','selected');
+               api_modal.find('#api-name').val(msg.name);
+               api_modal.find('#api-site').val(msg.api);
+               var $tbody=$('#add-api-tbody');
+               $tbody.empty();
+               for (var key in msg.param){
+                   var $tr = $('<tr class="input-param">' +
+                           '<td> <input type="text" name="param_key" class="form-control" placeholder="请输入参数名" value="'+msg.param[key].name+'"></td>' +
+                           '<td> <input type="text" name="param_value" class="form-control" placeholder="请输入参数值" value="'+msg.param[key].value+'"></td>' +
+                           ' <td> <input type="text" name="param_comment" class="form-control" placeholder="请输入参数说明" value="'+msg.param[key].comment+'"></td>' +
+                           '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param" >删除</a></td>' +
+                           '</tr>');
+                   $tbody.append($tr);
+               }
+
+               api_modal.modal();
+
+           });
+       });
+
         //添加api-cate按钮
         var api_cate_modal = $('#add-api-cate');
         $('#add-api-cate-btn').on('click', function () {
@@ -287,10 +327,11 @@
 
 
         //go
-        $('.api-go').each(function () {
+        $('.api-body').on('click','.api-go',function(){
             var $this = $(this);
             var input=$this.parent().prev();
             var param=input.val();
+            console.log(param);
             if(!param){
                 param=input.attr('placeholder');
             }
@@ -301,31 +342,29 @@
 
                 arr_post[pp[0]]=pp[1];
             }
+            var api = $this.attr('data-api');
+            var url='http://'+'<?php echo $site["site"] ;?>' +'/'+ api;
+            $.ajax({
 
-            $this.on('click', function () {
-                var api = $this.attr('data-api');
-                var url='http://'+'<?php echo $site["site"] ;?>' +'/'+ api;
-                $.ajax({
+                type: 'post',
+                url: url,
+                data: arr_post,
+                dataType: 'json',
+                success: function (msg) {
 
-                    type: 'post',
-                    url: 'http://sp.com/index/index/test',
-                    data: arr_post,
-                    dataType: 'json',
-                    success: function (msg) {
+                    $('.json>textarea').empty().append(msg);
+                    var options = {
+                        dom: '.json' //对应容器的css选择器
+                    };
+                    var jf = new JsonFormater(options); //创建对象
+                    jf.doFormat(msg); //格式化json
+                    $('#myModal').modal();
+                }
 
-                        $('.json>textarea').empty().append(msg);
-                        var options = {
-                            dom: '.json' //对应容器的css选择器
-                        };
-                        var jf = new JsonFormater(options); //创建对象
-                        jf.doFormat(msg); //格式化json
-                        $('#myModal').modal();
-                    }
-
-
-                });
 
             });
+
+
         });
 
     });

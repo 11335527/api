@@ -3,6 +3,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use app\index\model\Cate;
+use app\index\model\Api;
 class Index extends Controller
 
 {
@@ -43,8 +44,16 @@ class Index extends Controller
         $post=$request->post();
         $param=$post['param'];
         unset($post['param']);
-        $list_id=db('list')->insertGetId($post);
+
+        if($post['id']){
+            db('list')->update($post);
+            $list_id=$post['id'];
+        }else{
+            $list_id=db('list')->insertGetId($post);
+        }
+
         $data=[];
+        db('request')->where(['list_id'=>$list_id])->delete();
         foreach($param as $k=>$v){
             $data[$k]['name']=$v[0];
             $data[$k]['value']=$v[1];
@@ -54,6 +63,12 @@ class Index extends Controller
         db('request')->insertAll($data);
         return success();
 
+    }
+    public function getApi(Request $request){
+        $post=$request->post('id');
+        $api=Api::get($post);
+        $api->param;
+        return $api;
     }
 
     public function addCate(Request $request){
