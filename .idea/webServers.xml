@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b337cd36-4653-4bcc-972c-f33b8fd2fc3a" name="api-topp" url="http://qxu1152030100.my3w.com">
+        <fileTransfer host="qxu1152030100.my3w.com" port="21" rootFolder="/htdocs/api" password="dfdbdfdbdf99df9cdf93df9cdf93df93" username="qxu1152030100">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

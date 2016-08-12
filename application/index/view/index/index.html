@@ -16,6 +16,7 @@
 
 
 <script src="__S__js/jquery-1.12.4.js"></script>
+<script src="__S__bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="__S__jsonFormater/jsonFormater.js"></script>
 
 
@@ -30,7 +31,7 @@
             <a href="javascript:void(0);" id="add-api-cate-btn"><small>添加API分类</small></a>
             <a href="javascript:void(0);" id="add-api"><small>添加API</small></a>
             <a href="javascript:void(0);" id="add-api-site-btn"><small>设置接口主地址</small></a>
-            <a href="__SITE__"><small>后台管理</small></a>
+            <a href="http://www.topp123.com"><small>MaMa首页</small></a>
 
         </div>
 
@@ -64,7 +65,7 @@
 
                                 <h4>{$v.name}</h4>
                                 <p><span class="label api-status {switch name='v.status'}{case value='1'}label-primary{/case}{case value='2'}label-success{/case}{case value='3'}label-danger{/case}{/switch}" data-id="{$v.id}">{$v.status_cn}</span>
-                                    <small>接口:{$v.api}</small>
+                                    <small>接口:<span class="api-name">{$v.api}</span></small>
                                 </p>
                                 <p>
                                     <a href="javascript:void (0);" class="edit-api" data-id="{$v.id}">编辑</a><a  href="javascript:void (0);" class="delete-api" data-id="{$v.id}">删除</a>
@@ -82,7 +83,7 @@
                                                 <input type="text" class="form-control request-param-input" name="param" value=""
                                                        placeholder='{foreach $v.param as $vp}{$vp.name}={$vp.value}&{/foreach}'>
                                            <span class="input-group-btn">
-                                              <a class="btn btn-success btn-sm api-go" data-api="{$v.api}" href="javascript:void (0);">
+                                              <a class="btn btn-success btn-sm api-go" data-api="{$v.api}" >
                                                   Go!
                                               </a>
                                            </span>
@@ -131,7 +132,7 @@
 </div>
 
 {include file="public/modal"/}
-<script src="__S__bootstrap/dist/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
     $(function () {
 
@@ -436,6 +437,13 @@
                     var jf = new JsonFormater(options); //创建对象
                     jf.doFormat(msg); //格式化json
                     $('#myModal').modal();
+                },
+                error:function(msg){
+
+                    var error=$('#error-modal');
+                    error.find('.modal-content').html(msg.responseText);
+                    error.modal();
+                    console.log(msg);
                 }
 
 
@@ -443,6 +451,13 @@
 
 
         });
+
+        $('#error-modal').on('hidden.bs.modal', function (e) {
+
+            document.getElementById('#error-modal').html('');
+
+        });
+
 
     });
 </script>
