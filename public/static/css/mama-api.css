@@ -48,6 +48,9 @@ h3 {
   margin: 3px 0 9px 0;
   color: #5cb85c;
 }
+.api-body .list-header .api-name {
+  color: #5cb85c;
+}
 .api-body .list-header p {
   color: #777777;
   margin: 7px 0 0 0;
