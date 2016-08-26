@@ -26,7 +26,7 @@ class Index extends Controller
         $this->assign('site',$site);
 
         //cate_list
-        $list=Cate::where(['project_id'=>$site['id']])->select();
+        $list=Cate::where(['project_id'=>$site['id']])->order('sort')->select();
         foreach ($list as $v) {
             $api = $v->api;
             foreach ($api as $va) {
@@ -35,8 +35,9 @@ class Index extends Controller
         }
 
         $this->assign('list',$list);
+
         //cate
-        $cate=db('cate')->select();
+        $cate=db('cate')->order('sort')->select();
         $this->assign('cate',$cate);
         return $this->fetch();
     }
@@ -97,6 +98,7 @@ class Index extends Controller
 
     public function addCate(Request $request){
         $post=$request->post();
+        $post['project_id']=1;
 
         if(db('cate')->insert($post)){
             return success();
@@ -110,5 +112,13 @@ class Index extends Controller
         db('site')->where(['project'=>$post['project']])->update($post);
             return success();
 
+    }
+    public function updateDirOrder(){
+        $ids=$this->request->post('id');
+        $ids=json_decode($ids);
+        foreach($ids as $k=>$v){
+            db('cate')->where(['cate_id'=>$v])->update(['sort'=>$k]);
+        }
+        return $ids;
     }
 }

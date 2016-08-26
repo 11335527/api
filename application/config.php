@@ -18,17 +18,17 @@ return [
 
     //视图输出替换
     'view_replace_str'=>[
-        '__S__'=>__SITE__.'static/',
+        '__S__'=>__SITE__.'public/static/',
         '__API__'=>__SITE__.'api/',
         '__INDEX__'=>__SITE__.'index/',
         '__SITE__' => __SITE__,
 
     ],
-    'log'     =>  [
-        'type'                  =>  'socket',
-        'host'                  =>  'localhost',
-        'show_included_files'   =>  true,
-        'force_client_ids'      =>  ['slog_api'],
-        'allow_client_ids'      =>  ['slog_api'],
-    ],
+//    'log'     =>  [
+//        'type'                  =>  'socket',
+//        'host'                  =>  'localhost',
+//        'show_included_files'   =>  true,
+//        'force_client_ids'      =>  ['slog_api'],
+//        'allow_client_ids'      =>  ['slog_api'],
+//    ],
 ];

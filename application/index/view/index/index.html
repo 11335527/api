@@ -17,14 +17,21 @@
 
 <script src="__S__js/jquery-1.12.4.js"></script>
 <script src="__S__jsonFormater/jsonFormater.js"></script>
-
+<script src="http://apps.bdimg.com/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
 <div class="container">
     <div class="api-header">
         <div class="header-title">
 
             <h2>MaMa-API助手</h2>
-            <p>接口地址：<span class="text-primary">{$site.site}</span></p>
+            <div>
+                <select name="site" id="site" class="form-control" >
+                    <option value="192.168.1.150/techan/public/index.php">张想想</option>
+                    <option value="hishu.cc">周凯</option>
+                </select>
+            </div>
+
+            <!--<p>接口地址：<span class="text-primary">{$site.site}</span></p>-->
         </div>
         <div class="header-link">
             <a href="javascript:void(0);" id="add-api-cate-btn"><small>添加API分类</small></a>
@@ -42,11 +49,13 @@
 
                 {foreach $cate as $v}
 
-                <li><a href="#{$v.id}">{$v.name}</a></li>
+                <li data-id="{$v.cate_id}"><a href="#{$v.id}">{$v.name}</a></li>
              {/foreach}
             </ul>
         </div>
         <div class="col-md-10">
+            <!--<p><span class="text-danger">商品-主图：</span>./static/upload/image/goods/head_img/</p>-->
+            <!--<p><span class="text-danger">用户-头像：</span>./static/upload/image/head_img/</p>-->
             <div class="api-body">
                 {foreach $list as $vc}
                 {notempty name="vc.api"}
@@ -134,6 +143,25 @@
 <script src="__S__bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     $(function () {
+        /**
+         *移动目录
+         *add by zk 2016/8/15 17:08
+         */
+        $('.api-nav').sortable({
+            cursor: "move",
+            items: "li", //只是li可以拖动
+            opacity: 0.6, //拖动时，透明度为0.6
+            revert: true, //释放时，增加动画
+            update: function (event, ui) { //更新排序之后
+                var arr=[];
+                $('.api-nav>li').each(function(){
+                    arr.push($(this).attr('data-id'));
+                });
+                $.post('__INDEX__index/updateDirOrder',{id:JSON.stringify(arr)},function(){
+
+                });
+            }
+        });
 
         //初始化placeholder
         $('.request-param-input').each(function(){
@@ -419,8 +447,9 @@
                 arr_post[pp[0]]=pp[1];
 
             }
+            var site=$('#site').val();
             var api = $this.attr('data-api');
-            var url='http://'+'<?php echo $site["site"] ;?>' +'/'+ api;
+            var url='http://'+site +'/'+ api;
             $.ajax({
 
                 type: 'post',
