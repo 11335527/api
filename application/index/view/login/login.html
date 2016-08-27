@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+{__NOLAYOUT__}
+
+{include file="public/header"/}
+
+
+
+
+
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6 col-sm-6" style="margin-top: 20%;text-align: right"><img src="__S__images/api-login.png" class="img-responsive" style="display: inline" alt=""></div>
+        <div class="col-md-6 col-sm-6" style="margin-top: 21%">
+            <div class="login-div">
+
+
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+
+
+
+                    <h3>账号登陆</h3>
+
+                </div>
+
+
+                <div class="form-group">
+
+
+
+                        <input type="text" class="form-control" required="" id="username" name="username"  placeholder="用户名">
+
+                </div>
+                <div class="form-group">
+
+                        <input type="text" class="form-control" required="" id="password" name="password"  placeholder="密码">
+
+                </div>
+
+                <div class="form-group">
+
+                        <a href="javascript:void (0);" class="btn btn-success btn-block" id="submit">登录</a>
+
+                </div>
+                <div class="form-group text-right">
+                    <a href="">点击注册</a>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+
+
+
+       $('#submit').on('click',function(){
+           var $alert=$(this).parent().parent();
+
+           $.post('__INDEX__login/check',{username:$('#username').val(),password: $('#password').val()},function(msg){
+
+               if(msg.status==0){
+
+                   var alert = $('<div class="alert-div"><div class="alert alert-warning">Warning！' + msg.content + '</div></div>');
+                   $alert.before(alert);
+                   alert.fadeIn("slow");
+                   setTimeout(function () {
+                               alert.fadeOut("slow");
+                               setTimeout(function () {
+                                           alert.remove();
+                                       },
+                                       2000);
+                           },
+                           2000);
+               }else{
+                   window.location.href='__SITE__';
+               }
+           })
+       }) ;
+    });
+</script>
+
+
+<!--内容区底部-->
+
+
+{include file="public/footer"/}
+
+
+

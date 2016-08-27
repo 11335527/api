@@ -18,4 +18,5 @@ return [
         ':name' => ['index/hello', ['method' => 'post']],
     ],
 
+    'login'=>'index/login/login',
 ];
