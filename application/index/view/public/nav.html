@@ -1,33 +1,58 @@
-<div style="margin-left: 200px;height: 60px;background-color: #f8f8f8;">
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#example-navbar-collapse">
+                    <span class="sr-only">切换导航</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">MaMa-API助手</a>
+            </div>
+            <div>
+                <div class="collapse navbar-collapse" id="example-navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="javascript:void(0);" id="add-api-cate-btn">
+                            <small>添加API分类</small>
+                        </a></li>
+                        <li><a href="javascript:void(0);" id="add-api">
+                            <small>添加API</small>
+                        </a></li>
+                        <li><a href="javascript:void(0);" id="add-api-site-btn">
+                            <small>设置接口主地址</small>
+                        </a></li>
+                        <li><a href="http://www.topp123.com">
+                            <small>MaMa首页</small>
+                        </a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                后端开发人员设置 <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="__SITE__addServerDev">添加后端开发人员</a></li>
+                                <li><a href="#">EJB</a></li>
+                                <li><a href="#">Jasper Report</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">分离的链接</a></li>
+                                <li class="divider"></li>
+                                <li><a href="__INDEX__login/logout">退出登录</a></li>
+                            </ul>
+                        </li>
+                        <form class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <select name="site" id="site" class="form-control">
+                                    <option value="hishu.cc">周凯</option>
+                                    <option value="192.168.1.150/techan/public/index.php">张想想</option>
+                                </select>
+                            </div>
 
-    <div class="pull-left">
-        <ol class="breadcrumb" style="line-height: 44px;background-color:transparent;;">
-            <li><a href="__SITE__">首页</a></li>
-            <li class="active">{$menu}</li>
-        </ol>
-
+                        </form>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="pull-right">
-
-
-        <div class="dropdown pull-right">
-                <span class="dropdown-toggle" data-toggle="dropdown" style="line-height: 60px;margin-right: 20px">
-                    TestUser
-                    <b class="caret"></b>
-                </span>
-            <ul class="dropdown-menu pull-right">
-                <li><a href="#">API测试入口</a></li>
-                <li><a href="#">退出</a></li>
-
-            </ul>
-        </div>
-        <div style="float: right"><img src="__S__images/test_head_img.jpg" alt=""
-                                       style="width: 38px;margin-right: 5px;margin-top: 10px;" class="img-circle ">
-        </div>
-    </div>
-
-
-</div>
-
-
+</nav>

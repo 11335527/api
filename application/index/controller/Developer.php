@@ -7,7 +7,6 @@
  */
 namespace app\index\controller;
 use think\Controller;
-
 class Developer extends Controller{
 
 
@@ -15,5 +14,24 @@ class Developer extends Controller{
     public function addServerDev(){
 
         return $this->fetch();
+    }
+
+    public function saveServerDev(){
+        $post=$this->request->post();
+
+
+        //验证字段
+        $result = $this->validate($post, 'Developer');
+        if (true !== $result) {
+            return error($result);
+        }
+        $post['project_id']=session('user')['project_id'];
+
+        if(db('developer')->insert($post)){
+            return success();
+        }else{
+            return error('添加失败');
+        }
+
     }
 }

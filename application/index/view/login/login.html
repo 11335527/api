@@ -31,12 +31,12 @@
 
 
 
-                        <input type="text" class="form-control" required="" id="username" name="username"  placeholder="用户名">
+                        <input type="text" class="form-control" required="" id="username" name="username" value="zhoukai" placeholder="用户名">
 
                 </div>
                 <div class="form-group">
 
-                        <input type="text" class="form-control" required="" id="password" name="password"  placeholder="密码">
+                        <input type="text" class="form-control" required="" id="password" name="password" value="111111" placeholder="密码">
 
                 </div>
 
@@ -66,7 +66,7 @@
 
                if(msg.status==0){
 
-                   var alert = $('<div class="alert-div"><div class="alert alert-warning">Warning！' + msg.content + '</div></div>');
+                   var alert = $('<div class="alert-div"><div class="alert alert-warning">警告！' + msg.content + '</div></div>');
                    $alert.before(alert);
                    alert.fadeIn("slow");
                    setTimeout(function () {

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
-
+//\think\Hook::listen('app_init',$GLOBALS['params']);//参数为变量(下同)
 
 //封装ajax成功返回
 function success($mes=null){

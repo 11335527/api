@@ -41,7 +41,7 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
 {
 
     // 数据库对象池
-    protected static $links = [];
+    private static $links = [];
     // 数据库配置
     protected $connection = [];
     // 当前模型名称
@@ -52,16 +52,16 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     protected $class;
     // 回调事件
     private static $event = [];
+
+    // 数据表主键 复合主键使用数组定义
+    protected $pk;
     // 错误信息
     protected $error;
     // 字段验证规则
     protected $validate;
-    // 数据表主键 复合主键使用数组定义
-    protected $pk;
+
     // 字段属性
     protected $field = [];
-    // 字段类型
-    protected $fieldType = [];
     // 显示属性
     protected $visible = [];
     // 隐藏属性
@@ -85,6 +85,8 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     protected $createTime = 'create_time';
     // 更新时间字段
     protected $updateTime = 'update_time';
+    // 删除时间字段
+    protected $deleteTime = 'delete_time';
     // 时间字段取出后的默认时间格式
     protected $dateFormat = 'Y-m-d H:i:s';
     // 字段类型或者格式转换
@@ -153,19 +155,10 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             } else {
                 $query->name($this->name);
             }
-
-            if (!empty($this->field)) {
-                $query->allowField($this->field);
+            // 全局作用域
+            if (method_exists($this, 'base')) {
+                call_user_func_array([$this, 'base'], [ & $query]);
             }
-
-            if (!empty($this->fieldType)) {
-                $query->setFieldType($this->fieldType);
-            }
-
-            if (!empty($this->pk)) {
-                $query->pk($this->pk);
-            }
-
             self::$links[$model] = $query;
         }
         // 返回当前模型的数据库查询对象
@@ -269,9 +262,27 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
      */
     public function setAttr($name, $value, $data = [])
     {
-        if (is_null($value) && $this->autoWriteTimestamp && in_array($name, [$this->createTime, $this->updateTime])) {
+        if (is_null($value) && $this->autoWriteTimestamp && in_array($name, [$this->createTime, $this->updateTime, $this->deleteTime])) {
             // 自动写入的时间戳字段
-            $value = $this->autoWriteTimestamp($name);
+            if (isset($this->type[$name])) {
+                $type = $this->type[$name];
+                if (strpos($type, ':')) {
+                    list($type, $param) = explode(':', $type, 2);
+                }
+                switch ($type) {
+                    case 'datetime':
+                        $format = !empty($param) ? $param : $this->dateFormat;
+                        $value  = date($format, $_SERVER['REQUEST_TIME']);
+                        break;
+                    case 'timestamp':
+                        $value = $_SERVER['REQUEST_TIME'];
+                        break;
+                }
+            } elseif (is_string($this->autoWriteTimestamp) && in_array(strtolower($this->autoWriteTimestamp), ['datetime', 'date', 'timestamp'])) {
+                $value = date($this->dateFormat, $_SERVER['REQUEST_TIME']);
+            } else {
+                $value = $_SERVER['REQUEST_TIME'];
+            }
         } else {
             // 检测修改器
             $method = 'set' . Loader::parseName($name, 1) . 'Attr';
@@ -290,36 +301,6 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
         // 设置数据对象属性
         $this->data[$name] = $value;
         return $this;
-    }
-
-    /**
-     * 自动写入时间戳
-     * @access public
-     * @param string         $name 时间戳字段
-     * @return mixed
-     */
-    protected function autoWriteTimestamp($name)
-    {
-        if (isset($this->type[$name])) {
-            $type = $this->type[$name];
-            if (strpos($type, ':')) {
-                list($type, $param) = explode(':', $type, 2);
-            }
-            switch ($type) {
-                case 'datetime':
-                    $format = !empty($param) ? $param : $this->dateFormat;
-                    $value  = date($format, $_SERVER['REQUEST_TIME']);
-                    break;
-                case 'timestamp':
-                    $value = $_SERVER['REQUEST_TIME'];
-                    break;
-            }
-        } elseif (is_string($this->autoWriteTimestamp) && in_array(strtolower($this->autoWriteTimestamp), ['datetime', 'date', 'timestamp'])) {
-            $value = date($this->dateFormat, $_SERVER['REQUEST_TIME']);
-        } else {
-            $value = $_SERVER['REQUEST_TIME'];
-        }
-        return $value;
     }
 
     /**
@@ -966,7 +947,7 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
      */
     public static function get($data = null, $with = [], $cache = false)
     {
-        $query = static::parseQuery($data, $with, $cache);
+        $query = self::parseQuery($data, $with, $cache);
         return $query->find($data);
     }
 
@@ -981,7 +962,7 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
      */
     public static function all($data = null, $with = [], $cache = false)
     {
-        $query = static::parseQuery($data, $with, $cache);
+        $query = self::parseQuery($data, $with, $cache);
         return $query->select($data);
     }
 
@@ -1285,19 +1266,14 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
 
     public function __call($method, $args)
     {
-        $query = $this->db();
-        // 全局作用域
-        if (method_exists($this, 'base')) {
-            call_user_func_array('static::base', [ & $query]);
-        }
         if (method_exists($this, 'scope' . $method)) {
             // 动态调用命名范围
             $method = 'scope' . $method;
-            array_unshift($args, $query);
+            array_unshift($args, $this->db());
             call_user_func_array([$this, $method], $args);
             return $this;
         } else {
-            return call_user_func_array([$query, $method], $args);
+            return call_user_func_array([$this->db(), $method], $args);
         }
     }
 
@@ -1308,10 +1284,6 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             self::$links[$model] = (new static())->db();
         }
         $query = self::$links[$model];
-        // 全局作用域
-        if (method_exists($model, 'base')) {
-            call_user_func_array('static::base', [ & $query]);
-        }
         return call_user_func_array([$query, $method], $params);
     }
 

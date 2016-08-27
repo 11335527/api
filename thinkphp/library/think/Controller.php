@@ -50,7 +50,9 @@ class Controller
         $this->request = $request;
 
         // 控制器初始化
-        $this->_initialize();
+        if (method_exists($this, '_initialize')) {
+            $this->_initialize();
+        }
 
         // 前置操作方法
         if ($this->beforeActionList) {
@@ -60,11 +62,6 @@ class Controller
                 $this->beforeAction($method, $options);
             }
         }
-    }
-
-    // 初始化
-    protected function _initialize()
-    {
     }
 
     /**
@@ -186,7 +183,7 @@ class Controller
             }
         }
         // 是否批量验证
-        if ($batch || $this->batchValidate) {
+        if($batch || $this->batchValidate){
             $v->batch(true);
         }
 

@@ -8,16 +8,17 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+// $Id$
 return [
-    '__pattern__' => [
-        'name' => '\w+',
+    'template' => [
+        'layout_on' => true,
+        'layout_name' => 'layout',
     ],
-    '[hello]'     => [
-        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
-    ],
-
-    'login'=>'index/login/login',
-    'addServerDev'=>'index/developer/addServerDev',
+    // 开启应用Trace调试
+//    'app_trace' => true,
+//    // 设置Trace显示方式
+//    'trace' => [
+//        // 在当前Html页面显示Trace信息
+//        'type' => 'html',
+//    ],
 ];

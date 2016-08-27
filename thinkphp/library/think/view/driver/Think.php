@@ -39,7 +39,6 @@ class Think
         if (empty($this->config['view_path'])) {
             $this->config['view_path'] = App::$modulePath . 'view' . DS;
         }
-
         $this->template = new Template($this->config);
     }
 

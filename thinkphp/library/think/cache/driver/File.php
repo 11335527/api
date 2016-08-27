@@ -69,17 +69,19 @@ class File
         $name = md5($name);
         if ($this->options['cache_subdir']) {
             // 使用子目录
-            $name = substr($md5, 0, 2) . DS . substr($md5, 2);
+            $dir = '';
+            $len = $this->options['path_level'];
+            for ($i = 0; $i < $len; $i++) {
+                $dir .= $name{$i} . DS;
+            }
+            if (!is_dir($this->options['path'] . $dir)) {
+                mkdir($this->options['path'] . $dir, 0755, true);
+            }
+            $filename = $dir . $this->options['prefix'] . $name . '.php';
+        } else {
+            $filename = $this->options['prefix'] . $name . '.php';
         }
-        if ($this->options['prefix']) {
-            $name = $this->options['prefix'] . DS . $name;
-        }
-        $filename = $this->options['path'] . $name . '.php';
-        $dir      = dirname($filename);
-        if (!is_dir($dir)) {
-            mkdir($dir, 0755, true);
-        }
-        return $filename;
+        return $this->options['path'] . $filename;
     }
 
     /**
@@ -161,16 +163,17 @@ class File
      * @access public
      * @param string    $name 缓存变量名
      * @param int       $step 步长
+     * @param int       $expire  有效时间 0为永久
      * @return false|int
      */
-    public function inc($name, $step = 1)
+    public function inc($name, $step = 1, $expire = null)
     {
         if ($this->has($name)) {
             $value = $this->get($name) + $step;
         } else {
             $value = $step;
         }
-        return $this->set($name, $value, 0) ? $value : false;
+        return $this->set($name, $value, $expire) ? $value : false;
     }
 
     /**
@@ -178,16 +181,17 @@ class File
      * @access public
      * @param string    $name 缓存变量名
      * @param int       $step 步长
+     * @param int       $expire  有效时间 0为永久
      * @return false|int
      */
-    public function dec($name, $step = 1)
+    public function dec($name, $step = 1, $expire = null)
     {
         if ($this->has($name)) {
             $value = $this->get($name) - $step;
         } else {
             $value = $step;
         }
-        return $this->set($name, $value, 0) ? $value : false;
+        return $this->set($name, $value, $expire) ? $value : false;
     }
 
     /**

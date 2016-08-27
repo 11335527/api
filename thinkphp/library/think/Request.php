@@ -236,7 +236,7 @@ class Request
         $options['server']      = $server;
         $options['url']         = $server['REQUEST_URI'];
         $options['baseUrl']     = $info['path'];
-        $options['pathinfo']    = '/' == $info['path'] ? '/' : ltrim($info['path'], '/');
+        $options['pathinfo']    = ltrim($info['path'], '/');
         $options['method']      = $server['REQUEST_METHOD'];
         $options['domain']      = $server['HTTP_HOST'];
         $options['content']     = $content;
@@ -1228,7 +1228,7 @@ class Request
     {
         if (isset($_SERVER['HTTP_VIA']) && stristr($_SERVER['HTTP_VIA'], "wap")) {
             return true;
-        } elseif (isset($_SERVER['HTTP_ACCEPT']) && strpos(strtoupper($_SERVER['HTTP_ACCEPT']), "VND.WAP.WML")) {
+        } elseif (strpos(strtoupper($_SERVER['HTTP_ACCEPT']), "VND.WAP.WML")) {
             return true;
         } elseif (isset($_SERVER['HTTP_X_WAP_PROFILE']) || isset($_SERVER['HTTP_PROFILE'])) {
             return true;

@@ -9,10 +9,10 @@ class Index extends Controller
 {
     public function __construct(Request $request) {
         parent::__construct($request);
-        if(!session('project')){
-            session('project','techan');
-        }
 
+        if(($GLOBALS['params']===0)){
+            $this->redirect(url('index/login/login'));
+        }
 
     }
 
@@ -21,12 +21,12 @@ class Index extends Controller
 
 
         //site
-        $project=session('project');
-        $site=db('site')->where(['project'=>$project])->find();
-        $this->assign('site',$site);
+//        $project=session('project');
+//        $site=db('site')->where(['project'=>$project])->find();
+//        $this->assign('site',$site);
 
         //cate_list
-        $list=Cate::where(['project_id'=>$site['id']])->order('sort')->select();
+        $list=Cate::order('sort')->select();
         foreach ($list as $v) {
             $api = $v->api;
             foreach ($api as $va) {
@@ -72,6 +72,7 @@ class Index extends Controller
         return $api;
     }
     public function deleteApi(Request $request){
+
         $post=$request->post('id');
         db('list')->delete($post);
         db('request')->where(['list_id'=>$post])->delete();

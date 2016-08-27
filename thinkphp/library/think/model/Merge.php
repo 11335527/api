@@ -189,12 +189,8 @@ class Merge extends Model
 
                 if (!empty($where)) {
                     $pk = $this->getPk();
-
-                    if (isset($this->mapFields[$pk])) {
-                        $pk = $this->mapFields[$pk];
-                    }
-                    if (isset($where[$pk])) {
-                        unset($where[$pk]);
+                    if (is_string($pk) && isset($data[$pk])) {
+                        unset($data[$pk]);
                     }
                 }
 

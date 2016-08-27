@@ -65,7 +65,6 @@ class App
     protected static $routeMust;
 
     protected static $dispatch;
-    protected static $file = [];
 
     /**
      * 执行应用程序
@@ -78,8 +77,12 @@ class App
     {
         is_null($request) && $request = Request::instance();
 
+        if ('ico' == $request->ext()) {
+            throw new HttpException(404, 'ico file not exists');
+        }
+
         $config = self::initCommon();
-        $request->filter($config['default_filter']);
+
         try {
 
             // 开启多语言机制
@@ -101,7 +104,6 @@ class App
             }
             // 记录当前调度信息
             $request->dispatch($dispatch);
-
             // 记录路由信息
             self::$debug && Log::record('[ ROUTE ] ' . var_export($dispatch, true), 'info');
             // 监听app_begin
@@ -277,10 +279,7 @@ class App
             if ($bind) {
                 // 绑定模块
                 list($bindModule) = explode('/', $bind);
-                if (empty($result[0])) {
-                    $module    = $bindModule;
-                    $available = true;
-                } elseif ($module == $bindModule) {
+                if ($module == $bindModule) {
                     $available = true;
                 }
             } elseif (!in_array($module, $config['deny_module_list']) && is_dir(APP_PATH . $module)) {
@@ -363,7 +362,7 @@ class App
             self::$debug = Config::get('app_debug');
             if (!self::$debug) {
                 ini_set('display_errors', 'Off');
-            } elseif (!IS_CLI) {
+            } else {
                 //重新申请一块比较大的buffer
                 if (ob_get_level() > 0) {
                     $output = ob_get_clean();
@@ -385,9 +384,8 @@ class App
             if (!empty($config['extra_file_list'])) {
                 foreach ($config['extra_file_list'] as $file) {
                     $file = strpos($file, '.') ? $file : APP_PATH . $file . EXT;
-                    if (is_file($file) && !isset(self::$file[$file])) {
-                        include $file;
-                        self::$file[$file] = true;
+                    if (is_file($file)) {
+                        include_once $file;
                     }
                 }
             }
@@ -470,32 +468,17 @@ class App
      */
     public static function routeCheck($request, array $config)
     {
-        $path   = $request->path();
+        $path   = rtrim($request->path(), '/');
         $depr   = $config['pathinfo_depr'];
         $result = false;
         // 路由检测
         $check = !is_null(self::$routeCheck) ? self::$routeCheck : $config['url_route_on'];
         if ($check) {
             // 开启路由
-            if (is_file(RUNTIME_PATH . 'route.php')) {
-                // 读取路由缓存
-                $rules = include RUNTIME_PATH . 'route.php';
-                if (is_array($rules)) {
-                    Route::rules($rules);
-                }
-            } else {
-                $files = $config['route_config_file'];
-                foreach ($files as $file) {
-                    if (is_file(CONF_PATH . $file . CONF_EXT)) {
-                        // 导入路由配置
-                        $rules = include CONF_PATH . $file . CONF_EXT;
-                        if (is_array($rules)) {
-                            Route::import($rules);
-                        }
-                    }
-                }
+            if (!empty($config['route'])) {
+                // 导入路由配置
+                Route::import($config['route']);
             }
-
             // 路由检测（根据路由定义返回不同的URL调度）
             $result = Route::check($request, $path, $depr, $config['url_domain_deploy']);
             $must   = !is_null(self::$routeMust) ? self::$routeMust : $config['url_route_must'];
