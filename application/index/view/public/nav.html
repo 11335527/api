@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse" role="navigation">
+<nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -9,31 +9,25 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">MaMa-API助手</a>
+                <a class="navbar-brand" href="__SITE__">MaMa-API助手</a>
             </div>
             <div>
                 <div class="collapse navbar-collapse" id="example-navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="javascript:void(0);" id="add-api-cate-btn">
-                            <small>添加API分类</small>
+                        <li><a href="__SITE__">
+                            <small>API文档</small>
                         </a></li>
-                        <li><a href="javascript:void(0);" id="add-api">
-                            <small>添加API</small>
+                        <li><a href="__SITE__cate" >
+                            <small>分类管理</small>
                         </a></li>
-                        <li><a href="javascript:void(0);" id="add-api-site-btn">
-                            <small>设置接口主地址</small>
-                        </a></li>
-                        <li><a href="http://www.topp123.com">
-                            <small>MaMa首页</small>
-                        </a></li>
+
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                后端开发人员设置 <b class="caret"></b>
+                               <small> 开发人员 <b class="caret"></b></small>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="__SITE__addServerDev">添加后端开发人员</a></li>
-                                <li><a href="#">EJB</a></li>
-                                <li><a href="#">Jasper Report</a></li>
+                                <li><a href="__SITE__addDev">添加开发人员</a></li>
+                                <li><a href="__SITE__devList">开发人员列表</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#">分离的链接</a></li>
                                 <li class="divider"></li>
@@ -43,8 +37,10 @@
                         <form class="navbar-form navbar-left" role="search">
                             <div class="form-group">
                                 <select name="site" id="site" class="form-control">
-                                    <option value="hishu.cc">周凯</option>
-                                    <option value="192.168.1.150/techan/public/index.php">张想想</option>
+                                    {foreach $site as $v}
+                                    <option value="{$v.site}">{$v.name}</option>
+                                    {/foreach}
+                                    <!--<option value="192.168.1.150/techan/public/index.php">张想想</option>-->
                                 </select>
                             </div>
 

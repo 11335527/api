@@ -1,0 +1,48 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>名称</th>
+        <th>跳转id</th>
+
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $list as $v}
+    <tr data-id="{$v.id}">
+        <td>{$v.name}</td>
+        <td>{$v.id}</td>
+        <td><a href="__SITE__editDev/{$v.id}">编辑</a></td>
+    </tr>
+    {/foreach}
+    </tbody>
+
+</table>
+<script src="http://apps.bdimg.com/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<script>
+    $('[data-operate="set-default"]').on('click',function(){
+
+        $.post('__INDEX__developer/setDefault',{id:$(this).attr('data-id')},function(){
+
+        });
+    });
+    /**
+     *移动目录
+     *add by zk 2016/8/15 17:08
+     */
+    $('tbody').sortable({
+        cursor: "move",
+        items: "tr", //只是li可以拖动
+        opacity: 0.6, //拖动时，透明度为0.6
+        revert: true, //释放时，增加动画
+        update: function (event, ui) { //更新排序之后
+            var arr = [];
+            $('tbody>tr').each(function () {
+                arr.push($(this).attr('data-id'));
+            });
+            $.post('__INDEX__developer/setSort', {id: JSON.stringify(arr)}, function () {
+
+            });
+        }
+    });
+</script>

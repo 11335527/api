@@ -19,5 +19,8 @@ return [
     ],
 
     'login'=>'index/login/login',
-    'addServerDev'=>'index/developer/addServerDev',
+    'addDev'=>'index/developer/addDev',
+    'editDev/:id'=>['index/developer/editDev', ['method' => 'get'], ['id' => '\d+']],
+    'devList'=>'index/developer/devList',
+    'cate'=>'index/index/cate',
 ];

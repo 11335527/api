@@ -17,10 +17,10 @@ class Developer extends Validate {
         'role' => 'CheckSite:',
     ];
 
-    public function CheckSite($value, $data) {
+    public function CheckSite($value, $rule, $data) {
         if ($value == 2) {
             if (empty($data['site'])) {
-                return '服务器接口地址不能为空';
+                return '服务器接口地址不能为空'.$data['site'];
             }
         }
         return true;

@@ -1,0 +1,94 @@
+
+    <form action="" class="form-horizontal" id="add-dev-form" role="form">
+        <div class="form-group form-group-sm">
+            <label  class="control-label col-md-2">开发者名称</label>
+            <div class="col-md-4">
+                <input type="text" name="name" class="form-control">
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            <label  class="control-label col-md-2">开发者密码</label>
+            <div class="col-md-4">
+                <input type="text" name="password" placeholder="该密码用于开发者登录项目" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <label  class="control-label col-md-2">角色</label>
+            <div class="col-md-6">
+
+                <label class="checkbox-inline">
+                    <input type="radio" name="role"  value="1" checked>调用接口者
+                </label>
+                <label class="checkbox-inline">
+                    <input type="radio" name="role"  value="2">写接口者
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm hidden" id="input-site">
+            <label  class="control-label col-md-2">开发者接口地址</label>
+            <div class="col-md-4">
+                <input type="text" name="site" class="form-control" placeholder="服务端开发人员的接口地址">
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+
+            <div class="col-md-4 col-md-offset-2">
+                <a class="btn btn-primary btn-block" id="add-dev-submit">提交</a>
+            </div>
+        </div>
+
+    </form>
+
+
+<script>
+    $(function(){
+
+
+        $('input[type="radio"]').on('change',function(){
+            console.log('ss');
+            var val=$(this).val();
+            if(val==2){
+                $('#input-site').removeClass('hidden');
+            }else {
+                $('#input-site').addClass('hidden');
+            }
+        });
+
+        //提交表单
+       $('#add-dev-submit').on('click',function(){
+
+           var fd=new FormData($('#add-dev-form')[0]);
+
+           $.ajax({
+               type:'post',
+               url:'__INDEX__developer/saveDev',
+               data:fd,
+               dataType:'json',
+               success:function(msg){
+                   if(msg.status==0){
+
+                       var alert = $('<div class="alert-div"><div class="alert alert-warning">警告！' + msg.content + '</div></div>');
+                       $('body').append(alert);
+                       alert.fadeIn("slow");
+                       setTimeout(function () {
+                                   alert.fadeOut("slow");
+                                   setTimeout(function () {
+                                               alert.remove();
+                                           },
+                                           2000);
+                               },
+                               2000);
+                   }else{
+                       window.location.href='__SITE__';
+                   }
+               },
+               processData:false,
+               contentType:false
+           });
+
+
+       }) ;
+    });
+</script>

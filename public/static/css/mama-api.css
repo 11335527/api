@@ -1,9 +1,9 @@
 h3 {
-  color: #337ab7;
+  color: #222222;
   font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .api-header {
-  border-bottom: solid 2px #337ab7;
+  border-bottom: solid 2px #222222;
   padding: 40px 0 0 0;
   margin-bottom: 30px;
   position: relative;
@@ -15,7 +15,7 @@ h3 {
 .api-header .header-title h2 {
   font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 0;
-  color: #337ab7;
+  color: #222222;
   line-height: 60px;
   float: left;
 }
@@ -46,7 +46,7 @@ h3 {
 .api-body .list-header h4 {
   font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 3px 0 9px 0;
-  color: #5cb85c;
+  color: #4d75a1;
 }
 .api-body .list-header p {
   color: #777777;
@@ -141,4 +141,92 @@ h3 {
   margin: 0;
   padding-bottom: 10px;
   border-bottom: solid 1px #eeeeee;
+}
+.float-nav {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  z-index: 999;
+  position: fixed;
+  right: 20px;
+  bottom: 50px;
+  background-color: white;
+  width: 50px;
+  padding: 0;
+  height: auto;
+}
+.float-nav > div {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: #222222;
+}
+.float-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.float-nav li {
+  position: relative;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 18px;
+  margin: 0 5px;
+  padding: 0;
+  border-top: solid 1px #eeeeee;
+}
+.float-nav li:first-child {
+  border-top: none;
+}
+.float-nav li:last-child {
+  line-height: 49px;
+}
+.float-nav li:hover a {
+  color: #222222;
+}
+.float-nav a {
+  color: #222222;
+  background-color: white;
+  display: block;
+}
+.alert-nav {
+  z-index: -1;
+  width: 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 14px;
+  height: 50px;
+  line-height: 50px;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  color: white;
+  background-color: #222222;
+  overflow: hidden;
+}
+.api-left-nav {
+  position: fixed;
+  top: 120px;
+  max-width: 180px;
+  overflow: hidden;
+}
+.api-left-nav > li > a {
+  color: #222222;
+  font-size: 14px;
+  padding: 3px 10px;
+  border-left: 2px solid #222222;
+}
+.api-left-nav > li > ul > li > a {
+  color: #777777;
+  font-size: 12px;
+  margin-left: 10px;
+  padding: 3px 10px;
+}
+.api-left-nav > li > ul > li > a:hover {
+  color: #5cb85c;
+  border-left: 2px solid #5cb85c;
+}
+.api-left-nav > li > ul > li > .active {
+  color: #5cb85c;
+  border-left: 2px solid #5cb85c;
+  background-color: #eee;
 }

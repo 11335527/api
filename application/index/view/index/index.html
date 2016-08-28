@@ -1,19 +1,39 @@
 
 
+<div id="api-main">
 
-
-<div class="container">
-
-    <div class="row" id="api-main">
+    <div class="row" >
         <div class="col-md-2">
 
-            <ul class="api-nav nav nav-pills nav-stacked">
+            <!--<ul class="api-nav nav nav-pills nav-stacked">-->
 
-                {foreach $cate as $v}
+                <!--{foreach $cate as $v}-->
 
-                <li data-id="{$v.cate_id}"><a href="#{$v.id}">{$v.name}</a></li>
-                {/foreach}
-            </ul>
+                <!--<li data-id="{$v.cate_id}"><a href="#{$v.id}">{$v.name}</a></li>-->
+                <!--{/foreach}-->
+            <!--</ul>-->
+            <nav class="hidden-print hidden-xs hidden-sm" id="accordion">
+                <ul class="nav api-left-nav">
+
+                    {foreach  $list as $v}
+                    <li class="" data-id="{$v.cate_id}">
+                        <a data-toggle="collapse" data-parent="#accordion"
+                           href="#collapse{$v.cate_id}">{$v.name}</a>
+
+                        <ul class="nav panel-collapse collapse in"  id="collapse{$v.cate_id}">
+                            {foreach  $v.api as $va}
+                            <li data-id="{$va.id}"><a href="#tabs-{$va.id}">{$va.name}</a></li>
+                            {/foreach}
+                        </ul>
+
+                    </li>
+                    {/foreach}
+
+
+
+                </ul>
+
+            </nav>
         </div>
         <div class="col-md-10">
             <!--<p><span class="text-danger">商品-主图：</span>./static/upload/image/goods/head_img/</p>-->
@@ -30,13 +50,13 @@
                 <ul class="list-group ">
 
                     {foreach $vc.api as $v}
-                    <li class="list-group-item ">
+                    <li class="list-group-item " id="tabs-{$v.id}">
                         <div class="row">
                             <div class="col-md-3 list-header">
 
                                 <h4>{$v.name}</h4>
                                 <p><span
-                                        class="label api-status {switch name='v.status'}{case value='1'}label-primary{/case}{case value='2'}label-success{/case}{case value='3'}label-danger{/case}{/switch}"
+                                        class="label api-status {switch name='v.status'}{case value='1'}label-info{/case}{case value='2'}label-success{/case}{case value='3'}label-danger{/case}{/switch}"
                                         data-id="{$v.id}">{$v.status_cn}</span>
                                     <small>接口:<span class="api-name">{$v.api}</span></small>
                                 </p>
@@ -104,29 +124,66 @@
     <footer class="footer " style="padding: 10px 0;display: none;border-top: solid 1px #dddddd;">
         <div class="container">
             <p class="text-muted" style="margin: 0">
-                <small><a href="__SITE__" target="_blank">MaMa-2016</a>&nbsp;&nbsp;|&nbsp;&nbsp;API调试助手2.0&nbsp;&nbsp;|&nbsp;&nbsp;使用帮助
+                <small><a href="http://www.topp123.com" target="_blank">MaMa-2016</a>&nbsp;&nbsp;|&nbsp;&nbsp;API调试助手2.0&nbsp;&nbsp;|&nbsp;&nbsp;使用帮助
                 </small>
+
             </p>
         </div>
     </footer>
+
 </div>
 
+<div class="float-nav hidden-xs">
+    <ul>
+        <li><div class="alert-nav"><p>返回顶部</p></div><a href="javascript:void(0);" id="return-top"><i class="fa fa-angle-up"></i></a>></li>
+
+        <li><div class="alert-nav"><p>添加分类</p></div><a href="javascript:void(0);" id="add-api-cate-btn"><i class="fa fa-sitemap"></i></a></li>
+        <li><div class="alert-nav"><p>添加API</p></div><a href="javascript:void(0);" id="add-api"><i class="fa fa-pencil-square"></i></a></li>
+    </ul>
+    <div><img src="__S__images/mama_samll.png" class="img-responsive" alt=""></div>
+</div>
+<script>
+    $(function(){
+        $('.float-nav li').on('mouseenter mouseleave',function(event){
+            var $this=$(this);
+            var alert=$this.children('.alert-nav');
+            switch (event.type){
+                case 'mouseenter':
+                    alert.animate({right:'45px',width:'80px'},'fast');
+                    break;
+                case 'mouseleave':
+                    alert.animate({right:'0',width:'0'},'fast');
+                    break;
+            }
+        });
+
+        $('.api-left-nav ul>li').on('click',function(){
+            $('.api-left-nav ul>li>a').removeClass('active');
+            $(this).children('a').addClass('active');
+
+            var id='tabs-'+$(this).attr('data-id');
+            var s_top=$('#'+id).offset().top-100;
+            $("body").animate({scrollTop:s_top});
+        });
 
 
+    });
+
+</script>
 <script type="text/javascript">
     $(function () {
         /**
          *移动目录
          *add by zk 2016/8/15 17:08
          */
-        $('.api-nav').sortable({
+        $('.api-left-nav').sortable({
             cursor: "move",
-            items: "li", //只是li可以拖动
+            items: ">li", //只是li可以拖动
             opacity: 0.6, //拖动时，透明度为0.6
             revert: true, //释放时，增加动画
             update: function (event, ui) { //更新排序之后
                 var arr = [];
-                $('.api-nav>li').each(function () {
+                $('.api-left-nav>li').each(function () {
                     arr.push($(this).attr('data-id'));
                 });
                 $.post('__INDEX__index/updateDirOrder', {id: JSON.stringify(arr)}, function () {
@@ -153,7 +210,7 @@
                 if (msg.status == 1) {
                     switch (msg.content) {
                         case 2:
-                            $this.removeClass('label-primary');
+                            $this.removeClass('label-info');
                             $this.removeClass('label-danger');
                             $this.addClass('label-success');
                             $this.html('已完成');
@@ -214,6 +271,12 @@
                 }
             });
         });
+
+        //跳转到顶部
+        $('#return-top').on('click',function(){
+            $("body").animate({scrollTop:0});
+        });
+
 
         //提交添加cate
         $('#add-api-cate-submit').on('click', function () {

@@ -1,15 +1,16 @@
-<div class="container">
+
     <form action="" class="form-horizontal" id="add-dev-form" role="form">
         <div class="form-group form-group-sm">
             <label  class="control-label col-md-2">开发者名称</label>
             <div class="col-md-4">
-                <input type="text" name="name" class="form-control">
+                <input type="text" name="name" class="form-control" value="{$info.name}">
+                <input type="hidden" name="id" value="{$info.id}">
             </div>
         </div>
         <div class="form-group form-group-sm">
             <label  class="control-label col-md-2">开发者密码</label>
             <div class="col-md-4">
-                <input type="text" name="password" placeholder="该密码用于开发者登录项目" class="form-control">
+                <input type="text" name="password" placeholder="该密码用于开发者登录项目" class="form-control" value="{$info.password}">
             </div>
         </div>
 
@@ -18,18 +19,18 @@
             <div class="col-md-6">
 
                 <label class="checkbox-inline">
-                    <input type="radio" name="role"  value="1" checked>调用接口者
+                    <input type="radio" name="role"  value="1" {$info.role==1?'checked':''}>调用接口者
                 </label>
                 <label class="checkbox-inline">
-                    <input type="radio" name="role"  value="2">写接口者
+                    <input type="radio" name="role"  value="2" {$info.role==2?'checked':''}>写接口者
                 </label>
             </div>
         </div>
 
-        <div class="form-group form-group-sm hidden" id="input-site">
+        <div class="form-group form-group-sm {$info.role==1?'hidden':''}" id="input-site">
             <label  class="control-label col-md-2">开发者接口地址</label>
             <div class="col-md-4">
-                <input type="text" name="site" class="form-control" placeholder="服务端开发人员的接口地址">
+                <input type="text" name="site" class="form-control" placeholder="服务端开发人员的接口地址" value="{$info.site}">
             </div>
         </div>
         <div class="form-group form-group-sm">
@@ -40,7 +41,6 @@
         </div>
 
     </form>
-</div>
 
 <script>
     $(function(){
@@ -63,7 +63,7 @@
 
            $.ajax({
                type:'post',
-               url:'__INDEX__developer/saveServerDev',
+               url:'__INDEX__developer/saveDev',
                data:fd,
                dataType:'json',
                success:function(msg){

@@ -20,13 +20,16 @@ class Index extends Controller
     {
 
 
-        //site
-//        $project=session('project');
-//        $site=db('site')->where(['project'=>$project])->find();
-//        $this->assign('site',$site);
+
+        $project_id=session('user')['project_id'];
+        $site=db('developer')->where(['project_id'=>$project_id,'role'=>2])->order('sort')->select();
+        $this->assign('site',$site);
+
 
         //cate_list
-        $list=Cate::order('sort')->select();
+        $list=Cate::order('sort')->where(['project_id'=>$project_id])->select();
+
+
         foreach ($list as $v) {
             $api = $v->api;
             foreach ($api as $va) {
@@ -41,6 +44,19 @@ class Index extends Controller
         $this->assign('cate',$cate);
         return $this->fetch();
     }
+    public function apiList(){
+
+
+
+    }
+
+    public function cate(){
+        $project_id=session('user')['project_id'];
+        $list=db('cate')->where(['project_id'=>$project_id])->order('sort')->select();
+        $this->assign('list',$list);
+        return $this->fetch();
+    }
+
     public function addApi(Request $request){
         $post=$request->post();
         $param=$post['param'];
@@ -99,7 +115,7 @@ class Index extends Controller
 
     public function addCate(Request $request){
         $post=$request->post();
-        $post['project_id']=1;
+        $post['project_id']=session('user')['project_id'];
 
         if(db('cate')->insert($post)){
             return success();

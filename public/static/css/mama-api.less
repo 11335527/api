@@ -9,9 +9,9 @@
 @gray-light: lighten(@gray-base, 46.7%); // #777
 @gray-lighter: lighten(@gray-base, 93.5%); // #eee
 
-@brand-primary: darken(#428bca, 6.5%); // #337ab7
+@brand-primary: #222222; // #337ab7
 @brand-success: #5cb85c;
-@brand-info: #78c3d9;
+@brand-info: #4d75a1;
 @brand-warning: #f0ad4e;
 @brand-danger: #d9534f;
 h3{
@@ -69,7 +69,7 @@ h3{
     h4{
       font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
       margin: 3px 0 9px 0;
-      color: @brand-success;
+      color: @brand-info;
 
     }
 
@@ -172,3 +172,111 @@ h3{
   }
 
 }
+
+//浮动导航
+.float-nav{
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
+  >div{
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: @brand-primary;
+  }
+
+  z-index: 999;
+  position: fixed;
+  right: 20px;
+  bottom: 50px;
+  background-color: white;
+  width: 50px;
+  padding:  0;
+
+  height: auto;
+  ul{
+    list-style: none;
+
+    padding:0;
+    margin: 0;
+  }
+  li{
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 18px;
+    margin: 0 5px;
+    padding: 0;
+    border-top: solid 1px @gray-lighter;
+    &:first-child{
+      border-top: none;
+    }
+    &:last-child{
+
+      line-height: 49px;
+
+    }
+
+    &:hover{
+      a{
+        color: @brand-primary;
+      }
+
+    }
+
+  }
+  a{
+    color: @brand-primary;
+    background-color: white;
+    display: block
+  }
+
+
+}
+
+//浮动导航提示框
+.alert-nav{
+  z-index: -1;
+  width: 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 14px;
+  height: 50px;
+  line-height: 50px;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  color: white;
+  background-color: @brand-primary;
+  overflow: hidden;
+}
+
+.api-left-nav{
+  position: fixed;
+  top: 120px;
+  max-width: 180px;
+  overflow: hidden;
+  >li>a{
+    color: @brand-primary;
+    font-size: 14px;
+    padding: 3px 10px;
+    border-left: 2px solid @brand-primary;
+  }
+  >li>ul>li>a{
+    color: @gray-light;
+    font-size: 12px;
+    margin-left: 10px;
+    padding: 3px 10px;
+    &:hover{
+      color: @brand-success;
+      border-left: 2px solid @brand-success;
+    }
+
+  }
+  >li>ul>li>.active{
+    color: @brand-success;
+    border-left: 2px solid @brand-success;
+    background-color: #eee;
+  }
+}
+
