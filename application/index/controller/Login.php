@@ -20,15 +20,20 @@ class Login extends Controller{
             if($info['password']==$post['password']){
                 //登陆成功
 
-                $project=db('user_project')->where(['user_id'=>$info['user_id']])->order('sort desc')->find();
-
-                $info['project_id']=$project['project_id'];
+                $project=db('developer')->where(['user_id'=>$info['user_id']])->order('sort desc')->find();
 
 
-                session('user',$info);
+                if($project){
+                    $info['project_id']=$project['project_id'];
+                    $info['type']=$project['type'];
+                    $info['role']=$project['role'];
+                    session('user',$info);
+                    return success();
+                }else{
+                    session('user',$info);
+                    return ['status'=>2];
+                }
 
-
-               return success();
 
             }else{
                 return error('用户名或密码错误');

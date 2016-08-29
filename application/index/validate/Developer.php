@@ -13,7 +13,6 @@ class Developer extends Validate {
 
     protected $rule = [
         'name|开发者名称' => 'require',
-        'password|开发者密码' => 'require',
         'role' => 'CheckSite:',
     ];
 

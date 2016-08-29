@@ -208,12 +208,13 @@ h3 {
   top: 120px;
   max-width: 180px;
   overflow: hidden;
+  bottom: 80px;
 }
 .api-left-nav > li > a {
-  color: #222222;
+  color: #4d75a1;
   font-size: 14px;
   padding: 3px 10px;
-  border-left: 2px solid #222222;
+  border-left: 2px solid #4d75a1;
 }
 .api-left-nav > li > ul > li > a {
   color: #777777;
@@ -222,11 +223,11 @@ h3 {
   padding: 3px 10px;
 }
 .api-left-nav > li > ul > li > a:hover {
-  color: #5cb85c;
-  border-left: 2px solid #5cb85c;
+  color: #4d75a1;
+  border-left: 2px solid #4d75a1;
 }
 .api-left-nav > li > ul > li > .active {
-  color: #5cb85c;
-  border-left: 2px solid #5cb85c;
+  color: #4d75a1;
+  border-left: 2px solid #4d75a1;
   background-color: #eee;
 }

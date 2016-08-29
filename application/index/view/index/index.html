@@ -22,7 +22,7 @@
 
                         <ul class="nav panel-collapse collapse in"  id="collapse{$v.cate_id}">
                             {foreach  $v.api as $va}
-                            <li data-id="{$va.id}"><a href="#tabs-{$va.id}">{$va.name}</a></li>
+                            <li data-id="{$va.id}"><a href="javascript:void (0)">{$va.name}</a></li>
                             {/foreach}
                         </ul>
 
@@ -41,8 +41,8 @@
             <div class="api-body">
                 {foreach $list as $vc}
                 {notempty name="vc.api"}
-                <!--<h3 class="text-center" id="{$vc.id}">{$vc.name}</h3>-->
-                <div class="mr_title text-center" id="{$vc.id}">
+
+                <div class="mr_title text-center" id="tabs-{$vc.cate_id}">
                     <span class="mr_title_l"></span><span class="mr_title_c">{$vc.name}</span><span
                         class="mr_title_r"></span>
                 </div>
@@ -61,8 +61,10 @@
                                     <small>接口:<span class="api-name">{$v.api}</span></small>
                                 </p>
                                 <p>
-                                    <a href="javascript:void (0);" class="edit-api" data-id="{$v.id}">编辑</a><a
-                                        href="javascript:void (0);" class="delete-api" data-id="{$v.id}">删除</a>
+                                    <a href="javascript:void (0);" class="edit-api" data-id="{$v.id}">编辑</a>
+                                    {eq name="Request.session.user.role" value="2"}
+                                    <a href="javascript:void (0);" class="delete-api" data-id="{$v.id}">删除</a>
+                                    {/eq}
                                 </p>
                             </div>
 

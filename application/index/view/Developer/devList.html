@@ -2,20 +2,26 @@
     <thead>
     <tr>
         <th>名称</th>
-        <th>密码</th>
+        <!--<th>密码</th>-->
         <th>地址</th>
         <th>角色</th>
+        {eq name="Request.session.user.role" value="2"}
         <th>操作</th>
+        {/eq}
+
     </tr>
     </thead>
     <tbody>
     {foreach $list as $v}
     <tr data-id="{$v.id}">
         <td>{$v.name}</td>
-        <td>{$v.password}</td>
+        <!--<td>{$v.password}</td>-->
         <td>{$v.site}</td>
         <td>{$v.role}</td>
+        {eq name="Request.session.user.role" value="2"}
         <td><a href="__SITE__editDev/{$v.id}">编辑</a></td>
+        {/eq}
+
     </tr>
     {/foreach}
     </tbody>

@@ -9,7 +9,7 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="localhost">
+      <paths name="topp">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
