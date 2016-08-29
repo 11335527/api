@@ -2,17 +2,17 @@
     <thead>
     <tr>
         <th>名称</th>
-        <th>跳转id</th>
-
         <th>操作</th>
     </tr>
     </thead>
     <tbody>
     {foreach $list as $v}
-    <tr data-id="{$v.id}">
+    <tr data-id="{$v.cate_id}">
         <td>{$v.name}</td>
-        <td>{$v.id}</td>
-        <td><a href="__SITE__editDev/{$v.id}">编辑</a></td>
+        <td>
+            <a href="__SITE__editCate/{$v.cate_id}" class="btn btn-primary btn-xs">编辑</a>
+            <a class="btn btn-danger btn-xs" data-operate="delete-cate" data-id="{$v.cate_id}">删除</a>
+        </td>
     </tr>
     {/foreach}
     </tbody>
@@ -20,29 +20,44 @@
 </table>
 <script src="http://apps.bdimg.com/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 <script>
-    $('[data-operate="set-default"]').on('click',function(){
+    $(function () {
 
-        $.post('__INDEX__developer/setDefault',{id:$(this).attr('data-id')},function(){
 
+        //删除api按钮
+        var $alert = $('#alert-modal'), $current_audit;
+        $('tbody').on('click', '[data-operate="delete-cate"]', function () {
+            console.log(11111111111);
+            $current_audit = $(this);
+            $alert.find('h2').html('确认删除？');
+            var $confirm = $alert.find('.confirm');
+            $confirm.attr('id', 'delete-confirm');
+            $alert.modal();
         });
-    });
-    /**
-     *移动目录
-     *add by zk 2016/8/15 17:08
-     */
-    $('tbody').sortable({
-        cursor: "move",
-        items: "tr", //只是li可以拖动
-        opacity: 0.6, //拖动时，透明度为0.6
-        revert: true, //释放时，增加动画
-        update: function (event, ui) { //更新排序之后
-            var arr = [];
-            $('tbody>tr').each(function () {
-                arr.push($(this).attr('data-id'));
-            });
-            $.post('__INDEX__developer/setSort', {id: JSON.stringify(arr)}, function () {
 
+        //删除弹出框确认操作
+        $alert.on('click', '#delete-confirm', function () {
+            var $this = $current_audit;
+            var id = $this.attr('data-id');
+            $.post('__INDEX__index/delCate', {cate_id: id}, function (msg) {
+                if (msg.status == 1) {
+
+                    var alert = $('<div class="alert-div"><div class="alert alert-success">删除成功</div></div>');
+                    $('body').prepend(alert);
+                    alert.fadeIn("slow");
+                    $alert.modal('hide');
+                    setTimeout(function () {
+                                alert.fadeOut("slow");
+                                setTimeout(function () {
+                                            alert.remove();
+
+                                        },
+                                        1000);
+
+                                $this.parent().parent().remove();
+                            },
+                            1000);
+                }
             });
-        }
+        });
     });
 </script>

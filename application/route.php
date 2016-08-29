@@ -23,4 +23,5 @@ return [
     'editDev/:id'=>['index/developer/editDev', ['method' => 'get'], ['id' => '\d+']],
     'devList'=>'index/developer/devList',
     'cate'=>'index/index/cate',
+    'editCate/:id'=>['index/index/editCate', ['method' => 'get'], ['id' => '\d+']],
 ];

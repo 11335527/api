@@ -22,7 +22,8 @@ class Index extends Controller
 
 
         $project_id=session('user')['project_id'];
-        $site=db('developer')->where(['project_id'=>$project_id,'role'=>2])->order('sort')->select();
+        $user_id=session('user')['user_id'];
+        $site=db('developer')->where(['project_id'=>$project_id,'role'=>2])->order("user_id=$user_id desc",'sort')->select();
         $this->assign('site',$site);
 
 
@@ -54,6 +55,12 @@ class Index extends Controller
         $project_id=session('user')['project_id'];
         $list=db('cate')->where(['project_id'=>$project_id])->order('sort')->select();
         $this->assign('list',$list);
+        return $this->fetch();
+    }
+
+    public function editCate($id){
+        $info=db('cate')->find($id);
+        $this->assign('info',$info);
         return $this->fetch();
     }
 
@@ -117,11 +124,31 @@ class Index extends Controller
         $post=$request->post();
         $post['project_id']=session('user')['project_id'];
 
-        if(db('cate')->insert($post)){
+        if($post['cate_id']){
+
+            if(db('cate')->update($post)){
+                return success();
+            }else{
+                return error('修改失败');
+            }
+        }else{
+            if(db('cate')->insert($post)){
+                return success();
+            }else{
+                return error('添加失败');
+            }
+        }
+
+    }
+    public function delCate(){
+
+        $post=$this->request->post('cate_id');
+        if(db('cate')->where(['cate_id'=>$post])->delete()){
             return success();
         }else{
             return error();
         }
+
     }
 
     public function saveSite(Request $request){

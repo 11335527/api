@@ -1,33 +1,14 @@
 
     <form action="" class="form-horizontal" id="add-dev-form" role="form">
         <div class="form-group form-group-sm">
-            <label  class="control-label col-md-2">开发者名称</label>
+            <label  class="control-label col-md-2">分类名称</label>
             <div class="col-md-4">
                 <input type="text" name="name" class="form-control" value="{$info.name}">
-                <input type="hidden" name="id" value="{$info.id}">
+                <input type="hidden" name="cate_id" value="{$info.cate_id}">
             </div>
         </div>
 
 
-        <div class="form-group form-group-sm">
-            <label  class="control-label col-md-2">角色</label>
-            <div class="col-md-6">
-
-                <label class="checkbox-inline">
-                    <input type="radio" name="role"  value="1" {$info.role==1?'checked':''}>调用接口者
-                </label>
-                <label class="checkbox-inline">
-                    <input type="radio" name="role"  value="2" {$info.role==2?'checked':''}>写接口者
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group form-group-sm {$info.role==1?'hidden':''}" id="input-site">
-            <label  class="control-label col-md-2">开发者接口地址</label>
-            <div class="col-md-4">
-                <input type="text" name="site" class="form-control" placeholder="服务端开发人员的接口地址" value="{$info.site}">
-            </div>
-        </div>
         <div class="form-group form-group-sm">
 
             <div class="col-md-4 col-md-offset-2">
@@ -41,15 +22,7 @@
     $(function(){
 
 
-        $('input[type="radio"]').on('change',function(){
-            console.log('ss');
-            var val=$(this).val();
-            if(val==2){
-                $('#input-site').removeClass('hidden');
-            }else {
-                $('#input-site').addClass('hidden');
-            }
-        });
+
 
         //提交表单
        $('#add-dev-submit').on('click',function(){
@@ -58,7 +31,7 @@
 
            $.ajax({
                type:'post',
-               url:'__INDEX__developer/saveDev',
+               url:'__INDEX__index/addCate',
                data:fd,
                dataType:'json',
                success:function(msg){
@@ -76,7 +49,7 @@
                                },
                                2000);
                    }else{
-                       window.location.href='__SITE__devList';
+                       window.location.href='__SITE__cate';
                    }
                },
                processData:false,
