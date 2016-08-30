@@ -55,12 +55,12 @@
                             <div class="col-md-3 list-header">
 
                                 <h4>{$v.name}</h4>
+                                <p>
+                                    <small>接口:<span class="api-name">{$v.api}</span></small>
+                                </p>
                                 <p><span
                                         class="label api-status {switch name='v.status'}{case value='1'}label-info{/case}{case value='2'}label-success{/case}{case value='3'}label-danger{/case}{/switch}"
                                         data-id="{$v.id}">{$v.status_cn}</span>
-                                    <small>接口:<span class="api-name">{$v.api}</span></small>
-                                </p>
-                                <p>
                                     <a href="javascript:void (0);" class="edit-api" data-id="{$v.id}">编辑</a>
                                     {eq name="Request.session.user.role" value="2"}
                                     <a href="javascript:void (0);" class="delete-api" data-id="{$v.id}">删除</a>
@@ -96,7 +96,7 @@
                                                 <span>&nbsp;</span>
                                                 {else /}
                                                 {foreach $v.param as $vp}
-                                                <span><small class="span-key">{$vp.name}</small>:<small
+                                                <span><small class="span-key">{$vp.name}:&nbsp;</small><small
                                                         class="span-comment">{$vp.comment}
                                                 </small></span>
 
