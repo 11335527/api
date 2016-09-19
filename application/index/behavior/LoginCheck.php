@@ -13,10 +13,10 @@ class LoginCheck
     public function app_init(&$params)
     {
         $params=1;
-        if(!session('user')){
+        if(!session('user','','api')){
             $params=0;
         }else{
-            $params=1;
+            $params=session('user','','api');
         }
     }
 

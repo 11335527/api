@@ -27,10 +27,10 @@ class Login extends Controller{
                     $info['project_id']=$project['project_id'];
                     $info['type']=$project['type'];
                     $info['role']=$project['role'];
-                    session('user',$info);
+                    session('user',$info,'api');
                     return success();
                 }else{
-                    session('user',$info);
+                    session('user',$info,'api');
                     return ['status'=>2];
                 }
 
@@ -44,7 +44,7 @@ class Login extends Controller{
     }
 
     public function logout(){
-        session(null);
+        session(null,'api');
         $this->redirect(url('index/login/login'));
     }
 }

@@ -21,8 +21,8 @@ class Index extends Controller
 
 
 
-        $project_id=session('user')['project_id'];
-        $user_id=session('user')['user_id'];
+        $project_id=$GLOBALS['params']['project_id'];
+        $user_id=$GLOBALS['params']['user_id'];
         $site=db('developer')->where(['project_id'=>$project_id,'role'=>2])->order('sort',"user_id=$user_id desc")->select();
         $this->assign('site',$site);
 
@@ -52,7 +52,7 @@ class Index extends Controller
     }
 
     public function cate(){
-        $project_id=session('user')['project_id'];
+        $project_id=$GLOBALS['params']['project_id'];
         $list=db('cate')->where(['project_id'=>$project_id])->order('sort')->select();
         $this->assign('list',$list);
         return $this->fetch();
@@ -122,7 +122,7 @@ class Index extends Controller
 
     public function addCate(Request $request){
         $post=$request->post();
-        $post['project_id']=session('user')['project_id'];
+        $post['project_id']=$GLOBALS['params']['project_id'];
 
         if($post['cate_id']){
 
