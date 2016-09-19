@@ -31,4 +31,9 @@ return [
 //        'force_client_ids'      =>  ['slog_api'],
 //        'allow_client_ids'      =>  ['slog_api'],
 //    ],
+    'session'                => [
+        'prefix'         => 'api',
+        'type'           => '',
+        'auto_start'     => true,
+    ],
 ];
