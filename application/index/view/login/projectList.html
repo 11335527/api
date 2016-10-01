@@ -1,0 +1,15 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>用户</th>
+        <th>项目</th>
+    </tr>
+    </thead>
+    <tbody> <td>{$username}</td>
+    {foreach $list as $v}
+
+    <th><a href="__INDEX__login/project/id/{$v.id}">{$v.name}</a></th>
+    {/foreach}
+    </tbody>
+
+</table>
