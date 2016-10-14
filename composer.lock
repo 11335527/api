@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "99ed8e69109e0cf35874462a09f18b1e",
+    "hash": "ebc794011212af7b830625953cf619ab",
     "content-hash": "dec78cb658af2e0a463f1881a4d954b1",
     "packages": [
         {
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "8c39270c58d00d8858359a82bc9b4c735034a78a"
+                "reference": "b9b7e34b6d8c13e6a6286ad505ad70accf9c09e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/8c39270c58d00d8858359a82bc9b4c735034a78a",
-                "reference": "8c39270c58d00d8858359a82bc9b4c735034a78a",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/b9b7e34b6d8c13e6a6286ad505ad70accf9c09e4",
+                "reference": "b9b7e34b6d8c13e6a6286ad505ad70accf9c09e4",
                 "shasum": ""
             },
             "require": {
@@ -35,6 +35,11 @@
                 "squizlabs/php_codesniffer": "2.*"
             },
             "type": "think-framework",
+            "autoload": {
+                "psr-4": {
+                    "think\\": "library/think"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
@@ -52,7 +57,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2016-08-08 03:15:08"
+            "time": "2016-10-13 15:34:34"
         },
         {
             "name": "topthink/think-installer",

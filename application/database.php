@@ -13,22 +13,22 @@ return [
     // 数据库类型
     'type'           => 'mysql',
 
-    //    // 服务器地址
-    'hostname'    => 'qdm199814124.my3w.com',
-    // 数据库名
-    'database'    => 'qdm199814124_db',
-    // 数据库用户名
-    'username'    => 'qdm199814124',
-    // 数据库密码
-    'password'    => 'qq369699',
-    // 服务器地址
-//    'hostname'       => '127.0.0.1',
+//    //    // 服务器地址
+//    'hostname'    => 'qdm199814124.my3w.com',
 //    // 数据库名
-//    'database'       => 'api',
-//    // 用户名
-//    'username'       => 'api',
-//    // 密码
-//    'password'       => 'api',
+//    'database'    => 'qdm199814124_db',
+//    // 数据库用户名
+//    'username'    => 'qdm199814124',
+//    // 数据库密码
+//    'password'    => 'qq369699',
+    // 服务器地址
+    'hostname'       => '127.0.0.1',
+    // 数据库名
+    'database'       => 'api',
+    // 用户名
+    'username'       => 'api',
+    // 密码
+    'password'       => 'qq369699',
     // 端口
     'hostport'       => '',
     // 连接dsn

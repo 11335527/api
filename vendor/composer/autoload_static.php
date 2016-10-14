@@ -10,6 +10,7 @@ class ComposerStaticInit44891b13216927c3b57cf6edc9752bbc
         't' => 
         array (
             'think\\composer\\' => 15,
+            'think\\' => 6,
         ),
     );
 
@@ -17,6 +18,10 @@ class ComposerStaticInit44891b13216927c3b57cf6edc9752bbc
         'think\\composer\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-installer/src',
+        ),
+        'think\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/thinkphp/library/think',
         ),
     );
 

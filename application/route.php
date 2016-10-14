@@ -19,6 +19,7 @@ return [
     ],
 
     'login'=>'index/login/login',
+    'me'=>'index/me/me',
     'addDev'=>'index/developer/addDev',
     'editDev/:id'=>['index/developer/editDev', ['method' => 'get'], ['id' => '\d+']],
     'devList'=>'index/developer/devList',

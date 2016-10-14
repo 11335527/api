@@ -6766,3 +6766,16 @@ button.close {
     display: none !important;
   }
 }
+.api-me-head-img {
+  text-align: center;
+}
+.api-me-head-img img {
+  width: 120px;
+  height: 120px;
+  display: inline;
+  margin-bottom: 10px;
+}
+.api-me-left {
+  border-right: solid 1px #777777;
+  height: 700px;
+}

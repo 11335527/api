@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+<!--<nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -34,10 +34,10 @@
                             <ul class="dropdown-menu">
                                 <li><a href="__SITE__addDev">添加开发人员</a></li>
                                 <li><a href="__SITE__devList">开发人员列表</a></li>
-                                <!--<li class="divider"></li>-->
-                                <!--<li><a href="#">分离的链接</a></li>-->
-                                <!--<li class="divider"></li>-->
-                                <!--<li><a href="__INDEX__login/logout">退出登录</a></li>-->
+                                &lt;!&ndash;<li class="divider"></li>&ndash;&gt;
+                                &lt;!&ndash;<li><a href="#">分离的链接</a></li>&ndash;&gt;
+                                &lt;!&ndash;<li class="divider"></li>&ndash;&gt;
+                                &lt;!&ndash;<li><a href="__INDEX__login/logout">退出登录</a></li>&ndash;&gt;
                             </ul>
                         </li>
                         {present name="site"}
@@ -47,7 +47,7 @@
                                     {foreach $site as $v}
                                     <option value="{$v.site}">{$v.name}</option>
                                     {/foreach}
-                                    <!--<option value="192.168.1.150/techan/public/index.php">张想想</option>-->
+                                    &lt;!&ndash;<option value="192.168.1.150/techan/public/index.php">张想想</option>&ndash;&gt;
                                 </select>
                             </div>
 
@@ -73,5 +73,21 @@
         </div>
     </div>
 
-</nav>
+</nav>-->
 
+<ul class="layui-nav">
+    <li class="layui-nav-item"><a href="__SITE__">Mama-API助手</a></li>
+    <li class="layui-nav-item layui-this"><a href="">产品</a></li>
+    <li class="layui-nav-item"><a href="">解决方案</a></li>
+    <li class="layui-nav-item"><a href="">大数据</a></li>
+</ul>
+<script>
+    //layui模块的使用
+   layui.use(['element'], function(args){
+        var mod = layui.element;
+
+         //……
+
+        });
+
+</script>

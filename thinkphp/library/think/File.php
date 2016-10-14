@@ -95,27 +95,15 @@ class File extends SplFileObject
     }
 
     /**
-     * 获取文件的md5散列值
-     * @return $this
+     * 获取文件的哈希散列值
+     * @return $string
      */
-    public function md5()
+    public function hash($type = 'sha1')
     {
-        if (!isset($this->hash['md5'])) {
-            $this->hash['md5'] = md5_file($this->filename);
+        if (!isset($this->hash[$type])) {
+            $this->hash[$type] = hash_file($type, $this->filename);
         }
-        return $this->hash['md5'];
-    }
-
-    /**
-     * 获取文件的sha1散列值
-     * @return $this
-     */
-    public function sha1()
-    {
-        if (!isset($this->hash['sha1'])) {
-            $this->hash['sha1'] = sha1_file($this->filename);
-        }
-        return $this->hash['sha1'];
+        return $this->hash[$type];
     }
 
     /**
@@ -297,6 +285,12 @@ class File extends SplFileObject
      */
     public function move($path, $savename = true, $replace = true)
     {
+        // 文件上传失败，捕获错误代码
+        if (!empty($this->info['error'])) {
+            $this->error($this->info['error']);
+            return false;
+        }
+
         // 检测合法性
         if (!$this->isValid()) {
             $this->error = '非法上传文件';
@@ -350,19 +344,18 @@ class File extends SplFileObject
                 $savename = call_user_func_array($this->rule, [$this]);
             } else {
                 switch ($this->rule) {
-                    case 'md5':
-                        $md5      = md5_file($this->filename);
-                        $savename = substr($md5, 0, 2) . DS . substr($md5, 2);
-                        break;
-                    case 'sha1':
-                        $sha1     = sha1_file($this->filename);
-                        $savename = substr($sha1, 0, 2) . DS . substr($sha1, 2);
-                        break;
                     case 'date':
                         $savename = date('Ymd') . DS . md5(microtime(true));
                         break;
                     default:
-                        $savename = call_user_func($this->rule);
+                        if (in_array($this->rule, hash_algos())) {
+                            $hash     = $this->hash($this->rule);
+                            $savename = substr($hash, 0, 2) . DS . substr($hash, 2);
+                        } elseif (is_callable($this->rule)) {
+                            $savename = call_user_func($this->rule);
+                        } else {
+                            $savename = date('Ymd') . DS . md5(microtime(true));
+                        }
                 }
             }
         } elseif ('' === $savename) {
@@ -375,11 +368,44 @@ class File extends SplFileObject
     }
 
     /**
+     * 获取错误代码信息
+     * @param int $errorNo  错误号
+     */
+    private function error($errorNo)
+    {
+        switch ($errorNo) {
+            case 1:
+            case 2:
+                $this->error = '上传文件大小超过了最大值！';
+                break;
+            case 3:
+                $this->error = '文件只有部分被上传！';
+                break;
+            case 4:
+                $this->error = '没有文件被上传！';
+                break;
+            case 6:
+                $this->error = '找不到临时文件夹！';
+                break;
+            case 7:
+                $this->error = '文件写入失败！';
+                break;
+            default:
+                $this->error = '未知上传错误！';
+        }
+    }
+
+    /**
      * 获取错误信息
      * @return mixed
      */
     public function getError()
     {
         return $this->error;
+    }
+
+    public function __call($method, $args)
+    {
+        return $this->hash($method);
     }
 }

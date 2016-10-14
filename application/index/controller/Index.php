@@ -7,16 +7,19 @@ use app\index\model\Api;
 class Index extends Controller
 
 {
-    public function __construct(Request $request) {
-        parent::__construct($request);
+//    public function __construct(Request $request) {
+//        parent::__construct($request);
+//
+//        if(($GLOBALS['params']===0)){
+//            $this->redirect(url('index/login/login'));
+//        }
+//
+//    }
 
-        if(($GLOBALS['params']===0)){
-            $this->redirect(url('index/login/login'));
-        }
-
-    }
-
-    public function index()
+public function index(){
+    return $this->fetch();
+}
+    public function doc()
     {
 
 

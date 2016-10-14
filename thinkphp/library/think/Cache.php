@@ -31,20 +31,20 @@ class Cache
      * @access public
      * @param array         $options  配置数组
      * @param bool|string   $name 缓存连接标识 true 强制重新连接
-     * @return object
+     * @return \think\cache\Driver
      */
     public static function connect(array $options = [], $name = false)
     {
         $type = !empty($options['type']) ? $options['type'] : 'File';
         if (false === $name) {
-            $name = $type;
+            $name = md5(serialize($options));
         }
 
         if (true === $name || !isset(self::$instance[$name])) {
             $class = false !== strpos($type, '\\') ? $type : '\\think\\cache\\driver\\' . ucwords($type);
 
             // 记录初始化信息
-            App::$debug && Log::record('[ CACHE ] INIT ' . $type . ':' . var_export($options, true), 'info');
+            App::$debug && Log::record('[ CACHE ] INIT ' . $type, 'info');
             if (true === $name) {
                 return new $class($options);
             } else {
@@ -58,14 +58,35 @@ class Cache
     /**
      * 自动初始化缓存
      * @access public
+     * @param array         $options  配置数组
      * @return void
      */
-    public static function init()
+    public static function init(array $options = [])
     {
         if (is_null(self::$handler)) {
             // 自动初始化缓存
-            self::connect(Config::get('cache'));
+            if (!empty($options)) {
+                self::connect($options);
+            } elseif ('complex' == Config::get('cache.type')) {
+                self::connect(Config::get('cache.default'));
+            } else {
+                self::connect(Config::get('cache'));
+            }
         }
+    }
+
+    /**
+     * 切换缓存类型 需要配置 cache.type 为 complex
+     * @access public
+     * @param string $name 缓存标识
+     * @return \think\cache\Driver
+     */
+    public static function store($name)
+    {
+        if ('complex' == Config::get('cache.type')) {
+            self::connect(Config::get('cache.' . $name), strtolower($name));
+        }
+        return self::$handler;
     }
 
     /**
@@ -115,14 +136,13 @@ class Cache
      * @access public
      * @param string    $name 缓存变量名
      * @param int       $step 步长
-     * @param int       $expire  有效时间 0为永久
      * @return false|int
      */
-    public function inc($name, $step = 1, $expire = null)
+    public static function inc($name, $step = 1)
     {
         self::init();
         self::$writeTimes++;
-        return self::$handler->inc($name, $step, $expire);
+        return self::$handler->inc($name, $step);
     }
 
     /**
@@ -130,14 +150,13 @@ class Cache
      * @access public
      * @param string    $name 缓存变量名
      * @param int       $step 步长
-     * @param int       $expire  有效时间 0为永久
      * @return false|int
      */
-    public function dec($name, $step = 1, $expire = null)
+    public static function dec($name, $step = 1)
     {
         self::init();
         self::$writeTimes++;
-        return self::$handler->dec($name, $step, $expire);
+        return self::$handler->dec($name, $step);
     }
 
     /**
@@ -156,13 +175,28 @@ class Cache
     /**
      * 清除缓存
      * @access public
+     * @param string $tag 标签名
      * @return boolean
      */
-    public static function clear()
+    public static function clear($tag = null)
     {
         self::init();
         self::$writeTimes++;
-        return self::$handler->clear();
+        return self::$handler->clear($tag);
+    }
+
+    /**
+     * 缓存标签
+     * @access public
+     * @param string        $name 标签名
+     * @param string|array  $keys 缓存标识
+     * @param bool          $overlay 是否覆盖
+     * @return \think\cache\Driver
+     */
+    public static function tag($name, $keys = null, $overlay = false)
+    {
+        self::init();
+        return self::$handler->tag($name, $keys, $overlay);
     }
 
 }

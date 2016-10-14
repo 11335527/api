@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="e0a50c3e-d9dd-4d14-bc01-1083062b5a42" name="阿里服务器" url="http://112.126.86.228">
+        <fileTransfer host="112.126.86.228" port="22" rootFolder="/usr/local/nginx/html/api" accessType="SFTP" password="dff0dfc1df99df9cdf93df9cdf93df93" username="root">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

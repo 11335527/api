@@ -13,8 +13,8 @@
 
 // 定义应用目录
 define('APP_PATH', __DIR__ . '/../application/');
-define('__SITE__','http://topp123.com/api/');
-//define('__SITE__','http://api.com/public/');
+//define('__SITE__','http://api.topp123.com/');
+define('__SITE__','http://api.com/');
 // 加载框架引导文件
 require __DIR__ . '/../thinkphp/start.php';
 
