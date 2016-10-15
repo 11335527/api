@@ -19,6 +19,9 @@ return [
     ],
 
     'login'=>'index/login/login',
+    'register'=>'index/login/register',
+    'doc'=>'index/index/doc',
+    'bbs'=>'index/bbs/bbs',
     'me'=>'index/me/me',
     'addDev'=>'index/developer/addDev',
     'editDev/:id'=>['index/developer/editDev', ['method' => 'get'], ['id' => '\d+']],

@@ -210,12 +210,14 @@ h3 {
   min-width: 160px;
   overflow: scroll;
   bottom: 80px;
+  border-right: solid 1px #eeeeee;
 }
 .api-left-nav > li > a {
   color: #4d75a1;
   font-size: 14px;
   padding: 3px 10px;
   border-left: 2px solid #4d75a1;
+  background-color: #eee;
 }
 .api-left-nav > li > ul > li > a {
   color: #777777;

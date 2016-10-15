@@ -7,14 +7,14 @@
 .panel {
   margin-bottom: @line-height-computed;
   background-color: @panel-bg;
-  //border: 1px solid transparent;
+  border: 1px solid transparent;
   border-radius: @panel-border-radius;
   .box-shadow(0 1px 1px rgba(0,0,0,.05));
 }
 
 // Panel contents
 .panel-body {
-  padding: @panel-body-padding 0;
+  padding: @panel-body-padding;
   &:extend(.clearfix all);
 }
 
@@ -214,7 +214,7 @@
 }
 
 
-// Collapsable panels (aka, accordion)
+// Collapsible panels (aka, accordion)
 //
 // Wrap a series of panels in `.panel-group` to turn them into an accordion with
 // the help of our collapse JavaScript plugin.

@@ -49,15 +49,12 @@
 
 // Actual modal
 .modal-content {
-
   position: relative;
-  margin-top: 120px;
   background-color: @modal-content-bg;
-  //background-color: rgba(51,122,183,.7);
-  //border: 1px solid @modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
-  //border: 1px solid @modal-content-border-color;
+  border: 1px solid @modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
+  border: 1px solid @modal-content-border-color;
   border-radius: @border-radius-large;
-  .box-shadow(0 0px 29px rgba(0,0,0,.2));
+  .box-shadow(0 3px 9px rgba(0,0,0,.5));
   background-clip: padding-box;
   // Remove focus outline from opened modal
   outline: 0;
@@ -82,7 +79,7 @@
 .modal-header {
   padding: @modal-title-padding;
   border-bottom: 1px solid @modal-header-border-color;
-  min-height: (@modal-title-padding + @modal-title-line-height);
+  &:extend(.clearfix all);
 }
 // Close icon
 .modal-header .close {
@@ -141,7 +138,7 @@
     margin: 30px auto;
   }
   .modal-content {
-    .box-shadow(0 0px 29px rgba(0,0,0,.2));
+    .box-shadow(0 5px 15px rgba(0,0,0,.5));
   }
 
   // Modal sizes

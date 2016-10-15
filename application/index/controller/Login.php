@@ -47,4 +47,8 @@ class Login extends Controller{
         session(null,'api');
         $this->redirect(url('index/login/login'));
     }
+
+    public function register(){
+        return $this->fetch();
+    }
 }

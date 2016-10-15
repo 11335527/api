@@ -1,4 +1,7 @@
 
+<div class="container">
+
+
 
 <div id="api-main">
 
@@ -47,10 +50,10 @@
                         class="mr_title_r"></span>
                 </div>
 
-                <ul class="list-group ">
+                <ul class="api-me-list">
 
                     {foreach $vc.api as $v}
-                    <li class="list-group-item " id="tabs-{$v.id}">
+                    <li id="tabs-{$v.id}">
                         <div class="row">
                             <div class="col-md-3 list-header">
 
@@ -143,6 +146,7 @@
         <li><div class="alert-nav"><p>添加API</p></div><a href="javascript:void(0);" id="add-api"><i class="fa fa-pencil-square"></i></a></li>
     </ul>
     <div><img src="__S__images/mama_samll.png" class="img-responsive" alt=""></div>
+</div>
 </div>
 <script>
     $(function(){
