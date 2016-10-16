@@ -27,34 +27,21 @@
 
         <div class="text-right"><a href="" class="btn btn-info">创建项目</a>
             <hr></div>
-
+        {foreach $project as $v}
         <ul class="api-me-list">
+
             <li class="">
                     <div>
-                        <h4>MAMA-API开放版千呼万唤，终于滚出来了<span class="label label-success">创建</span></h4>
+                        <h4>{$v.project.name}<span class="label label-success">{if condition="$v.type eq 1 "} 创建
+{else /} 参与
+{/if}</span></h4>
                          <p><small><span>创建时间:2016-12-12</span><span style="margin-left: 10px">修改时间：2016-12-12</span></small></p>
                     </div>
             </li>
-            <li>
-                <div>
-                    <h4>dkjfklajfkdas<span class="label label-primary">参与</span></h4>
-                    <p><small><span>创建时间:2016-12-12</span><span style="margin-left: 10px">修改时间：2016-12-12</span></small></p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <h4>乡味</h4>
-                    <p><small><span>创建时间:2016-12-12</span><span style="margin-left: 10px">修改时间：2016-12-12</span></small></p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <h4>乡味</h4>
-                    <p><small><span>创建时间:2016-12-12</span><span style="margin-left: 10px">修改时间：2016-12-12</span></small></p>
-                </div>
-            </li>
+
 
         </ul>
+        {/foreach}
     </div>
 </div>
 
