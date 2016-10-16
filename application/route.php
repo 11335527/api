@@ -20,7 +20,8 @@ return [
 
     'login'=>'index/login/login',
     'register'=>'index/login/register',
-    'doc'=>'index/index/doc',
+    'doc/:id'=>['index/doc/doc', ['method' => 'get'], ['id' => '\d+']],
+    'invite/:id'=>['index/me/invite', ['method' => 'get'], ['id' => '\d+']],
     'bbs'=>'index/bbs/bbs',
     'me'=>'index/me/me',
     'addDev'=>'index/developer/addDev',

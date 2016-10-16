@@ -25,26 +25,58 @@
     </div>
     <div class="col-md-9">
 
-        <div class="text-right"><a href="" class="btn btn-info">创建项目</a>
+        <div class="text-right"><a href="javascript:void (0);" class="btn btn-info" id="create-project">创建项目</a>
             <hr></div>
-        {foreach $project as $v}
+
         <ul class="api-me-list">
-
-            <li class="">
-                    <div>
-                        <h4>{$v.project.name}<span class="label label-success">{if condition="$v.type eq 1 "} 创建
-{else /} 参与
-{/if}</span></h4>
-                         <p><small><span>创建时间:2016-12-12</span><span style="margin-left: 10px">修改时间：2016-12-12</span></small></p>
-                    </div>
+            {foreach $project as $v}
+            <li>
+                <div>
+                    <h4><a href="__SITE__doc/{$v.project.id}">{$v.project.name}</a>{if condition="$v.type eq 1"}<span class="label label-success">创建</span>
+{else /}<span class="label label-info">参与</span>
+{/if}</h4>
+                    <p>
+                        <small><span>创建时间:{$v.project.create_time}</span><span style="margin-left: 10px">{empty name="v.project.update_time"} {else/}修改时间1：{$v.project.update_time}{/empty}</span>
+                        </small>
+                        {if condition="$v.type eq 1"}<a href="__SITE__invite/{$v.project.id}" class="btn btn-primary btn-xs">邀请</a>{/if}
+                    </p>
+                </div>
             </li>
-
+            {/foreach}
 
         </ul>
-        {/foreach}
+
     </div>
 </div>
 
 
 
 </div>
+
+<script>
+
+    $('#create-project').on('click',function(){
+
+        //prompt层
+        layer.prompt({
+            title: '请输入新项目名称',
+            formType: 0 //prompt风格，支持0-2
+        }, function(pass){
+
+
+            $.post('__INDEX__me/createProject',{name:pass},function(msg){
+                if(msg.status==1){
+                    var $li=$('<li><div><h4>' +
+                            '<a href="__SITE__doc/'+msg.content.id+'">'+msg.content.name+'</a><span class="label label-success">创建</span>' +
+                            '</h4><p><small><span>创建时间:'+msg.content.create_time+'</span></small></p></div></li>');
+                    $('.api-me-list').append($li);
+
+                    layer.msg('创建成功' ,{icon:1});
+                }else {
+                    layer.msg(msg.content ,{icon:2});
+                }
+            });
+        });
+    });
+
+</script>

@@ -1,0 +1,26 @@
+<form role="form">
+
+
+    <div class="form-group">
+        <div class="input-group">
+
+            <input type="text" class="form-control" required=""  name="username" placeholder="用户名">
+            <span class="input-group-addon" id="search-user">搜索</span>
+        </div>
+
+        <div></div>
+
+    </div>
+</form>
+<script>
+    $('#search-user').on('click',function(){
+        var name=$('[name="username"]').val();
+        $.post('__INDEX__me/searchUser',{name:name},function(msg){
+
+            console.log(msg);
+            if(msg.status==1){
+
+            }
+        });
+    });
+</script>

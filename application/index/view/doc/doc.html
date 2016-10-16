@@ -1,6 +1,4 @@
 
-<div class="container">
-
 
 
 <div id="api-main">
@@ -50,73 +48,85 @@
                         class="mr_title_r"></span>
                 </div>
 
-                <ul class="api-me-list">
+
+                <ul class="api-doc-list">
 
                     {foreach $vc.api as $v}
                     <li id="tabs-{$v.id}">
-                        <div class="row">
-                            <div class="col-md-3 list-header">
-
-                                <h4>{$v.name}</h4>
-                                <p>
-                                    <small>接口:<span class="api-name">{$v.api}</span></small>
-                                </p>
-                                <p><span
-                                        class="label api-status {switch name='v.status'}{case value='1'}label-info{/case}{case value='2'}label-success{/case}{case value='3'}label-danger{/case}{/switch}"
-                                        data-id="{$v.id}">{$v.status_cn}</span>
-                                    <a href="javascript:void (0);" class="edit-api" data-id="{$v.id}">编辑</a>
-                                    {eq name="Request.session.user.role" value="2"}
-                                    <a href="javascript:void (0);" class="delete-api" data-id="{$v.id}">删除</a>
-                                    {/eq}
-                                </p>
-                            </div>
 
 
-                            <div class="col-md-9">
-                                <form class="form-horizontal" role="form">
-                                    <div class="form-group form-group-sm">
-                                        <label class="control-label col-md-2">请求参数:</label>
-                                        <div class="col-md-10">
+                        <div class="api-list-title">
+                            <div class="pull-left doc-list-cate"><h4>{$vc.name}</h4></div>
+                            <h4 class="text-info pull-left">{$v.name}<span
+                                    class="label api-status {switch name='v.status'}{case value='1'}label-info{/case}{case value='2'}label-success{/case}{case value='3'}label-danger{/case}{/switch}"
+                                    data-id="{$v.id}">{$v.status_cn}</span></h4>
+                            <a href="javascript:void (0);" class="edit-api pull-right" data-id="{$v.id}">编辑</a>
+                            {eq name="Request.session.user.role" value="2"}
+                            <a href="javascript:void (0);" class="delete-api pull-right" data-id="{$v.id}">删除</a>
+                            {/eq}
+                        </div>
 
-                                            <div class="input-group">
-                                                <input type="text" class="form-control request-param-input" name="param"
-                                                       value=""
-                                                       placeholder='{foreach $v.param as $vp}{$vp.name}={$vp.value}&{/foreach}'>
-                                           <span class="input-group-btn">
-                                              <a class="btn btn-success btn-sm api-go" data-api="{$v.api}">
-                                                  Go!
-                                              </a>
-                                           </span>
-                                            </div><!-- /input-group -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group form-group-sm request-param">
-                                        <label class="control-label col-md-2">请求说明:</label>
-                                        <div class="col-md-10">
-                                            <div class="param-div">
-                                                {empty name="v.param"}
+                        <p>
+                            接口:<span class="api-name">{$v.api}</span>
+                        </p>
 
-                                                <span>&nbsp;</span>
-                                                {else /}
-                                                {foreach $v.param as $vp}
-                                                <span><small class="span-key">{$vp.name}:&nbsp;</small><small
-                                                        class="span-comment">{$vp.comment}
-                                                </small></span>
+                        <form class="doc-param">
+                        <table class="table table-condensed">
 
-                                                {/foreach}
-
-                                                {/empty}
-
-                                            </div>
-                                        </div>
-                                    </div>
+                            <thead>
+                            <tr>
+                                <th>参数名</th>
+                                <th>参数值</th>
+                                <th>参数说明</th>
+                                <!--<th> <a href="javascript:void (0);" id="add-param" class="btn btn-info btn-xs"><i class="fa fa-plus-square"></i>&nbsp;添加</a></th>-->
+                            </tr>
+                            </thead>
+                            <tbody id="add-api-tbody">
 
 
-                                </form>
+                            {foreach $v.param as $vp}
+                            <tr class="input-param">
+                            <td> <input type="text" name="param_key[]" class="form-control input-sm" placeholder="请输入参数名" value="{$vp.name}"></td>
+                            <td> <input type="text" name="param_value[]" class="form-control input-sm" placeholder="请输入参数值" value="{$vp.value}"></td>
+                            <td> <input type="text" name="param_comment[]" class="form-control input-sm" placeholder="请输入参数说明" value="{$vp.comment}"></td>
+                            <!--<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param" >删除</a></td>-->
+                            </tr>
+                            {/foreach}
 
 
+                            </tbody>
+                        </table>
+                        </form>
+                        <div class="doc-operate">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary btn-sm" data-operate="api-request" data-type="post" data-api="{$v.api}">请求数据</button>
+                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">切换下拉菜单</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="javascript:void (0);"  data-operate="api-request" data-type="post" >post</a></li>
+                                    <li><a href="javascript:void (0);"  data-operate="api-request" data-type="get" >get</a></li>
+                                    <li><a href="#">put</a></li>
+                                    <li><a href="#">delete</a></li>
+                                </ul>
                             </div>
                         </div>
+
+
+
+
+
+
+
+                        <div style="position: relative;margin: 5em 0">
+
+                            <img src="__S__images/chatou.png" alt="" style="position: absolute;right: 0;top: -7px">
+                            <hr style="border-top:1px dashed #aaa; height:1px;margin-right: 15px">
+                        </div>
+
+
+
 
                     </li>
                     {/foreach}
@@ -147,7 +157,7 @@
     </ul>
     <div><img src="__S__images/mama_samll.png" class="img-responsive" alt=""></div>
 </div>
-</div>
+
 <script>
     $(function(){
         $('.float-nav li').on('mouseenter mouseleave',function(event){
@@ -259,9 +269,9 @@
         $('#add-param').on('click', function () {
 
             var $tr = $(' <tr class="input-param">' +
-                    '<td> <input type="text" name="param_key" class="form-control" placeholder="请输入参数名"></td>' +
-                    '<td> <input type="text" name="param_value" class="form-control" placeholder="请输入参数值"></td>' +
-                    '<td> <input type="text" name="param_comment" class="form-control" placeholder="请输入参数说明"></td>' +
+                    '<td> <input type="text" name="param_key[]" class="form-control input-sm" placeholder="请输入参数名"></td>' +
+                    '<td> <input type="text" name="param_value[]" class="form-control input-sm" placeholder="请输入参数值"></td>' +
+                    '<td> <input type="text" name="param_comment[]" class="form-control input-sm" placeholder="请输入参数说明"></td>' +
                     '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param" >删除</a></td>' +
                     '</tr>');
             $('#add-api-tbody').append($tr);
@@ -420,9 +430,9 @@
                 $tbody.empty();
                 for (var key in msg.param) {
                     var $tr = $('<tr class="input-param">' +
-                            '<td> <input type="text" name="param_key" class="form-control" placeholder="请输入参数名" value=' + "'" + msg.param[key].name + "'" + '></td>' +
-                            '<td> <input type="text" name="param_value" class="form-control" placeholder="请输入参数值" value=' + "'" + msg.param[key].value + "'" + '></td>' +
-                            ' <td> <input type="text" name="param_comment" class="form-control" placeholder="请输入参数说明" value=' + "'" + msg.param[key].comment + "'" + '></td>' +
+                            '<td> <input type="text" name="param_key[]" class="form-control" placeholder="请输入参数名" value=' + "'" + msg.param[key].name + "'" + '></td>' +
+                            '<td> <input type="text" name="param_value[]" class="form-control" placeholder="请输入参数值" value=' + "'" + msg.param[key].value + "'" + '></td>' +
+                            ' <td> <input type="text" name="param_comment[]" class="form-control" placeholder="请输入参数说明" value=' + "'" + msg.param[key].comment + "'" + '></td>' +
                             '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param" >删除</a></td>' +
                             '</tr>');
                     $tbody.append($tr);
@@ -480,32 +490,25 @@
         });
 
         //go
-        $('.api-body').on('click', '.api-go', function () {
+        $('.api-body').on('click', '[data-operate="api-request"]', function () {
             var $this = $(this);
-            var input = $this.parent().prev();
-            var param = input.val();
+            var $form = $this.parents('.doc-operate').prev();
+            var type =$this.attr('data-type');
+            var api =$this.attr('data-api');
+            var fd=new FormData($form[0]);
+            fd.append('site','www.topp123.com/techan/public/index.php');
 
-            if (!param) {
-                param = input.attr('placeholder');
-            }
-            var param_arr = param.split("&"); //字符分割
-            var arr_post = {};
-            for (var key in param_arr) {
-                var pp = param_arr[key].split('=');
+            fd.append('type',type);
+            fd.append('api',api);
 
-                arr_post[pp[0]] = pp[1];
-
-            }
-            var site = $('#site').val();
-            var api = $this.attr('data-api');
-            var url = 'http://' + site + '/' + api;
+            console.log($form);
             $.ajax({
+                url:'__INDEX__index/ajaxJson',
+                type:'post',
+                data:fd,
+                dataType:'json',
+                success:function(msg){
 
-                type: 'post',
-                url: url,
-                data: arr_post,
-                dataType: 'json',
-                success: function (msg) {
 
                     $('.json>textarea').empty().append(msg);
                     var options = {
@@ -514,16 +517,79 @@
                     var jf = new JsonFormater(options); //创建对象
                     jf.doFormat(msg); //格式化json
                     $('#myModal').modal();
+
+//                    var $json=' <div class="json" style="background-color: black">'+
+//                            '<textarea class="form-control" id="" cols="30" rows="10" style="background-color: black">'+msg+'</textarea>'+
+//                            '</div>';
+//                    layer.open({
+//                        type: 1,
+//                        skin: 'layui-layer-rim', //加上边框
+//                        area: ['420px', '240px'], //宽高
+//                        content: $json
+//                    });
+//
+//                    var options = {
+//                        dom: '.json' //对应容器的css选择器
+//                    };
+//                    var jf = new JsonFormater(options); //创建对象
+//                    jf.doFormat(msg); //格式化json
+//iframe层
+//                    layer.open({
+//                        type: 2,
+////                        title: 'json数据',
+//                        shadeClose: true,
+//                        shade: 0.8,
+////                        area: ['380px', '90%'],
+//                        content: '__INDEX__index/getJsonHtml' //iframe的url
+//                    });
+
+
                 },
-                error: function (msg) {
-
-                    var error = $('#error-modal');
-                    error.find('.modal-content').html(msg.responseText);
-                    error.modal();
-                    console.log(msg);
-                }
-
+                processData:false,
+                contentType:false
             });
+
+//            var param = input.val();
+//
+//            if (!param) {
+//                param = input.attr('placeholder');
+//            }
+//            var param_arr = param.split("&"); //字符分割
+//            var arr_post = {};
+//            for (var key in param_arr) {
+//                var pp = param_arr[key].split('=');
+//
+//                arr_post[pp[0]] = pp[1];
+//
+//            }
+//            var site = $('#site').val();
+//            var api = $this.attr('data-api');
+//            var url = 'http://' + site + '/' + api;
+//            $.ajax({
+//
+//                type: 'post',
+//                url: url,
+//                data: arr_post,
+//                dataType: 'json',
+//                success: function (msg) {
+//
+//                    $('.json>textarea').empty().append(msg);
+//                    var options = {
+//                        dom: '.json' //对应容器的css选择器
+//                    };
+//                    var jf = new JsonFormater(options); //创建对象
+//                    jf.doFormat(msg); //格式化json
+//                    $('#myModal').modal();
+//                },
+//                error: function (msg) {
+//
+//                    var error = $('#error-modal');
+//                    error.find('.modal-content').html(msg.responseText);
+//                    error.modal();
+//                    console.log(msg);
+//                }
+//
+//            });
 
         });
 

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{__NOLAYOUT__}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="__S__jsonFormater/jsonFormater.css">
+    <script src="__S__js/jquery-1.12.4.js"></script>
+    <script src="__S__jsonFormater/jsonFormater.js"></script>
+</head>
+<body style="background-color: black">
+<div class="json" >
+    <textarea class="form-control" id="" cols="30" rows="10" style="background-color: black">{$data}</textarea>
+</div>
+
+<script>
+
+                        var options = {
+                            dom: '.json' //对应容器的css选择器
+                        };
+                        var jf = new JsonFormater(options); //创建对象
+                        jf.doFormat('{$data}'); //格式化json
+                        $('#myModal').modal();
+</script>
+</body>
+</html>

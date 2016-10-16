@@ -9,18 +9,60 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="__SITE__">MaMa-API文档助手</a>
+                <a class="navbar-brand" href="__SITE__">MaMa-API文档工具</a>
             </div>
             <div>
                 <div class="collapse navbar-collapse" id="example-navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="__SITE__doc">
+                        <li><a href="__SITE__me">
+                            我的主页
+                        </a></li>
+                        <li><a href="__SITE__doc/{$Request.session.current_project}">
                            文档
                         </a></li>
 
                         <li><a href="__SITE__bbs">
                            社区
                         </a></li>
+                        <li><a href="__SITE__devList">
+                            服务器端开发者信息
+                        </a></li>
+                        {eq name="Request.session.user.role" value="2"}
+                        <li><a href="__SITE__cate" >
+                            分类管理
+                        </a></li>
+                        {/eq}
+
+
+                        <li class="dropdown {$Request.session.user.type==1?'':'hidden'}">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                 开发人员 <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="__SITE__addDev">添加开发人员</a></li>
+                                <li><a href="__SITE__devList">开发人员列表</a></li>
+                                <!--<li class="divider"></li>-->
+                                <!--<li><a href="#">分离的链接</a></li>-->
+                                <!--<li class="divider"></li>-->
+                                <!--<li><a href="__INDEX__login/logout">退出登录</a></li>-->
+                            </ul>
+                        </li>
+                        {present name="site"}
+                        <form class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <select name="site" id="site" class="form-control">
+                                    {foreach $site as $v}
+                                    <option value="{$v.site}">{$v.name}</option>
+                                    {/foreach}
+                                    <!--<option value="192.168.1.150/techan/public/index.php">张想想</option>-->
+                                </select>
+                            </div>
+
+                        </form>
+
+                        {/present}
+
+
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <!--<li class="dropdown">-->
@@ -50,81 +92,6 @@
     </div>
 
 </nav>
-<!--<nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">-->
-    <!--<div class="container">-->
-        <!--<div class="container-fluid">-->
-            <!--<div class="navbar-header">-->
-                <!--<button type="button" class="navbar-toggle" data-toggle="collapse"-->
-                        <!--data-target="#example-navbar-collapse">-->
-                    <!--<span class="sr-only">切换导航</span>-->
-                    <!--<span class="icon-bar"></span>-->
-                    <!--<span class="icon-bar"></span>-->
-                    <!--<span class="icon-bar"></span>-->
-                <!--</button>-->
-                <!--<a class="navbar-brand" href="__SITE__">MaMa-API文档助手</a>-->
-            <!--</div>-->
-            <!--<div>-->
-                <!--<div class="collapse navbar-collapse" id="example-navbar-collapse">-->
-                    <!--<ul class="nav navbar-nav">-->
-                        <!--<li><a href="__SITE__">-->
-                            <!--<small>API文档</small>-->
-                        <!--</a></li>-->
-                        <!--<li><a href="__SITE__devList">-->
-                            <!--<small>服务器端开发者信息</small>-->
-                        <!--</a></li>-->
-                        <!--{eq name="Request.session.user.role" value="2"}-->
-                        <!--<li><a href="__SITE__cate" >-->
-                            <!--<small>分类管理</small>-->
-                        <!--</a></li>-->
-                        <!--{/eq}-->
 
-
-                        <!--<li class="dropdown {$Request.session.user.type==1?'':'hidden'}">-->
-                            <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
-                               <!--<small> 开发人员 <b class="caret"></b></small>-->
-                            <!--</a>-->
-                            <!--<ul class="dropdown-menu">-->
-                                <!--<li><a href="__SITE__addDev">添加开发人员</a></li>-->
-                                <!--<li><a href="__SITE__devList">开发人员列表</a></li>-->
-                                <!--&lt;!&ndash;<li class="divider"></li>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<li><a href="#">分离的链接</a></li>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<li class="divider"></li>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<li><a href="__INDEX__login/logout">退出登录</a></li>&ndash;&gt;-->
-                            <!--</ul>-->
-                        <!--</li>-->
-                        <!--{present name="site"}-->
-                        <!--<form class="navbar-form navbar-left" role="search">-->
-                            <!--<div class="form-group">-->
-                                <!--<select name="site" id="site" class="form-control">-->
-                                    <!--{foreach $site as $v}-->
-                                    <!--<option value="{$v.site}">{$v.name}</option>-->
-                                    <!--{/foreach}-->
-                                    <!--&lt;!&ndash;<option value="192.168.1.150/techan/public/index.php">张想想</option>&ndash;&gt;-->
-                                <!--</select>-->
-                            <!--</div>-->
-
-                        <!--</form>-->
-
-                        <!--{/present}-->
-
-                    <!--</ul>-->
-                    <!--<ul class="nav navbar-nav navbar-right">-->
-                        <!--<li class="dropdown">-->
-                            <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
-                               <!--{$Request.session.user.username} <b class="caret"></b>-->
-                            <!--</a>-->
-                            <!--<ul class="dropdown-menu">-->
-                                <!--<li><a href="__INDEX__login/logout" >-->
-                                    <!--退出登录-->
-                                <!--</a></li>-->
-                            <!--</ul>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-
-<!--</nav>-->
 
 
