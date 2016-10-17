@@ -6,6 +6,8 @@
  * Time: 17:58
  */
 namespace app\index\controller;
+use think\Validate;
+use app\index\model\User;
 use think\Controller;
 
 class Login extends Controller{
@@ -54,24 +56,25 @@ class Login extends Controller{
 
     public function saveRegister(){
         $post=$this->request->post();
-        //TODO yali 此处写验证逻辑
+      //  dump($post);
+        $validate = validate('User');
 
-
-//        return error('用户名错误');
-
-
-
-
-        unset($post['re_password']);
-//        dump($post);exit;
-        $id=db('user')->insertGetId($post);
-        if($id){
-            action('Email/sendMail',[$post['email'],'Mama-api注册验证','<html><h1>我是内容</h1></html>'],'controller');
-            return success();
-        }else{
-            return error('验证邮件发送失败');
+        if(!$validate->check($post)) {
+            //dump($validate->getError());
+            $error=$validate->getError();
+            return error($error);
+        }else {
+            return success('成功');
         }
 
     }
-
+    public function verifyEmail(){
+        $post=$this->request->post();
+        $flag =action('Email/sendMail',[$post['email'],'Mama-api注册验证','<html><h1>我是内容</h1></html>'],'controller');
+        if($flag){
+            return success();
+        }else{
+            return error();
+        }
+}
 }
