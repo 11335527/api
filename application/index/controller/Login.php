@@ -76,5 +76,16 @@ class Login extends Controller{
         }else{
             return error();
         }
-}
+
+    }
+    public function sendMail(){
+
+        $post=$this->request->post();
+        action('Email/sendMail',[$post['email'],'Mama-api注册验证','<h1>李亚利是猪八戒</h1>']);
+    }
+
+    public function verifyMail(){
+        return $this->fetch();
+    }
+
 }
