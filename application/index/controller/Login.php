@@ -45,6 +45,29 @@ class Login extends Controller{
         }
     }
 
+    public function getCheck(){
+        $post=$this->request->param();
+        $info=db('user')->where(['email'=>$post['email']])->find();
+
+        if($info){
+            if($info['password']==$post['password']){
+                //登陆成功
+
+                    session('user',$info,'api');
+                $this->redirect(url('index/me/me'));
+
+
+
+            }else{
+                $this->redirect(url('index/me/me'));
+                return error('用户名或密码错误');
+            }
+        }else{
+            $this->redirect(url('index/me/me'));
+            return error('用户名或密码错误');
+        }
+}
+
     public function logout(){
         session(null,'api');
         $this->redirect(url('index/login/login'));
@@ -56,32 +79,26 @@ class Login extends Controller{
 
     public function saveRegister(){
         $post=$this->request->post();
-      //  dump($post);
         $validate = validate('User');
 
         if(!$validate->check($post)) {
-            //dump($validate->getError());
             $error=$validate->getError();
             return error($error);
-        }else {
-            return success('成功');
         }
 
-    }
-    public function verifyEmail(){
-        $post=$this->request->post();
-        $flag =action('Email/sendMail',[$post['email'],'Mama-api注册验证','<html><h1>我是内容</h1></html>'],'controller');
-        if($flag){
-            return success();
-        }else{
-            return error();
+        unset($post['re_password']);
+        $id=db('user')->insertGetId($post);
+        if($id){
+            return success($post);
         }
 
+
     }
+
     public function sendMail(){
 
         $post=$this->request->post();
-        action('Email/sendMail',[$post['email'],'Mama-api注册验证','<h1>李亚利是猪八戒</h1>']);
+        action('Email/sendMail',[$post['email'],'Mama-api注册验证','<h1><a href="http://api.com/index/login/getCheck/email/'.$post['email'].'/password/'.$post['password'].'">点击激活</a></h1>']);
     }
 
     public function verifyMail(){

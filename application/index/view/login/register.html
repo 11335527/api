@@ -94,7 +94,7 @@
                    }else {
                        layer.msg('注册成功' ,{icon:1});
 
-                       $.post('__INDEX__login/sendMail',{email:msg.content},function(){
+                       $.post('__INDEX__login/sendMail',{email:msg.content.email,password:msg.content.password},function(){
 
                        });
                        window.location.href='__INDEX__login/verifyMail';
