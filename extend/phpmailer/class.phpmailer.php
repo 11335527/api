@@ -25,6 +25,7 @@
  * @author Andy Prevost (codeworxtech) <codeworxtech@users.sourceforge.net>
  * @author Brent R. Matzelle (original founder)
  */
+require_once ('class.smtp.php');
 class PHPMailer
 {
     /**
@@ -1181,9 +1182,7 @@ class PHPMailer
             // Verify CharSet string is a valid one, and domain properly encoded in this CharSet.
             if ($this->has8bitChars($domain) and @mb_check_encoding($domain, $this->CharSet)) {
                 $domain = mb_convert_encoding($domain, 'UTF-8', $this->CharSet);
-                if (($punycode = defined('INTL_IDNA_VARIANT_UTS46') ?
-                    idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46) :
-                    idn_to_ascii($domain)) !== false) {
+                if (($punycode = defined('INTL_IDNA_VARIANT_UTS46') ? idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46) : idn_to_ascii($domain)) !== false) {
                     return substr($address, 0, $pos) . $punycode;
                 }
             }
