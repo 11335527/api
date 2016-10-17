@@ -82,6 +82,7 @@ class Email{
         //同样该方法可以多次调用 上传多个附件
         // $mail->addAttachment('./Jlib-1.1.0.js','Jlib.js');
 
+
         $status = $mail->send();
 
         //简单的判断与提示信息

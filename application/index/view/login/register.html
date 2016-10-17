@@ -24,7 +24,7 @@
 
                 <div class="input-group">
                     <span class="input-group-addon" style="width: 100px">邮箱</span>
-                    <input type="text" class="form-control" required="" name="email" >
+                    <input type="text" class="form-control" required="" name="email" value="77275355@qq.com" >
                 </div>
 
 
@@ -91,6 +91,8 @@
                    console.log(msg);
                    if(msg.status==0){
                        layer.msg(msg.content ,{icon:2});
+                   }else {
+                       layer.msg('注册成功' ,{icon:1});
                    }
                },
                processData:false,
