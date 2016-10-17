@@ -11,43 +11,61 @@
 <div class="container">
 
     <div class="row">
-
-        <div class="col-md-6 col-sm-6" style="margin-top: 10%">
-            <div class="login-div">
-
-
-            <form class="form-horizontal" role="form">
-                <div class="form-group">
+        <form class="form-horizontal" id="register" role="form">
+            <div class="form-group">
 
 
 
-                    <h3>注册帐号</h3>
+                <h3>账号注册</h3>
+                <hr>
 
-                </div>
-
-
-                <div class="form-group">
-
-
-
-                        <input type="text" class="form-control" required="" id="username" name="username" placeholder="用户名">
-
-                </div>
-                <div class="form-group">
-
-                        <input type="text" class="form-control" required="" id="password" name="password" placeholder="密码">
-
-                </div>
-
-                <div class="form-group">
-
-                        <a href="javascript:void (0);" class="btn btn-success btn-block" id="submit">注册</a>
-
-                </div>
-
-            </form>
             </div>
-        </div>
+            <div class="form-group">
+
+                <div class="input-group">
+                    <span class="input-group-addon" style="width: 100px">邮箱</span>
+                    <input type="text" class="form-control" required="" name="email" >
+                </div>
+
+
+
+            </div>
+
+            <div class="form-group">
+
+                <div class="input-group">
+                    <span class="input-group-addon" style="width: 100px">用户名</span>
+                    <input type="text" class="form-control" required=""  name="username" >
+                </div>
+
+
+
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" style="width: 100px">密码</span>
+                    <input type="text" class="form-control" required=""  name="password">
+                </div>
+
+
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" style="width: 100px">密码</span>
+                    <input type="text" class="form-control" required=""  name="re_password">
+                </div>
+
+
+            </div>
+
+            <div class="form-group">
+
+                <a href="javascript:void (0);" class="btn btn-success " id="submit">登录</a>
+
+            </div>
+
+        </form>
+
     </div>
 </div>
 
@@ -63,34 +81,29 @@
         });
 
        $('#submit').on('click',function(){
-           var $alert=$(this).parent().parent();
+           var fd=new FormData($('#register')[0]);
+           $.ajax({
+              url:'__INDEX__login/saveRegister',
+               type:'post',
+               data:fd,
+               dataType:'json',
+               success:function(msg){
+                   console.log(msg);
+               },
+               processData:false,
+               contentType:false
+           });
 
-           $.post('__INDEX__login/check',{username:$('#username').val(),password: $('#password').val()},function(msg){
 
-               switch (msg.status){
-                   case 0:
-                       var alert = $('<div class="alert-div"><div class="alert alert-warning">警告！' + msg.content + '</div></div>');
-                       $alert.before(alert);
-                       alert.fadeIn("slow");
-                       setTimeout(function () {
-                                   alert.fadeOut("slow");
-                                   setTimeout(function () {
-                                               alert.remove();
-                                           },
-                                           2000);
-                               },
-                               2000);
-                       break;
-                   case 1:
-                   window.location.href='__SITE__';
-                   break;
-                   case 2:
-//                       window.location.href='__SITE__';
-                       break;
-               }
-
-           })
        }) ;
+
+        //验证邮箱
+        $('#verify-email').on('click',function(){
+            var email=$(this).prev().val();
+            $.post('__INDEX__login/verifyEmail',{email:email},function(msg){
+                console.log(msg);
+            });
+        })
     });
 </script>
 

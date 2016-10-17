@@ -51,4 +51,18 @@ class Login extends Controller{
     public function register(){
         return $this->fetch();
     }
+
+    public function saveRegister(){
+        $post=$this->request->post();
+        dump($post);
+    }
+    public function verifyEmail(){
+        $post=$this->request->post();
+        $flag =action('Email/sendMail',[$post['email'],'Mama-api注册验证','<html><h1>我是内容</h1></html>'],'controller');
+        if($flag){
+            return success();
+        }else{
+            return error();
+        }
+}
 }
