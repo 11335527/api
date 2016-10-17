@@ -6,6 +6,8 @@
  * Time: 17:58
  */
 namespace app\index\controller;
+use think\Validate;
+use app\index\model\User;
 use think\Controller;
 
 class Login extends Controller{
@@ -54,7 +56,17 @@ class Login extends Controller{
 
     public function saveRegister(){
         $post=$this->request->post();
-        dump($post);
+      //  dump($post);
+        $validate = validate('User');
+
+        if(!$validate->check($post)) {
+            //dump($validate->getError());
+            $error=$validate->getError();
+            return error($error);
+        }else {
+            return success('成功');
+        }
+
     }
     public function verifyEmail(){
         $post=$this->request->post();

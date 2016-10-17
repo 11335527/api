@@ -89,6 +89,11 @@
                dataType:'json',
                success:function(msg){
                    console.log(msg);
+                   if(msg.status==0){
+                       layer.msg(msg.content,{icon:2})
+                   }else{
+                       layer.msg('注册成功',{icon:1})
+                   }
                },
                processData:false,
                contentType:false
