@@ -89,6 +89,9 @@
                dataType:'json',
                success:function(msg){
                    console.log(msg);
+                   if(msg.status==0){
+                       layer.msg(msg.content ,{icon:2});
+                   }
                },
                processData:false,
                contentType:false
