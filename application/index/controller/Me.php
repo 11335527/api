@@ -6,6 +6,7 @@
  * Time: 17:58
  */
 namespace app\index\controller;
+use app\index\model\Invite;
 use think\Controller;
 use  app\index\model\Developer;
 use app\index\model\Project;
@@ -23,7 +24,55 @@ class Me extends Controller {
         $user_id = $user['user_id'];
         $developer = Developer::field('project_id,type')->where(['user_id' => $user_id])->select();
         $this->assign('project', $developer);
+
+        //查询邀请消息
+        $count=db('invite')->where(['invited_user_id'=>$user_id])->count();
+        $this->assign('invite_count',$count);
         return $this->fetch();
+    }
+    /**
+    *通知列表
+    *add by zk 2016/10/18 10:51
+    */
+    public function notifyList(){
+        $user = session('user');
+        $user_id = $user['user_id'];
+        //查询邀请消息
+        $list=Invite::where(['invited_user_id'=>$user_id])->select();
+        $arr=[];
+        foreach($list as $v){
+            $a['project_name']=$v->project->name;
+            $a['invite_name']=$v->inviteUser->username;
+            $a['id']=$v->id;
+           $arr[]=$a;
+        }
+
+        return success($arr);
+
+    }
+
+    /**
+    *确认邀请操作
+    *add by zk 2016/10/18 11:47
+    */
+    public function sureInvite(){
+        $post=$this->request->post();
+        $info=db('invite')->find($post['id']);
+        $data=[
+            'project_id'=>$info['project_id'],
+            'user_id'=>$info['invited_user_id'],
+            'type'=>0,
+            'role'=>$info['role']
+        ];
+        db('developer')->insert($data);
+
+
+
+
+        db('invite')->delete($post['id']);
+
+
+
     }
 
     public function createProject(){
@@ -68,6 +117,20 @@ class Me extends Controller {
         }else{
             return error();
         }
+    }
+
+    /**
+    *邀请别人加入自己项目
+    *add by zk 2016/10/18 10:22
+    */
+    public function addInvite(){
+        $post=$this->request->post();
+        $post['invite_user_id']=session('user')['user_id'];
+        $post['create_time']=time();
+        db('invite')->insert($post);
+        //TODO zk 发送邮件
+
+        return success();
     }
 
 }

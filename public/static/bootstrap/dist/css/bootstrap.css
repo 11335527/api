@@ -6775,3 +6775,17 @@ button.close {
   border-radius: 20px;
   margin-bottom: 10px;
 }
+.api-user-card {
+  width: 120px;
+  height: 180px;
+  padding: 10px;
+  text-align: center;
+  margin: 10px 10px 0 0;
+  background-color: #393d49;
+  color: #5fb878;
+  float: left;
+}
+.api-user-card img {
+  width: 100px;
+  height: 100px;
+}

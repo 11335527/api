@@ -8,19 +8,50 @@
             <span class="input-group-addon" id="search-user">搜索</span>
         </div>
 
-        <div></div>
+        <div id="card-div">
+            <div class="api-user-card">
+                <img src="__S__images/paopao/1.jpg" class="img-circle"  alt="">
+                <h5>小明</h5>
+                <a href="javascript:void(0)" class="btn btn-success btn-xs" data-operate="invite">邀请</a>
+            </div>
+        </div>
 
     </div>
 </form>
 <script>
+    //搜索用户
     $('#search-user').on('click',function(){
         var name=$('[name="username"]').val();
         $.post('__INDEX__me/searchUser',{name:name},function(msg){
 
-            console.log(msg);
+
             if(msg.status==1){
 
+
+                var data=msg.content;
+                var card_div=$('#card-div');
+                card_div.empty();
+                for (var key in data){
+                    var card=$('<div class="api-user-card">'+
+                            '<img src="__S__images/paopao/'+data[key].head_img+'" class="img-circle"  alt="">'+
+                            '<h5>'+data[key].username+'</h5>'+
+                            '<a href="javascript:void(0)" class="btn btn-success btn-xs" data-operate="invite" data-id="'+data[key].user_id+'">邀请</a>'+
+                            '</div>');
+
+                    card_div.append(card);
+                }
             }
+        });
+    });
+    //邀请
+    $('#card-div').on('click','[data-operate="invite"]',function(){
+
+        var project_id='{$Request.param.id}';
+        var invited_user_id=$(this).attr('data-id');
+        var role=2;
+        //TODO zk role 变活
+        $.post('__INDEX__me/addInvite',{project_id:project_id,invited_user_id:invited_user_id,role:role},function(){
+
         });
     });
 </script>

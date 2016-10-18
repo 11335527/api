@@ -8,6 +8,9 @@
         <div class="api-me-head-img"><img src="__S__images/yali.png" class="img-circle" alt=""></div>
         <p class="text-center">码麻</p>
 
+        <div class="api-me-notify">
+            <p><a href="javascript:void (0)" data-operate="read-notify"><span class="fa fa-envelope" style="color: #00AA88"></span><span class="badge">{$invite_count}</span></a></p>
+        </div>
         <ul class="list-group" style="margin-top: 20px">
             <li class="list-group-item active">我的团队</li>
             <li class="list-group-item">api项目团队</li>
@@ -54,6 +57,54 @@
 </div>
 
 <script>
+
+    //弹出消息中心
+    $('[data-operate="read-notify"]').on('click',function(){
+        //页面层
+
+        $.post('__INDEX__me/notifyList',{},function(msg){
+
+            if(msg.status==1){
+                var data=msg.content;
+                var str='<ul class="list-group" style="margin-top: -1px">';
+                for(var key in data){
+                    var s='<li  class="list-group-item"><span class="text-success">'+data[key].invite_name+'</span>邀请您开发【'+data[key].project_name+'】项目 <a class="btn btn-success btn-xs" data-operate="invite" data-type="sure" data-id="'+data[key].id+'">同意</a><a class="btn btn-danger btn-xs" data-operate="invite" data-type="refuse" data-id="'+data[key].id+'">拒绝</a></li>';
+                    str=str+s;
+                }
+                str=str+'</ul>';
+                layer.open({
+                    type: 1,
+                    title:'消息中心',
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['420px', '240px'], //宽高
+                    content: str
+                });
+            }
+
+        });
+
+    });
+
+
+    //消息中心操作
+    $('body').on('click','[data-operate="invite"]',function(){
+       var type=$(this).attr('data-type');
+       var id=$(this).attr('data-id');
+        switch (type){
+            case 'sure':
+                    //确认事件
+                    console.log(id);
+
+                $.post('__INDEX__me/sureInvite',{id:id},function(){
+
+                });
+                break;
+            case 'refuse':
+                    //拒绝事件
+                break;
+        }
+
+    });
 
     $('#create-project').on('click',function(){
 
