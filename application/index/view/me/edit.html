@@ -11,7 +11,7 @@
 </div>
 <input type="text" class="form-control" placeholder="昵称" name="username" value="{$info.username}">
 <input type="hidden" class="form-control" name="user_id" value="{$info.id}">
-<a class="btn btn-success">保存</a>
+<a class="btn btn-success" id="save-user">保存</a>
 <script>
 
     //选择头像事件
@@ -20,4 +20,15 @@
         var name=$(this).attr('data-name');
         $('#current-head-img').attr('src',src).attr('data-name',name);
     });
+
+
+    //保存按钮
+    $('#save-user').on('click',function(){
+        var head_img=$('#current-head-img').attr('data-name');
+        var name=$('[name="username"]').val();
+        $.post('__INDEX__me/saveUser',{head_img:head_img,username:name},function(msg){
+
+        });
+    })
+
 </script>
