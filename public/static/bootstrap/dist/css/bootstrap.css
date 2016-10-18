@@ -6789,3 +6789,17 @@ button.close {
   width: 100px;
   height: 100px;
 }
+.head-img-div {
+  float: left;
+  margin: 10px 10px 0 0;
+}
+.head-img-div img {
+  border: 2px solid #5fb878;
+  width: 80px;
+  height: 80px;
+}
+.edit-head-img {
+  border: 2px solid #5fb878;
+  width: 100px;
+  height: 100px;
+}

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
-    <div class="container">
+
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -17,79 +17,47 @@
                         <li><a href="__SITE__me">
                             我的主页
                         </a></li>
-                        <li><a href="__SITE__doc/{$Request.session.current_project}">
-                           文档
-                        </a></li>
+
+
 
                         <li><a href="__SITE__bbs">
                            社区
                         </a></li>
-                        <li><a href="__SITE__devList">
-                            服务器端开发者信息
-                        </a></li>
-                        {eq name="Request.session.user.role" value="2"}
-                        <li><a href="__SITE__cate" >
-                            分类管理
-                        </a></li>
-                        {/eq}
 
 
-                        <li class="dropdown {$Request.session.user.type==1?'':'hidden'}">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                 开发人员 <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="__SITE__addDev">添加开发人员</a></li>
-                                <li><a href="__SITE__devList">开发人员列表</a></li>
-                                <!--<li class="divider"></li>-->
-                                <!--<li><a href="#">分离的链接</a></li>-->
-                                <!--<li class="divider"></li>-->
-                                <!--<li><a href="__INDEX__login/logout">退出登录</a></li>-->
-                            </ul>
-                        </li>
-                        {present name="site"}
-                        <form class="navbar-form navbar-left" role="search">
-                            <div class="form-group">
-                                <select name="site" id="site" class="form-control">
-                                    {foreach $site as $v}
-                                    <option value="{$v.site}">{$v.name}</option>
-                                    {/foreach}
-                                    <!--<option value="192.168.1.150/techan/public/index.php">张想想</option>-->
-                                </select>
-                            </div>
 
-                        </form>
-
-                        {/present}
 
 
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <!--<li class="dropdown">-->
-                            <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
-                               <!--{$Request.session.user.username} <b class="caret"></b>-->
-                            <!--</a>-->
-                            <!--<ul class="dropdown-menu">-->
-                                <!--<li><a href="__INDEX__login/logout" >-->
-                                    <!--退出登录-->
-                                <!--</a></li>-->
-                            <!--</ul>-->
-                        <!--</li>-->
+
+                        {empty name="Request.session.user.username"}
+
                         <li>
                             <a href="__SITE__login" >登录</a>
                         </li>
                         <li>
                             <a href="__SITE__register" >注册</a>
                         </li>
+                        {else/}
+                        <li style="padding: 10px 0"><div>
+                            <img src="__S__images/paopao/{$Request.session.user.head_img}" width="40px" height="40px" class="img-circle" alt="">
+                            <a style="color: #00AA88">{$Request.session.user.username}</a>
+                        </div>
+
+                        </li>
                         <li>
                             <a href="" >退出</a>
                         </li>
+                        {/empty}
+
+
 
                     </ul>
                 </div>
             </div>
         </div>
-    </div>
+
 
 </nav>
 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<img src="__S__images/paopao/{$info.head_img}" data-name="{$info.head_img}" class="edit-head-img" id="current-head-img" alt="">
+<p>选择头像：</p>
+<div class="head-div">
+    {for start="1" end="24" }
+    <div class="head-img-div">
+        <img src="__S__images/paopao/{$i}.jpg" data-name="{$i}.jpg" class="img-circle" alt="">
+    </div>
+    {/for}
+</div>
+<input type="text" class="form-control" placeholder="昵称" name="username" value="{$info.username}">
+<input type="hidden" class="form-control" name="user_id" value="{$info.id}">
+<a class="btn btn-success">保存</a>
+<script>
+    $('.head-img-div>img').on('click',function(){
+        var src=$(this).attr('src');
+        var name=$(this).attr('data-name');
+        $('#current-head-img').attr('src',src).attr('data-name',name);
+    });
+</script>

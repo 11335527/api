@@ -32,8 +32,23 @@ class Me extends Controller {
 
         //查询邀请消息
         $count=db('invite')->where(['invited_user_id'=>$user_id])->count();
-        $this->assign('invite_count',$count);
+        if($count){
+
+            $this->assign('invite_count',$count);
+        }
         return $this->fetch();
+    }
+
+    /**
+    *编辑用户
+    *add by zk 2016/10/18 13:25
+    */
+    public function editUser($id){
+
+        $info=db('user')->find($id);
+        $this->assign('info',$info);
+        //TODO yali 编辑用户操作
+        return $this->fetch('edit');
     }
     /**
     *通知列表
