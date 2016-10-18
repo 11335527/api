@@ -50,6 +50,13 @@ class Me extends Controller {
         //TODO yali 编辑用户操作
         return $this->fetch('edit');
     }
+    public function saveUser(){
+        $post=$this->request->post();
+        //var_dump($post);exit;
+        $user=db('user');
+$res=$user->update($post);
+        var_dump($res);
+    }
     /**
     *通知列表
     *add by zk 2016/10/18 10:51
