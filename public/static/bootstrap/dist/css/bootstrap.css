@@ -6825,3 +6825,6 @@ button.close {
   width: 100px;
   height: 100px;
 }
+.bbs-operate {
+  text-align: right;
+}
