@@ -5,11 +5,16 @@
     <div class="col-md-3 api-me-left">
 
 
-        <div class="api-me-head-img"><img src="__S__images/yali.png" class="img-circle" alt=""></div>
-        <p class="text-center">码麻</p>
+        <div class="api-me-head-img"><img src="__S__images/paopao/{$info.head_img}" class="img-circle" alt=""></div>
+        <p class="text-center">{$info.username}</p>
 
         <div class="api-me-notify">
-            <p><a href="javascript:void (0)" data-operate="read-notify"><span class="fa fa-envelope" style="color: #00AA88"></span><span class="badge">{$invite_count}</span></a></p>
+            <p>
+
+                <a href="javascript:void (0)" data-operate="read-notify"><h4 style="display: inline"><span class="fa fa-envelope" ></span>{present name="invite_count"}<span class="badge" style="background-color: #00AA88;position: relative;top: -5px;left: -5px">{$invite_count}</span>{/present}</h4></a>
+                <a href="__INDEX__me/editUser/id/{$info.user_id}" data-operate="edit-user"><h4 style="display: inline"><span class="fa fa-cog" ></span></h4></a>
+
+            </p>
         </div>
         <ul class="list-group" style="margin-top: 20px">
             <li class="list-group-item active">我的团队</li>

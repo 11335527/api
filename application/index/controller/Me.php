@@ -22,6 +22,11 @@ class Me extends Controller {
     public function me() {
         $user = session('user');
         $user_id = $user['user_id'];
+        //个人信息
+        $info=db('user')->find($user_id);
+        $this->assign('info',$info);
+
+
         $developer = Developer::field('project_id,type')->where(['user_id' => $user_id])->select();
         $this->assign('project', $developer);
 
