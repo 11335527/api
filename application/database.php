@@ -26,9 +26,9 @@ return [
     // 数据库名
     'database'       => 'api',
     // 用户名
-    'username'       => 'api',
+    'username'       => 'sp',
     // 密码
-    'password'       => 'qq369699',
+    'password'       => 'ZHOUKAI@qq.com123',
     // 端口
     'hostport'       => '',
     // 连接dsn
