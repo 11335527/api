@@ -22,6 +22,7 @@ class ComposerStaticInit44891b13216927c3b57cf6edc9752bbc
         'think\\' => 
         array (
             0 => __DIR__ . '/../..' . '/thinkphp/library/think',
+            1 => __DIR__ . '/..' . '/topthink/think-image/src',
         ),
     );
 
