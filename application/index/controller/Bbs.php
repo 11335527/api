@@ -15,9 +15,9 @@ class Bbs extends Controller{
     public function bbs(){
 
 $res=db('title')->select();
-        $sql='select content,status,username, head_img  from api_title as t LEFT JOIN api_user as u ON t.user_id=u.user_id ORDER BY create_time DESC ';
+        $sql='select t.id,content,status,username, head_img, create_time from api_title as t LEFT JOIN api_user as u ON t.user_id=u.user_id ORDER BY create_time DESC ';
         $res=Db::query($sql);
-        var_dump($res);
+       // var_dump($res);exit;
 
 
         $this->assign('info',$res);
@@ -45,5 +45,19 @@ $res=db('title')->select();
             return success($post);
 
         }
+    }
+    public function discuss(Request $request){
+$id=$request->param('id');
+       // var_dump($id);
+     /* $res=db('title')->where(['id'=>$id])->find();
+        $userid=$res['user_id'];
+        $headimg=db('user')->field('head_img')->where(['user_id'=>$userid])->find();
+        $res['head_img']=$headimg;
+var_dump($res);exit;*/
+        $sql="select t.id,content,status,username, head_img, create_time from api_title as t LEFT JOIN api_user as u ON t.user_id=u.user_id WHERE id={$id}";
+        $res=Db::query($sql);
+        //var_dump($res);exit;
+        $this->assign('info',$res);
+        return $this->fetch();
     }
 }

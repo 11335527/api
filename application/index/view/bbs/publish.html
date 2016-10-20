@@ -53,7 +53,7 @@
    $(function(){
        $('#submit').on('click',function(){
            var content=$('[name="title"]').val();
-
+            var fd=new FormData($('form')[0]);
            $.ajax({
                type:'post',
                data:{content:content},
