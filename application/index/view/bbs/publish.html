@@ -1,76 +1,19 @@
-<link rel="stylesheet" href="__S__editor/dist/css/wangEditor.min.css">
-<script src="__S__editor/dist/js/wangEditor.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
 
-<form role="form" class="form-horizontal">
-    <div class="form-group form-group-sm">
-        <label class="control-label col-md-2">标题</label>
-        <div class="col-md-10">
-            <input type="text" class="form-control" name="title"  placeholder="请输入论题">
-        </div>
-    </div>
-
-    <div class="form-group form-group-sm">
-        <label class="control-label col-md-2">内容</label>
-        <div class="col-md-10">
-            <textarea name="intro" id="editor" cols="30" rows="35"></textarea>
-        </div>
-    </div>
-    <script>
-        //初始化编辑器
-        var editor = new wangEditor('editor');
-        editor.config.uploadImgUrl = '__INDEX__image/editorImg';
-        editor.config.emotions = {
-            'default': {
-                title: '默认',  // 组名称
-                data: '__S__/editor/emotions.data'  // data 可以是一个url地址，访问该地址要能返回表情包的json文件
-            }
-        };
-        editor.config.uploadImgFns.onload = function (msg, xhr) {
-            //解析text格式为json
-            var res=JSON.parse(msg);
-
-            // msg 服务器端返回的text
-            // xhr 是 xmlHttpRequest 对象，IE8、9中不支持
-            // 上传图片时，已经将图片的名字存在 editor.uploadImgOriginalName
-            var originalName = editor.uploadImgOriginalName || '';
-
-            // 插入图片：
-            editor.command(null, 'insertHtml', '<img src="__SITE__' + res.src + '" alt="' + originalName + '" width="'+res.width+'" height="'+res.height+'" data-name="'+res.save_name+'" class="img-responsive"/>');
-        };
-        editor.create();
-    </script>
-    <div class="form-group form-group-sm">
-
-        <div class="col-md-2 col-md-offset-2">
-            <a class="btn btn-success" id="submit">提交</a>
-        </div>
-    </div>
-
-</form>
-
-
-<script type="text/javascript">
-   $(function(){
-       $('#submit').on('click',function(){
-           var content=$('[name="title"]').val();
-
-           $.ajax({
-               type:'post',
-               data:{content:content},
-               dataType:'json',
-               url:'__INDEX__Bbs/savePublish',
-               success:function(msg) {
-                   console.log(msg);
-                   if (msg.status == 0) {
-                       layer.msg(msg.content, {icon: 2});
-                   } else {
-                       layer.msg('发表成功', {icon: 1});
-                       window.location.href='__SITE__bbs';
-                   }
-
-               }})
-       })
-
-   })
-
+    <textarea id="demo" style="display: none;">dfdf</textarea>
+            <script>
+            layui.use('layedit', function(){
+                var layedit = layui.layedit;
+                layedit.build('demo'); //建立编辑器
+            });
 </script>
+
+
+</body>
+</html>
