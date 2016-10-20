@@ -15,9 +15,9 @@ class Bbs extends Controller{
     public function bbs(){
 
 $res=db('title')->select();
-        $sql='select content,status,username, head_img  from api_title as t LEFT JOIN api_user as u ON t.user_id=u.user_id ';
+        $sql='select content,status,username, head_img  from api_title as t LEFT JOIN api_user as u ON t.user_id=u.user_id ORDER BY create_time DESC ';
         $res=Db::query($sql);
-       // var_dump($res);
+        var_dump($res);
 
        // var_dump($res);exit;
         $this->assign('info',$res);
