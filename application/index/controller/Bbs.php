@@ -19,7 +19,7 @@ $res=db('title')->select();
         $res=Db::query($sql);
        // var_dump($res);
 
-       // var_dump($res);exit;
+
         $this->assign('info',$res);
         return $this->fetch();
     }
