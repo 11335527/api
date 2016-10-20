@@ -52,14 +52,26 @@
 <script type="text/javascript">
    $(function(){
        $('#submit').on('click',function(){
-           var content=$('[name="title"]').val();
+
             var fd=new FormData($('form')[0]);
+           var intro_img=[];
+
+           $('.wangEditor-txt').find('img').each(function(){
+               intro_img.push($(this).attr('data-name'));
+           });
+           fd.append('intro_img',JSON.stringify(intro_img));
            $.ajax({
+               type: 'post',
+               url: '__INDEX__Bbs/savePublish',
+               data: fd,
+               dataType: 'json',
+               success: function (msg) {
+                 /*  $.ajax({
                type:'post',
                data:{content:content},
                dataType:'json',
                url:'__INDEX__Bbs/savePublish',
-               success:function(msg) {
+               success:function(msg) {*/
                    console.log(msg);
                    if (msg.status == 0) {
                        layer.msg(msg.content, {icon: 2});
@@ -68,7 +80,11 @@
                        window.location.href='__SITE__bbs';
                    }
 
-               }})
+
+               },
+               processData: false,
+               contentType: false,
+           });
        })
 
    })
