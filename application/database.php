@@ -22,13 +22,13 @@ return [
 //    // 数据库密码
 //    'password'    => 'qq369699',
     // 服务器地址
-    'hostname'       => '112.126.86.228',
+    'hostname'       => '127.0.0.1',
     // 数据库名
     'database'       => 'api',
     // 用户名
-    'username'       => 'sp',
+    'username'       => 'root',
     // 密码
-    'password'       => 'ZHOUKAI@qq.com123',
+    'password'       => '',
     // 端口
     'hostport'       => '',
     // 连接dsn

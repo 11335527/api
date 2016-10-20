@@ -54,8 +54,16 @@ class Me extends Controller {
         $post=$this->request->post();
         //var_dump($post);exit;
         $user=db('user');
+       $post['user_id']= $post['id'];
+        unset($post['id']);
 $res=$user->update($post);
-        var_dump($res);
+        //var_dump($res);exit;
+        if($res){
+            return success();
+        }else{
+            return error('没有做任何修改');
+        }
+
     }
     /**
     *通知列表

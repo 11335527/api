@@ -1,42 +1,29 @@
 <!DOCTYPE html>
 <div class="bbs-operate" >
 
-    <a href="" class="btn btn-info">发布问题</a>
+    <a href="__INDEX__bbs/publish" class="btn btn-info">发布问题</a>
 </div>
 <hr>
 <ul class="api-bbs-list">
-
+{foreach $info as $v}
     <li>
         <div class="list-img">
 
-            <img src="__S__images/paopao/12.jpg" class="img-circle" alt="">
+            <img src="__S__images/paopao/{$v.head_img}" class="img-circle" alt="">
         </div>
         <div class="list-content">
-            <h4><a href="__SITE__doc/{$v.project.id}">关于李亚利是否是大美女探讨</a>{if condition="$v.type eq 1"}<span class="label label-success">热门</span>
+            <h4><a href="}">{$v.content}</a>{if condition="$v.status eq 1"}<span class="label label-success">热门</span>
                 {else /}<span class="label label-danger">精华</span>
                 {/if}</h4>
             <p>
-                <small><span>创建时间:{$v.project.create_time}</span><span style="margin-left: 10px">{empty name="v.project.update_time"} {else/}修改时间1：{$v.project.update_time}{/empty}</span>
+                <small><span>创建时间:{$v.create_time|date="Y-m-d",###}</span><span>
+                    发布者:{$v.username}
+                </span>
                 </small>
 
             </p>
         </div>
     </li>
-    <li>
-        <div class="list-img">
-
-            <img src="__S__images/paopao/13.jpg" class="img-circle" alt="">
-        </div>
-        <div>
-            <h4><a href="__SITE__doc/{$v.project.id}">关于如何哄鸭梨同学不生气探讨</a>{if condition="$v.type eq 1"}<span class="label label-success">热门</span>
-                {else /}<span class="label label-danger">精华</span>
-                {/if}</h4>
-            <p>
-                <small><span>创建时间:2016-10-19 12：32</span><span style="margin-left: 10px">{empty name="v.project.update_time"} {else/}修改时间1：{$v.project.update_time}{/empty}</span>
-                </small>
-
-            </p>
-        </div>
-    </li>
+{/foreach}
 
 </ul>

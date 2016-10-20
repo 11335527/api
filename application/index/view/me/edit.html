@@ -30,11 +30,17 @@
             $.ajax({
                 type:'post',
                 url:'__INDEX__me/saveUser',
-                data:{user_id:id,head_img:head_img,username:username},
+                data:{id:id,head_img:head_img,username:username},
                 dataType:'json',
                 success:function(msg){
                     console.log(msg);
+                    if (msg.status == 0) {
+                        layer.msg(msg.content, {icon: 2});
+                    } else {
+                        layer.msg('修改成功', {icon: 1});
 
+                    }
+                    window.location.href='__SITE__me';
             }
         })
     });
