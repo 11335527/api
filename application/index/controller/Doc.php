@@ -128,7 +128,7 @@ class Doc extends Controller {
 
 
         if ($post['id']) {
-            $data['cate_id']=$post['cate_id'];
+            $data['id']=$post['id'];
             db('list')->update($data);
             $list_id = $post['id'];
         } else {
@@ -156,10 +156,15 @@ class Doc extends Controller {
     }
 
     public function getApi(Request $request) {
-        $post = $request->post('id');
-        $api = Api::get($post);
+        $post = $request->post();
+        $api = Api::get($post['id']);
         $api->param;
-        return $api;
+
+        $cate=db('cate')->where(['project_id'=>$post['project_id']])->order('sort')->select();
+
+        $data['cate']=$cate;
+        $data['api']=$api;
+        return $data;
     }
 
     public function deleteApi(Request $request) {

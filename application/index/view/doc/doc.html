@@ -99,7 +99,7 @@
                                                    placeholder="请输入参数值" value="{$vp.value}"></td>
                                         <td><input type="text" name="param_comment[]" class="form-control input-sm"
                                                    placeholder="请输入参数说明" value="{$vp.comment}"></td>
-                                        S
+
                                     </tr>
                                     {/foreach}
 
@@ -352,29 +352,7 @@
 
             //提交添加api
             $body.on('click', '#add-api-submit', function () {
-
-
-
                 var fd=new FormData($('#add-api-form')[0]);
-
-//                var param = [];
-//                $('.input-param').each(function (index) {
-//                    var $this = $(this);
-//                    var arr = [];
-//                    arr.push($this.find('input[name="param_key"]').val());
-//                    arr.push($this.find('input[name="param_value"]').val());
-//                    arr.push($this.find('input[name="param_comment"]').val());
-//                    param.push(arr);
-//                });
-//                var name = $('#api-name').val();
-//                var site = $('#api-site').val();
-//                var cate = $('#api_cate').val();
-//
-//                if (api_id) {
-//                    var data = {param: param, name: name, api: site, cate_id: cate, id: api_id}
-//                } else {
-//                    var data = {param: param, name: name, api: site, cate_id: cate}
-//                }
                 $.ajax({
                     url:'__INDEX__doc/addApi',
                     type:'post',
@@ -391,31 +369,7 @@
                     processData:false,
                     contentType:false
                 });
-                $.post('__INDEX__doc/addApi', data, function (msg) {
-                    if (msg.status == 1) {
 
-                        if (api_id) {
-                            var alert = '保存API成功';
-                        } else {
-                            var alert = '添加API成功';
-                        }
-                        var alert = $('<div class="alert-div"><div class="alert alert-success">' + alert + '</div></div>');
-                        $('body').prepend(alert);
-                        alert.fadeIn("slow");
-                        setTimeout(function () {
-                                    alert.fadeOut("slow");
-                                    setTimeout(function () {
-                                                alert.remove();
-
-                                            },
-                                            2000);
-                                    api_modal.modal('hide');
-                                    window.location.reload();
-                                },
-                                2000);
-                    }
-
-                });
 
             });
 
@@ -437,11 +391,10 @@
             $footer.fadeIn("slow");
 
             //添加api按钮
-//        var api_modal = $('#add-api-list');
+
             $('#add-api').on('click', function () {
-//            api_modal.modal();
                 $.post('__INDEX__doc/getCate', {project_id: '{$Request.param.id}'}, function (msg) {
-                    console.log(msg);
+
                     if (msg.status == 1) {
                         var str = '';
                         var data = msg.content;
@@ -450,7 +403,6 @@
                             str = str + option;
                         }
 
-                        console.log(str);
                         var html = '<div class="api-doc-add-api"><form class="form-horizontal" id="add-api-form" role="form">' +
                                 '<div class="form-group form-group-sm">' +
                                 '<label  class="col-sm-2 control-label">类别</label>' +
@@ -516,63 +468,113 @@
 
             $api_body.on('click', '.edit-api', function () {
                 var id = $(this).attr('data-id');
-                $.post('__INDEX__doc/getApi', {id: id}, function (msg) {
-                    api_id = msg.id;
-                    api_modal.find('.modal-title').html('编辑API');
-                    api_modal.find('#add-api-submit').html('保存');
-                    api_modal.find('option[value="' + msg.cate_id + '"]').attr('selected', 'selected');
-                    api_modal.find('#api-name').val(msg.name);
-                    api_modal.find('#api-site').val(msg.api);
-                    var $tbody = $('#add-api-tbody');
-                    $tbody.empty();
-                    for (var key in msg.param) {
-                        var $tr = $('<tr class="input-param">' +
-                                '<td> <input type="text" name="param_key[]" class="form-control" placeholder="请输入参数名" value=' + "'" + msg.param[key].name + "'" + '></td>' +
-                                '<td> <input type="text" name="param_value[]" class="form-control" placeholder="请输入参数值" value=' + "'" + msg.param[key].value + "'" + '></td>' +
-                                ' <td> <input type="text" name="param_comment[]" class="form-control" placeholder="请输入参数说明" value=' + "'" + msg.param[key].comment + "'" + '></td>' +
-                                '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param" >删除</a></td>' +
-                                '</tr>');
-                        $tbody.append($tr);
+                $.post('__INDEX__doc/getApi', {id: id,project_id:'{$Request.param.id}'}, function (msg) {
+                    var str = '';
+                    var data = msg.cate;
+                    var api=msg.api;
+
+
+                    for (var key in data) {
+
+                        var selected=api.cate_id==data[key].cate_id?'selected':'';
+                        var option = '<option value="' + data[key].cate_id + '" '+selected+'>' + data[key].name + '</option>';
+                        str = str + option;
                     }
 
-                    api_modal.modal();
+                    //拼接参数
+                    var param=api.param;
+                    if(param){
+                        var trs='';
+                        for(var key in param){
+                            var tr=' <tr class="input-param">' +
+                                    '<td> <input type="text" name="param_key[]" class="form-control input-sm" placeholder="请输入参数名" value="'+param[key].name+'"></td>' +
+                                    '<td> <input type="text" name="param_value[]" class="form-control input-sm" placeholder="请输入参数值" value="'+param[key].value+'"></td>' +
+                                    '<td> <input type="text" name="param_comment[]" class="form-control input-sm" placeholder="请输入参数说明" value="'+param[key].comment+'"></td>' +
+                                    '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param" >删除</a></td>' +
+                                    '</tr>';
+                            trs=trs+tr;
+                        }
+                    }
+
+
+                    var html = '<div class="api-doc-add-api"><form class="form-horizontal" id="add-api-form" role="form">' +
+                            '<div class="form-group form-group-sm">' +
+                            '<label  class="col-sm-2 control-label">类别</label>' +
+                            '<div class="col-sm-10">' +
+                            '<select name="cate_id"   class="form-control">'+str+'</select>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="form-group form-group-sm">' +
+                            '<label  class="col-sm-2 control-label">api名称</label>' +
+                            '<div class="col-sm-10">' +
+                            '<input type="text" class="form-control" name="name" placeholder="请输入api名称" value="'+api.name+'" >' +
+                            '<input type="hidden"  name="id" value="'+api.id+'">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="form-group form-group-sm">' +
+                            ' <label class="col-sm-2 control-label">api</label>' +
+                            '<div class="col-sm-10">' +
+                            '<input type="text" class="form-control" name="api" placeholder="请输入主接口后面的接口参数" value="'+api.api+'">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="form-group form-group-sm">' +
+                            '<label  class="col-sm-2 control-label">默认请求参数</label>' +
+                            '<div class="col-sm-10">' +
+                            '<table class="table table-condensed">' +
+                            '<thead>' +
+                            '<tr>' +
+                            '<th>参数名</th>' +
+                            '<th>参数值</th>' +
+                            '<th>参数说明</th>' +
+                            '<th> <a href="javascript:void (0);" id="add-param" class="btn btn-info btn-xs"><i class="fa fa-plus-square"></i>&nbsp;添加</a></th>' +
+                            '</tr>' +
+                            '</thead>' +
+                            '<tbody id="add-api-tbody">' +trs+
+                            '</tbody>' +
+                            '</table>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="form-group">' +
+                            '<div class="col-sm-offset-2 col-sm-10">' +
+                            '<a href="javascript:void (0);" id="add-api-submit" class="btn btn-success btn-block">添加</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</form></div>';
+                    //页面层
+                    layer.open({
+                        type: 1,
+                        title: '添加api',
+                        skin: 'layui-layer-rim', //加上边框
+                        area: ['850px', '540px'], //宽高
+                        content: html
+                    });
 
                 });
             });
             //删除api按钮
             var $alert = $('#alert-modal'), $current_audit;
             $api_body.on('click', '.delete-api', function () {
-                $current_audit = $(this);
-                $alert.find('h2').html('确认删除？');
-                var $confirm = $alert.find('.confirm');
-                $confirm.attr('id', 'delete-confirm');
-                $alert.modal();
-            });
 
-            //删除弹出框确认操作
-            $alert.on('click', '#delete-confirm', function () {
-                var $this = $current_audit;
+                var $this=$(this);
                 var id = $this.attr('data-id');
-                $.post('__INDEX__doc/deleteApi', {id: id}, function (msg) {
-                    if (msg.status == 1) {
-
-                        var alert = $('<div class="alert-div"><div class="alert alert-success">删除成功</div></div>');
-                        $('body').prepend(alert);
-                        alert.fadeIn("slow");
-                        setTimeout(function () {
-                                    alert.fadeOut("slow");
-                                    setTimeout(function () {
-                                                alert.remove();
-
-                                            },
-                                            2000);
-                                    $alert.modal('hide');
-                                    $this.parent().parent().parent().parent().remove();
-                                },
-                                2000);
-                    }
+                //询问框
+                layer.confirm('确认删除？', {
+                    title:'操作提示',
+                    btn: ['确认','取消'] //按钮
+                }, function(){
+                    $.post('__INDEX__doc/deleteApi', {id: id}, function (msg) {
+                        if (msg.status == 1) {
+                            layer.msg('删除成功', {
+                                time: 5000, //20s后自动关闭
+                                btn: ['悲伤不？', '我看这条api不爽很久了']
+                            });
+                            $this.parent().parent().remove();
+                        }
+                    });
                 });
             });
+
+
 
             //添加api-cate按钮
             var api_cate_modal = $('#add-api-cate');
