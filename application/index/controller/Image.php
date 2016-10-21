@@ -60,16 +60,16 @@ class Image extends Controller
             $file=$paste;
         }
         $image = Img::open($file);
-        $image->thumb(800,800);
+        $image->thumb(200,200);
         $save_name=md5(microtime(true)).'.'.$image->type();
-        $path='./static/upload/image/editor/'.$save_name;
+        $path='./static/upload/editor/'.$save_name;
 
         if($image->save($path)){
             $arr=[
                 'save_name'=>$save_name,
                 'width'=> $image->width(),
                 'height'=>$image->height(),
-                'src'=>'/static/upload/image/editor/'.$save_name
+                'src'=>'/static/upload/editor/'.$save_name
             ];
             return json($arr);
         }else{

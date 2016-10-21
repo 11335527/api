@@ -5,7 +5,7 @@
     <div class="form-group form-group-sm">
         <label class="control-label col-md-2">标题</label>
         <div class="col-md-10">
-            <input type="text" class="form-control" name="title"  placeholder="请输入论题">
+            <input type="text" class="form-control" name="content"  placeholder="请输入论题">
         </div>
     </div>
 
@@ -18,7 +18,36 @@
     <script>
         //初始化编辑器
         var editor = new wangEditor('editor');
-        editor.config.uploadImgUrl = '__INDEX__image/editorImg';
+        editor.config.uploadImgUrl = '__INDEX__image/editorImg';//上传到图片的路径，寻找image控制器下面的editorImg方法，来实现这个图片上传到服务器，以下被注释的代码就是访问的这个
+
+/*
+        public function editorImg(){
+            $h5=$this->request->file('wangEditorH5File');
+            $paste=$this->request->file('wangEditorPasteFile');
+            if($h5){
+                $file=$h5;
+            }
+            if($paste){
+                $file=$paste;
+            }
+            $image = Img::open($file);
+            $image->thumb(200,200);
+            $save_name=md5(microtime(true)).'.'.$image->type();
+            $path='./static/upload/editor/'.$save_name;
+
+            if($image->save($path)){
+                $arr=[
+                            'save_name'=>$save_name,
+                        'width'=> $image->width(),
+                        'height'=>$image->height(),
+                        'src'=>'/static/upload/editor/'.$save_name
+            ];
+                return json($arr);
+            }else{
+                return '上传失败';
+            }
+        }*/
+
         editor.config.emotions = {
             'default': {
                 title: '默认',  // 组名称
@@ -27,7 +56,8 @@
         };
         editor.config.uploadImgFns.onload = function (msg, xhr) {
             //解析text格式为json
-            var res=JSON.parse(msg);
+            //JSON.parse（）可以把返回的字符串解析成json格式，
+            var res=JSON.parse(msg);//回调函数，使其变为对象，以便调用
 
             // msg 服务器端返回的text
             // xhr 是 xmlHttpRequest 对象，IE8、9中不支持
@@ -35,7 +65,7 @@
             var originalName = editor.uploadImgOriginalName || '';
 
             // 插入图片：
-            editor.command(null, 'insertHtml', '<img src="__SITE__' + res.src + '" alt="' + originalName + '" width="'+res.width+'" height="'+res.height+'" data-name="'+res.save_name+'" class="img-responsive"/>');
+            editor.command(null, 'insertHtml', '<img src="' + res.src + '" alt="' + originalName + '" width="'+res.width+'" height="'+res.height+'" data-name="'+res.save_name+'" class="img-responsive"/>');
         };
         editor.create();
     </script>

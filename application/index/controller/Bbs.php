@@ -28,12 +28,12 @@ $res=db('title')->select();
     }
     public function savePublish(Request $request){
         $post=$this->request->post();
-       // var_dump($post);exit;
-        $intro_img = json_decode($post['intro_img']);
-
+       /// var_dump($post);exit;
+        $intro_img= json_decode($post['intro_img']);
+        unset($post['intro_img']);
+        $post['create_time']=time();
         $user=session('user');
         $user_id=$user['user_id'];
-
         $post['user_id']=$user_id;
         $validate=validate('Publish');
 
@@ -42,9 +42,9 @@ $res=db('title')->select();
           $error=$validate->getError();
           return error($error);
       }
-        $post['create_time']=time();
-        $id=db('title ')->insertGetId($post);
-        if($id){
+
+        $res=db('title')->insert($post);
+        if($res){
             return success($post);
 
         }
