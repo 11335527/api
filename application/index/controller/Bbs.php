@@ -28,6 +28,9 @@ $res=db('title')->select();
     }
     public function savePublish(Request $request){
         $post=$this->request->post();
+       // var_dump($post);exit;
+        $intro_img = json_decode($post['intro_img']);
+
         $user=session('user');
         $user_id=$user['user_id'];
 
