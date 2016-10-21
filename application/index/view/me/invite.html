@@ -9,11 +9,11 @@
         </div>
 
         <div id="card-div">
-            <div class="api-user-card">
-                <img src="__S__images/paopao/1.jpg" class="img-circle"  alt="">
-                <h5>小明</h5>
-                <a href="javascript:void(0)" class="btn btn-success btn-xs" data-operate="invite">邀请</a>
-            </div>
+            <!--<div class="api-user-card">-->
+                <!--<img src="__S__images/paopao/1.jpg" class="img-circle"  alt="">-->
+                <!--<h5>小明</h5>-->
+                <!--<a href="javascript:void(0)" class="btn btn-success btn-xs" data-operate="invite">邀请</a>-->
+            <!--</div>-->
         </div>
 
     </div>
@@ -22,7 +22,8 @@
     //搜索用户
     $('#search-user').on('click',function(){
         var name=$('[name="username"]').val();
-        $.post('__INDEX__me/searchUser',{name:name},function(msg){
+        var project_id='{$Request.param.id}';
+        $.post('__INDEX__me/searchUser',{name:name,project_id:project_id},function(msg){
 
 
             if(msg.status==1){
@@ -40,6 +41,8 @@
 
                     card_div.append(card);
                 }
+            }else {
+                layer.msg(msg.content,{icon:2});
             }
         });
     });
@@ -50,8 +53,11 @@
         var invited_user_id=$(this).attr('data-id');
         var role=2;
         //TODO zk role 变活
-        $.post('__INDEX__me/addInvite',{project_id:project_id,invited_user_id:invited_user_id,role:role},function(){
+        $.post('__INDEX__me/addInvite',{project_id:project_id,invited_user_id:invited_user_id,role:role},function(msg){
 
+            if(msg.status==1){
+                layer.msg('邀请成功，已发送邮件通知该用户',{icon:1});
+            }
         });
     });
 </script>

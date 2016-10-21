@@ -50,6 +50,8 @@ class Me extends Controller {
         //TODO yali 编辑用户操作
         return $this->fetch('edit');
     }
+
+
     public function saveUser(){
         $post=$this->request->post();
         //var_dump($post);exit;
@@ -141,16 +143,26 @@ $res=$user->update($post);
         return $this->fetch();
     }
 
+    /**
+     *搜索用户
+     *add by zk 2016/10/21 17:26
+     */
     public function searchUser(){
         $post=$this->request->post();
 
 //        dump($post);exit;
-        $res=db('user')->where(['username'=>['like','%'.$post['name'].'%']])->select();
+        $u_ids=db('developer')->where(['project_id'=>$post['project_id']])->column('user_id');
+
+        $where['username']=['like','%'.$post['name'].'%'];
+        if($u_ids){
+            $where['user_id']=['not in',$u_ids];
+        }
+        $res=db('user')->where($where)->select();
 
         if($res){
             return success($res);
         }else{
-            return error();
+            return error('没有搜索到符合调件用户');
         }
     }
 

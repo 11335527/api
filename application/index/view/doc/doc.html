@@ -229,7 +229,7 @@
                 $('.api-left-nav>li').each(function () {
                     arr.push($(this).attr('data-id'));
                 });
-                $.post('__INDEX__index/updateDirOrder', {id: JSON.stringify(arr)}, function () {
+                $.post('__INDEX__doc/updateDirOrder', {id: JSON.stringify(arr)}, function () {
 
                 });
             }
@@ -248,7 +248,7 @@
         //更新状态
         $api_body.on('click', '.api-status', function () {
             var $this = $(this);
-            $.post('__INDEX__index/updateStatus', {id: $(this).attr('data-id')}, function (msg) {
+            $.post('__INDEX__doc/updateStatus', {id: $(this).attr('data-id')}, function (msg) {
 
                 if (msg.status == 1) {
                     switch (msg.content) {
@@ -291,7 +291,7 @@
         //提交添加site
         $('#add-api-site-submit').on('click', function () {
 
-            $.post('__INDEX__index/saveSite', {
+            $.post('__INDEX__doc/saveSite', {
                 site: $('#api-site-name').val(),
                 project: $('#api-site-project').val()
             }, function (msg) {
@@ -324,9 +324,10 @@
         //提交添加cate
         $('#add-api-cate-submit').on('click', function () {
 
-            $.post('__INDEX__index/addCate', {
+            $.post('__INDEX__doc/addCate', {
                 name: $('#api-cate-name').val(),
-                id: $('#api-cate-id').val()
+                id: $('#api-cate-id').val(),
+                project_id:'{$Request.param.id}'
             }, function (msg) {
                 if (msg.status == 1) {
 
@@ -369,7 +370,7 @@
             } else {
                 var data = {param: param, name: name, api: site, cate_id: cate}
             }
-            $.post('__INDEX__index/addApi', data, function (msg) {
+            $.post('__INDEX__doc/addApi', data, function (msg) {
                 if (msg.status == 1) {
 
                     if (api_id) {
@@ -415,9 +416,59 @@
         $footer.fadeIn("slow");
 
         //添加api按钮
-        var api_modal = $('#add-api-list');
+//        var api_modal = $('#add-api-list');
         $('#add-api').on('click', function () {
-            api_modal.modal();
+//            api_modal.modal();
+
+            var html = '<form class="form-horizontal" role="form">' +
+                    '<div class="form-group form-group-sm">' +
+                    '<label  class="col-sm-2 control-label">类别</label>' +
+                    '<div class="col-sm-10">' +
+                    '<select name="api_cate" id="api_cate"  class="form-control">{foreach $cate as $v}<option value="{$v.cate_id}">{$v.name}</option>{/foreach}</select>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="form-group form-group-sm">' +
+                    '<label  class="col-sm-2 control-label">api名称</label>' +
+                    '<div class="col-sm-10">' +
+                    '<input type="text" class="form-control" id="api-name" placeholder="请输入api名称">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="form-group form-group-sm">' +
+                    ' <label class="col-sm-2 control-label">api</label>' +
+                    '<div class="col-sm-10">' +
+                    '<input type="text" class="form-control" id="api-site" placeholder="请输入主接口后面的接口参数">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="form-group form-group-sm">' +
+                    '<label  class="col-sm-2 control-label">默认请求参数</label>' +
+                    '<div class="col-sm-10">' +
+                    '<table class="table table-condensed">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>参数名</th>' +
+                    '<th>参数值</th>' +
+                    '<th>参数说明</th>' +
+                    '<th> <a href="javascript:void (0);" id="add-param" class="btn btn-info btn-xs"><i class="fa fa-plus-square"></i>&nbsp;添加</a></th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody id="add-api-tbody">' +
+                    '</tbody>' +
+                    '</table>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<div class="col-sm-offset-2 col-sm-10">' +
+                    '<a href="javascript:void (0);" id="add-api-submit" class="btn btn-success btn-block">添加</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</form>';
+            //页面层
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['790px', '540px'], //宽高
+                content: html
+            });
 
         });
 
@@ -430,7 +481,7 @@
 
         $api_body.on('click', '.edit-api', function () {
             var id = $(this).attr('data-id');
-            $.post('__INDEX__index/getApi', {id: id}, function (msg) {
+            $.post('__INDEX__doc/getApi', {id: id}, function (msg) {
                 api_id = msg.id;
                 api_modal.find('.modal-title').html('编辑API');
                 api_modal.find('#add-api-submit').html('保存');
@@ -467,7 +518,7 @@
         $alert.on('click', '#delete-confirm', function () {
             var $this = $current_audit;
             var id = $this.attr('data-id');
-            $.post('__INDEX__index/deleteApi', {id: id}, function (msg) {
+            $.post('__INDEX__doc/deleteApi', {id: id}, function (msg) {
                 if (msg.status == 1) {
 
                     var alert = $('<div class="alert-div"><div class="alert alert-success">删除成功</div></div>');
@@ -514,7 +565,7 @@
 
             console.log($form);
             $.ajax({
-                url:'__INDEX__index/ajaxJson',
+                url:'__INDEX__doc/ajaxJson',
                 type:'post',
                 data:fd,
                 dataType:'json',
@@ -551,7 +602,7 @@
 //                        shadeClose: true,
 //                        shade: 0.8,
 ////                        area: ['380px', '90%'],
-//                        content: '__INDEX__index/getJsonHtml' //iframe的url
+//                        content: '__INDEX__doc/getJsonHtml' //iframe的url
 //                    });
 
 

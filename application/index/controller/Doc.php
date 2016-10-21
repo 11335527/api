@@ -190,7 +190,8 @@ class Doc extends Controller
 
     public function addCate(Request $request){
         $post=$request->post();
-        $post['project_id']=$GLOBALS['params']['project_id'];
+//        $post['project_id']=$GLOBALS['params']['project_id'];
+
 
         if($post['cate_id']){
 
