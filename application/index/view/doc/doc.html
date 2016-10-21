@@ -420,7 +420,7 @@
         $('#add-api').on('click', function () {
 //            api_modal.modal();
 
-            var html = '<form class="form-horizontal" role="form">' +
+            var html = '<div class="api-doc-add-api"><form class="form-horizontal" role="form">' +
                     '<div class="form-group form-group-sm">' +
                     '<label  class="col-sm-2 control-label">类别</label>' +
                     '<div class="col-sm-10">' +
@@ -461,12 +461,12 @@
                     '<a href="javascript:void (0);" id="add-api-submit" class="btn btn-success btn-block">添加</a>' +
                     '</div>' +
                     '</div>' +
-                    '</form>';
+                    '</form></div>';
             //页面层
             layer.open({
                 type: 1,
                 skin: 'layui-layer-rim', //加上边框
-                area: ['790px', '540px'], //宽高
+                area: ['850px', '540px'], //宽高
                 content: html
             });
 
