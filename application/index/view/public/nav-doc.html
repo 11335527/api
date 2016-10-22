@@ -9,7 +9,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="__SITE__">MaMa-API文档工具</a>
+                <a class="navbar-brand" href="__SITE__"><img src="__S__images/api-logo-gif.gif"
+                                                             style="margin-top: -20px" alt=""></a>
             </div>
             <div>
                 <div class="collapse navbar-collapse" id="example-navbar-collapse">
@@ -17,15 +18,18 @@
                         <li><a href="__SITE__me">
                             我的主页
                         </a></li>
+
+
                         <li><a href="__SITE__doc/{$Request.session.current_project}">
                            文档
                         </a></li>
+
 
                         <li><a href="__SITE__bbs">
                            社区
                         </a></li>
                         <li><a href="__SITE__devList">
-                            服务器端开发者信息
+                            接口地址
                         </a></li>
                         {eq name="Request.session.user.role" value="2"}
                         <li><a href="__SITE__cate" >

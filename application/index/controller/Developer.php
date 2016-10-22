@@ -11,16 +11,17 @@ class Developer extends Controller{
 
     public function devList(){
 
-        $project_id=session('user')['project_id'];
+        $project_id=session('current_project');
         $list=db('developer')->where(['project_id'=>$project_id])->order('sort')->select();
 
         $this->assign('list',$list);
+        $this->view->engine->layout('layout_doc');
         return $this->fetch();
     }
 
     //添加服务器端开发人员
     public function addDev(){
-
+        $this->view->engine->layout('layout_doc');
         return $this->fetch();
     }
 
@@ -29,6 +30,7 @@ class Developer extends Controller{
 
         $info=db('developer')->find($id);
 $this->assign('info',$info);
+        $this->view->engine->layout('layout_doc');
         return $this->fetch();
     }
 
@@ -43,7 +45,7 @@ $this->assign('info',$info);
         if (true !== $result) {
             return error($result);
         }
-        $post['project_id']=session('user')['project_id'];
+        $post['project_id']=session('current_project');
 
         if(isset($post['id'])){
             if(db('developer')->update($post)){

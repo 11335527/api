@@ -63,4 +63,8 @@ var_dump($res);exit;*/
         $this->assign('info',$res);
         return $this->fetch();
     }
+    public function bb(){
+//        return json(success());
+        return success();
+    }
 }

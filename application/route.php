@@ -28,6 +28,6 @@ return [
     'addDev'=>'index/developer/addDev',
     'editDev/:id'=>['index/developer/editDev', ['method' => 'get'], ['id' => '\d+']],
     'devList'=>'index/developer/devList',
-    'cate'=>'index/index/cate',
-    'editCate/:id'=>['index/index/editCate', ['method' => 'get'], ['id' => '\d+']],
+    'cate'=>'index/doc/cate',
+    'editCate/:id'=>['index/doc/editCate', ['method' => 'get'], ['id' => '\d+']],
 ];

@@ -595,7 +595,8 @@
                 var type = $this.attr('data-type');
                 var api = $this.attr('data-api');
                 var fd = new FormData($form[0]);
-                fd.append('site', 'www.topp123.com/techan/public/index.php');
+
+                fd.append('site', $('#site').val());
 
                 fd.append('type', type);
                 fd.append('api', api);
@@ -607,86 +608,39 @@
                     data: fd,
                     dataType: 'json',
                     success: function (msg) {
+                        console.log(typeof(msg));
 
-                        $('.json>textarea').empty().append(msg);
-                        var options = {
-                            dom: '.json' //对应容器的css选择器
-                        };
-                        var jf = new JsonFormater(options); //创建对象
-                        jf.doFormat(msg); //格式化json
-                        $('#myModal').modal();
-
-//                    var $json=' <div class="json" style="background-color: black">'+
-//                            '<textarea class="form-control" id="" cols="30" rows="10" style="background-color: black">'+msg+'</textarea>'+
-//                            '</div>';
-//                    layer.open({
-//                        type: 1,
-//                        skin: 'layui-layer-rim', //加上边框
-//                        area: ['420px', '240px'], //宽高
-//                        content: $json
-//                    });
-//
-//                    var options = {
-//                        dom: '.json' //对应容器的css选择器
-//                    };
-//                    var jf = new JsonFormater(options); //创建对象
-//                    jf.doFormat(msg); //格式化json
-//iframe层
-//                    layer.open({
-//                        type: 2,
-////                        title: 'json数据',
-//                        shadeClose: true,
-//                        shade: 0.8,
-////                        area: ['380px', '90%'],
-//                        content: '__INDEX__doc/getJsonHtml' //iframe的url
-//                    });
+                        try {
+                            //在此运行代码
+                            if (typeof(JSON.parse(msg)) == 'object') {
+                                $('.json>textarea').empty().append(msg);
+                                var options = {
+                                    dom: '.json' //对应容器的css选择器
+                                };
+                                var jf = new JsonFormater(options); //创建对象
+                                jf.doFormat(msg); //格式化json
+                                $('#myModal').modal();
+                            }
+                        }
+                        catch (err) {
+                            //在此处理错误
+                            layer.open({
+                                type: 2,
+                                title: '错误信息',
+                                shadeClose: true,
+                                shade: 0.5,
+                                area: ['80%', '90%'],
+                                content: '__INDEX__doc/bug' //iframe的url
+                            });
+                        }
 
                     },
+
                     processData: false,
                     contentType: false
                 });
 
-//            var param = input.val();
-//
-//            if (!param) {
-//                param = input.attr('placeholder');
-//            }
-//            var param_arr = param.split("&"); //字符分割
-//            var arr_post = {};
-//            for (var key in param_arr) {
-//                var pp = param_arr[key].split('=');
-//
-//                arr_post[pp[0]] = pp[1];
-//
-//            }
-//            var site = $('#site').val();
-//            var api = $this.attr('data-api');
-//            var url = 'http://' + site + '/' + api;
-//            $.ajax({
-//
-//                type: 'post',
-//                url: url,
-//                data: arr_post,
-//                dataType: 'json',
-//                success: function (msg) {
-//
-//                    $('.json>textarea').empty().append(msg);
-//                    var options = {
-//                        dom: '.json' //对应容器的css选择器
-//                    };
-//                    var jf = new JsonFormater(options); //创建对象
-//                    jf.doFormat(msg); //格式化json
-//                    $('#myModal').modal();
-//                },
-//                error: function (msg) {
-//
-//                    var error = $('#error-modal');
-//                    error.find('.modal-content').html(msg.responseText);
-//                    error.modal();
-//                    console.log(msg);
-//                }
-//
-//            });
+
 
             });
 
