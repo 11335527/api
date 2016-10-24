@@ -51,24 +51,24 @@ background-repeat: repeat;">
 <script>
     $(function () {
         $('nav').animate({opacity: 0.7}, 'fast');
-        setInterval(shine_x, 5000);
-        setInterval(shine_y, 12000);
+        setInterval(shine_x, 3800);
+        setInterval(shine_y, 3800);
 
         function shine_x() {
             $('.api-x-shine').animate({left: 1920, width: 0}, 2200);
 
             setTimeout(function () {
-                $('.api-x-shine').animate({left: -220, width: 150}, 2200);
+                $('.api-x-shine').animate({left: -220, width: 150}, 0);
 
-            }, 3000);
+            }, 1600);
         }
 
         function shine_y() {
             $('.api-y-shine').animate({top: 632, height: 0}, 1900);
             setTimeout(function () {
-                $('.api-y-shine').animate({top: -150, height: 50}, 1900);
+                $('.api-y-shine').animate({top: -150, height: 50}, 1);
 
-            }, 2000);
+            }, 3800);
 
         }
 
