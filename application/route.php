@@ -30,4 +30,5 @@ return [
     'devList'=>'index/developer/devList',
     'cate'=>'index/doc/cate',
     'editCate/:id'=>['index/doc/editCate', ['method' => 'get'], ['id' => '\d+']],
+    'debug'=>'index/debug/debug',
 ];
