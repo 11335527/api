@@ -10,13 +10,9 @@ class Doc extends Controller {
 
     public function __construct(Request $request) {
         parent::__construct($request);
-
-        if(($GLOBALS['params']===0)){
+        if (($GLOBALS['params'] === 0)) {
             $this->redirect(url('index/login/login'));
         }
-
-
-
     }
     public function doc($id) {
 //        $project_id=$GLOBALS['params']['project_id'];

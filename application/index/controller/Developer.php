@@ -7,8 +7,14 @@
  */
 namespace app\index\controller;
 use think\Controller;
+use think\Request;
 class Developer extends Controller{
-
+    public function __construct(Request $request) {
+        parent::__construct($request);
+        if (($GLOBALS['params'] === 0)) {
+            $this->redirect(url('index/login/login'));
+        }
+    }
     public function devList(){
 
         $project_id=session('current_project');
