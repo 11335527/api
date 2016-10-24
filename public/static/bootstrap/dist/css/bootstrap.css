@@ -5899,8 +5899,8 @@ button.close {
   filter: alpha(opacity=0);
 }
 .modal-backdrop.in {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+  opacity: 0.2;
+  filter: alpha(opacity=20);
 }
 .modal-header {
   padding: 15px;
@@ -6782,7 +6782,7 @@ button.close {
   margin-right: 10px;
 }
 .api-doc-list .api-list-title .doc-list-cate {
-  background-color: #5fb878;
+  background-color: #393d49;
   text-align: center;
   height: 37px;
   padding: 0 10px;
