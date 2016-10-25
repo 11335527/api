@@ -14,6 +14,7 @@ return [
         'layout_on' => true,
         'layout_name' => 'layout',
     ],
+//    'default_return_type'    => 'json',
     // 开启应用Trace调试
 //    'app_trace' => true,
 //    // 设置Trace显示方式
