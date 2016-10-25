@@ -1,158 +1,26 @@
+
 <body>
 <ul class="api-bbs-list">
-    {foreach $res as $v}
-    <li>
-        <div class="list-img">
+{foreach $info as $v}
+<li>
+    <div class="list-img">
 
-            <img src="__S__images/paopao/{$v.head_img}" class="img-circle" alt="">
-        </div>
-        <div class="list-content">
-            <h4 id="wang" data-id="{$v.id}">{$v.content}{if condition="$v.status eq 1"}<span class="label label-success">热门</span>
-                {else /}<span class="label label-danger">精华</span>
-                {/if}</h4>
-            <p>
-                <small><span>创建时间:{$v.create_time|date="Y-m-d H:i:s",###}</span><span>
+        <img src="__S__images/paopao/{$v.head_img}" class="img-circle" alt="">
+    </div>
+    <div class="list-content">
+        <h4>{$v.content}</a>{if condition="$v.status eq 1"}<span class="label label-success">热门</span>
+            {else /}<span class="label label-danger">精华</span>
+            {/if}</h4>
+        <p>
+            <small><span>创建时间:{$v.create_time|date="Y-m-d H:i:s",###}</span><span>
                     发布者:{$v.username}
                 </span>
-                </small>
+            </small>
 
-            </p>
-        </div>
-    </li>
-    {/foreach}
-
+        </p>
+    </div>
+</li>
+{/foreach}
 </ul>
-
-
-
-<div class="col-md-3">
-    <div>
-
-
-        <textarea name="text" class="form-control" id="content" style=" resize: none;margin-bottom: 10px" cols="30" rows="3"></textarea>
-        <div class=" text-right" >
-
-            <a href="javascript:void (0);" id="submit"  class="btn btn-success btn-sm hvr-round-corners">评论</a>
-        </div>
-
-    </div>
-    <div class="list-group" id="digest-list">
-
-        {foreach $info as $vo}
-        <div  class="list-group-item">
-            <div class="list-img">
-                <img src="__S__images/paopao/{$v.head_img}" width="30px" height="30px" class="img-circle" alt=""><span>{$vo.username}</span>
-            </div>
-
-            <p class="list-group-item-text">{$vo.content}</p>
-            <p style="margin-bottom: 0"><small class="text-primary"><span >{$vo.create_time|date="Y-m-d H:i:s",###}</span>&nbsp;&nbsp;</small></p></div>
-
-        {/foreach}
-    </div>
-</div>
-
-
-
-
-    <script type="text/javascript">
-    $(function(){
-        $('#submit').on('click',function(){
-
-            var title_id=$('#wang').attr('data-id');
-var content=$("[name='text']").val();
-
-var $content=$('#content');
-            $.ajax({
-                type: 'post',
-                url: '__INDEX__Bbs/saveDiscuss',
-                data:{title_id:title_id,content:content} ,
-                dataType: 'json',
-                success: function (msg) {
-
-                    console.log(msg);
-
-                    if (msg.status == 1) {
-                        var a=$(' <a href="#" class="list-group-item">'+
-                                '<p class="list-group-item-text">'+content+'</p>'+
-                                '<p style="margin-bottom: 0"><small class="text-primary"><span >'+msg.content.create_time+'</span></small></p></a>');
-                        var success=$('<div class="alert alert-warning" style="display: none;margin-bottom: 5px"><strong>评论成功！</strong></div>');
-                        $('#digest-list').prepend(a); $content.val('');
-                        $content.before(success);
-                        success.slideDown('fast');
-                        setTimeout(function(){
-                            success.slideUp('fast');
-                            success.remove();
-                        },1000);
-
-                    } else {
-                        var alert=$('<div class="alert alert-warning" style="display: none;margin-bottom: 5px"><strong>警告！</strong>'+msg.content+'</div>');
-                        $content.before(alert);
-                        alert.slideDown('fast');
-                        setTimeout(function(){
-                            alert.slideUp('fast');
-                            alert.remove();
-                        },1000);
-
-                    }
-
-                }
-
-            });
-        })
-
-    })
-
-
-
-
-
-
-
-    $('#digest-confirm').on('click', function () {
-
-        var content= $('#digest').val(),
-                aid="<?php echo $_GET['id'];?>";
-        $.post('__INDEX__note/addDigest', {
-            content:content,
-            aid: aid
-        }, function (msg) {
-
-            var $digest=$('#digest');
-
-            switch(msg.status){
-                case 1:
-                    var a=$(' <a href="#" class="list-group-item">'+
-                            '<p class="list-group-item-text">'+content+'</p>'+
-                            '<p style="margin-bottom: 0"><small class="text-primary"><span >'+msg.content.create_time+'</span></small></p></a>');
-                    $('#digest-list').prepend(a);
-                    $digest.val('');
-//                        var alert=$('<div class="alert alert-success" style="display: none;margin-bottom: 5px"><strong>成功</strong>添加成功</div>');
-//                        $digest.before(alert);
-//                        alert.slideDown('fast');
-//                        setTimeout(function(){
-//                            alert.slideUp('fast');
-//                            alert.remove();
-//                        },1000);
-
-                    break;
-                case 0:
-                    var alert=$('<div class="alert alert-warning" style="display: none;margin-bottom: 5px"><strong>警告！</strong>'+msg.content+'</div>');
-                    $digest.before(alert);
-                    alert.slideDown('fast');
-                    setTimeout(function(){
-                        alert.slideUp('fast');
-                        alert.remove();
-                    },1000);
-                    break;
-                case 3:
-                    $('#alert-modal').modal();
-                    break;
-            }
-
-
-
-        });
-    });
-
-
-    </script>
+</body>
+</html>

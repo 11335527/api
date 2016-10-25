@@ -8,8 +8,6 @@
 namespace app\index\model;
 use think\Model;
 class User extends Model{
-    public function Title(){
-        return $this->hasOne('Title','user_id','user_id');
-    }
+
 
 }

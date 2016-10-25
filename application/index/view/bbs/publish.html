@@ -96,7 +96,12 @@
                data: fd,
                dataType: 'json',
                success: function (msg) {
-
+                 /*  $.ajax({
+               type:'post',
+               data:{content:content},
+               dataType:'json',
+               url:'__INDEX__Bbs/savePublish',
+               success:function(msg) {*/
                    console.log(msg);
                    if (msg.status == 0) {
                        layer.msg(msg.content, {icon: 2});

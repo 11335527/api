@@ -9,6 +9,9 @@ namespace app\index\model;
 use think\Model;
 class Title extends Model {
 
-
+   /*
+    public function user(){
+        return $this->hasOne('username','id','user_id');
+    }*/
 
 }
