@@ -92,8 +92,7 @@
 
 
     //消息中心操作
-    $('html').on('click','[data-operate="invite"]',function(){
-        console.log(3);
+    $('body').on('click','[data-operate="invite"]',function(){
        var type=$(this).attr('data-type');
        var id=$(this).attr('data-id');
         switch (type){

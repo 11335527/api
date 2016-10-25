@@ -8,12 +8,14 @@ use app\index\model\Api;
 class Doc extends Controller {
 
 
-    public function __construct(Request $request) {
-        parent::__construct($request);
-        if (($GLOBALS['params'] === 0)) {
-            $this->redirect(url('index/login/login'));
-        }
-    }
+//    public function __construct(Request $request) {
+//        parent::__construct($request);
+//
+//        if(($GLOBALS['params']===0)){
+//            $this->redirect(url('index/login/login'));
+//        }
+//
+//    }
     public function doc($id) {
 //        $project_id=$GLOBALS['params']['project_id'];
         $project_id = $id;
@@ -39,29 +41,15 @@ class Doc extends Controller {
     public function ajaxJson() {
         $post = $this->request->post();
         $param = array_combine($post['param_key'], $post['param_value']);
-
-
-            switch ($post['type']) {
-                case 'post':
-                    $res = $this->requestCurlPost($post['site'], $post['api'], $param);
-                    break;
-                case 'get':
-                    $res = $this->requestCurlGet($post['site'], $post['api'], $param);
-                    break;
-            }
-
-        session('bug',$res);
-
-
+        switch ($post['type']) {
+            case 'post':
+                $res = $this->requestCurlPost($post['site'], $post['api'], $param);
+                break;
+            case 'get':
+                $res = $this->requestCurlGet($post['site'], $post['api'], $param);
+                break;
+        }
         return $res;
-    }
-
-    public function bug(){
-
-        $bug=session('bug');
-        session('bug',null);
-        $this->assign('bug',$bug);
-        return $this->fetch();
     }
 
     function requestCurlPost($site, $api, $post_data = '') {
@@ -117,17 +105,15 @@ class Doc extends Controller {
     }
 
     public function cate() {
-        $project_id = session('current_project');
+        $project_id = $GLOBALS['params']['project_id'];
         $list = db('cate')->where(['project_id' => $project_id])->order('sort')->select();
         $this->assign('list', $list);
-        $this->view->engine->layout('layout_doc');
         return $this->fetch();
     }
 
     public function editCate($id) {
         $info = db('cate')->find($id);
         $this->assign('info', $info);
-        $this->view->engine->layout('layout_doc');
         return $this->fetch();
     }
 
