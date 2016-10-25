@@ -76,6 +76,32 @@ class Image extends Controller
             return '上传失败';
         }
     }
+    public function discussImg(){
+        $h5=$this->request->file('wangEditorH5File');
+        $paste=$this->request->file('wangEditorPasteFile');
+        if($h5){
+            $file=$h5;
+        }
+        if($paste){
+            $file=$paste;
+        }
+        $image = Img::open($file);
+        $image->thumb(200,200);
+        $save_name=md5(microtime(true)).'.'.$image->type();
+        $path='./static/upload/discuss/'.$save_name;
+
+        if($image->save($path)){
+            $arr=[
+                'save_name'=>$save_name,
+                'width'=> $image->width(),
+                'height'=>$image->height(),
+                'src'=>'/static/upload/discuss/'.$save_name
+            ];
+            return json($arr);
+        }else{
+            return '上传失败';
+        }
+    }
 
     public function areaBgImg(){
 
