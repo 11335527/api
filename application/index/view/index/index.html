@@ -1,8 +1,6 @@
-
 <!DOCTYPE html>
 {__NOLAYOUT__}
 {include file="public/header"/}
-
 
 
 <!--内容区顶部导航-->
@@ -10,7 +8,7 @@
 {include file="public/left-nav"/}
 <style>
     .login-zk {
-        border: 1px solid #555;
+        border: 1px solid #fff;
         padding: 10px 50px;
         border-radius: 0;
         color: white;
@@ -26,22 +24,56 @@
     }
 </style>
 
+<div style="overflow: hidden">
 
-<div class="site-banner" style="background-image: url('__S__images/xingkong.jpg');height: 634px;padding-top: 200px ;background-position: center;
-background-repeat: no-repeat;">
 
-    <div style="color: white;text-align: center">
+    <div class="site-banner" style="background-image: url('__S__images/xingkong.jpg');height: 634px;padding-top: 200px ;background-position: center;
+background-repeat: repeat;">
 
-        <p style="font-size: 50px;">团队协作API助手</p>
-        <p style="margin-bottom: 50px">减少不必要的沟通，最大化开发效率</p>
+        <div class="api-x-shine"></div>
+        <div class="api-y-shine"></div>
+        <div style="color: white;text-align: center">
 
-        <a href="__SITE__me" class="login-zk">登录</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="__SITE__register" class="login-zk">注册</a>
+            <p style="font-size: 50px;">团队协作API文档工具</p>
+            <p style="margin-bottom: 50px">减少不必要的沟通，最大化开发效率</p>
+
+            <a href="__SITE__login" class="login-zk">登录</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="__SITE__register"
+                                                                                      class="login-zk">注册</a>
+        </div>
+
+
     </div>
-
-
 </div>
+<div class="api-footer">
+    <p>2016 © maapi.cn MAMA-API</p>
+    <p><span>Mama</span></p>
+</div>
+<script>
+    $(function () {
+        $('nav').animate({opacity: 0.7}, 'fast');
+        setInterval(shine_x, 3800);
+        setInterval(shine_y, 3800);
 
+        function shine_x() {
+            $('.api-x-shine').animate({left: 1920, width: 0}, 2200);
 
+            setTimeout(function () {
+                $('.api-x-shine').animate({left: -220, width: 150}, 0);
+
+            }, 1600);
+        }
+
+        function shine_y() {
+            $('.api-y-shine').animate({top: 632, height: 0}, 1900);
+            setTimeout(function () {
+                $('.api-y-shine').animate({top: -150, height: 50}, 1);
+
+            }, 3800);
+
+        }
+
+    });
+</script>
 <!--内容区底部-->
 {include file="public/modal"/}
 

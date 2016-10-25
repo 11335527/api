@@ -5899,8 +5899,8 @@ button.close {
   filter: alpha(opacity=0);
 }
 .modal-backdrop.in {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+  opacity: 0.2;
+  filter: alpha(opacity=20);
 }
 .modal-header {
   padding: 15px;
@@ -6782,7 +6782,7 @@ button.close {
   margin-right: 10px;
 }
 .api-doc-list .api-list-title .doc-list-cate {
-  background-color: #5fb878;
+  background-color: #393d49;
   text-align: center;
   height: 37px;
   padding: 0 10px;
@@ -6832,4 +6832,27 @@ button.close {
   padding: 20px;
   width: 800px;
   height: auto;
+}
+.api-footer {
+  margin-top: 30px;
+  text-align: center;
+}
+.api-x-shine {
+  position: absolute;
+  top: 430px;
+  left: -200px;
+  height: 1px;
+  width: 80px;
+  border: solid 1px #5FB878;
+  box-shadow: 0 0 15px #5FB878;
+}
+.api-y-shine {
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  height: 150px;
+  width: 1px;
+  margin-left: -279px;
+  border: solid 1px #5FB878;
+  box-shadow: 0 0 3px #5FB878;
 }
