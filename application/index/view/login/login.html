@@ -2,7 +2,7 @@
 
 
 <style>
-    body{
+    body {
         background-color: #ffffff;
     }
 </style>
@@ -15,42 +15,50 @@
             <div class="login-div">
 
 
-            <form class="form-horizontal" role="form">
-                <div class="form-group">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
 
 
+                        <h3>账号登陆</h3>
 
-                    <h3>账号登陆</h3>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 100px">用户名</span>
-                        <input type="text" class="form-control" required="" id="username" name="username" >
                     </div>
 
 
+                    <div class="form-group">
 
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 100px">密码</span>
-                        <input type="text" class="form-control" required="" id="password" name="password">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="width: 100px">用户名</span>
+                            <input type="text" class="form-control" required="" id="username" name="username">
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="width: 100px">密码</span>
+                            <input type="text" class="form-control" required="" id="password" name="password">
+                        </div>
+
+
                     </div>
 
-
-                </div>
-
-                <div class="form-group">
+                    <div class="form-group">
 
                         <a href="javascript:void (0);" class="btn btn-success btn-block" id="submit">登录</a>
 
-                </div>
+                    </div>
+                    <div class="form-group">
 
-            </form>
+                        <span class="pull-left" style="line-height: 30px">其他方式登录：</span>
+                        <div class="login-logo">
+                            <!--<img src="__S__images/bt_white_76X24.png" alt="">-->
+                            <span class="fa fa-qq"></span>
+                        </div>
+
+
+
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -58,7 +66,7 @@
 </div>
 
 <script>
-    $(function(){
+    $(function () {
 
         $('body').on('keydown', function (event) {
 
@@ -68,35 +76,38 @@
             }
         });
 
-       $('#submit').on('click',function(){
-           var $alert=$(this).parent().parent();
+        $('#submit').on('click', function () {
+            var $alert = $(this).parent().parent();
 
-           $.post('__INDEX__login/check',{username:$('#username').val(),password: $('#password').val()},function(msg){
+            $.post('__INDEX__login/check', {
+                username: $('#username').val(),
+                password: $('#password').val()
+            }, function (msg) {
 
-               switch (msg.status){
-                   case 0:
-                       var alert = $('<div class="alert-div"><div class="alert alert-warning">警告！' + msg.content + '</div></div>');
-                       $alert.before(alert);
-                       alert.fadeIn("slow");
-                       setTimeout(function () {
-                                   alert.fadeOut("slow");
-                                   setTimeout(function () {
-                                               alert.remove();
-                                           },
-                                           2000);
-                               },
-                               2000);
-                       break;
-                   case 1:
-                   window.location.href='__SITE__me';
-                   break;
-                   case 2:
+                switch (msg.status) {
+                    case 0:
+                        var alert = $('<div class="alert-div"><div class="alert alert-warning">警告！' + msg.content + '</div></div>');
+                        $alert.before(alert);
+                        alert.fadeIn("slow");
+                        setTimeout(function () {
+                                    alert.fadeOut("slow");
+                                    setTimeout(function () {
+                                                alert.remove();
+                                            },
+                                            2000);
+                                },
+                                2000);
+                        break;
+                    case 1:
+                        window.location.href = '__SITE__me';
+                        break;
+                    case 2:
 //                       window.location.href='__SITE__';
-                       break;
-               }
+                        break;
+                }
 
-           })
-       }) ;
+            })
+        });
     });
 </script>
 

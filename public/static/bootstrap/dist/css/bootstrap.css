@@ -6856,3 +6856,20 @@ button.close {
   border: solid 1px #5FB878;
   box-shadow: 0 0 3px #5FB878;
 }
+.login-logo {
+  float: left;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background-color: #4ea6e5;
+  border-radius: 15px;
+  text-align: center;
+}
+.login-logo:hover {
+  background-color: #438dc3;
+}
+.login-logo span {
+  font-size: 20px;
+  color: white;
+  line-height: 30px;
+}
