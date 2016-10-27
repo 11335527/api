@@ -24,7 +24,7 @@
     }
 </style>
 
-<div style="overflow: hidden">
+<div style="position: relative; overflow: hidden">
 
 
     <div class="site-banner" style="background-image: url('__S__images/xingkong.jpg');height: 573px;padding-top: 210px ;background-position: center;
@@ -46,29 +46,29 @@ background-repeat: repeat;">
 </div>
 <div class="api-footer">
     <p>Copyright (c) 2016 maapi.cn All rights reserved.</p>
-    <p><span>Mama</span></p>
+    <p><span><a href="http://www.topp123.com">Mama</a> | <a href="http://www.miitbeian.gov.cn/">鲁ICP备15034061号-2</a></span></p>
 </div>
 <script>
     $(function () {
         $('nav').animate({opacity: 0.7}, 'fast');
-        setInterval(shine_x, 3800);
-        setInterval(shine_y, 3800);
+        setInterval(shine_x, 8800);
+        setInterval(shine_y, 13000);
 
         function shine_x() {
-            $('.api-x-shine').animate({left: 1920, width: 0}, 2200);
+            $('.api-x-shine').animate({left: '100%', width: 110}, 2200);
 
             setTimeout(function () {
-                $('.api-x-shine').animate({left: -220, width: 150}, 0);
+                $('.api-x-shine').animate({left: -220, width: 150}, 1550);
 
-            }, 1600);
+            }, 5600);
         }
 
         function shine_y() {
-            $('.api-y-shine').animate({top: 632, height: 0}, 1900);
+            $('.api-y-shine').animate({top: 632, height: 80}, 1900);
             setTimeout(function () {
-                $('.api-y-shine').animate({top: -150, height: 50}, 1);
+                $('.api-y-shine').animate({top: -150, height: 110}, 1743);
 
-            }, 3800);
+            }, 9800);
 
         }
 
