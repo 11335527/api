@@ -18,7 +18,7 @@ class Bbs extends Controller {
     public function bbs() {
         $list=Title::order(['top'=>'desc','essence'=>'desc','hot'=>'desc'])->paginate(15);
         $this->assign('list', $list);
-        return $this->fetch('fly/index');
+        return $this->fetch();
     }
 
     public function publish() {
@@ -28,7 +28,7 @@ class Bbs extends Controller {
     public function title($id){
         $info=Title::get($id);
         $this->assign('info',$info);
-        return $this->fetch('fly/title');
+        return $this->fetch();
     }
 
     public function savePublish(Request $request) {

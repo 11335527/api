@@ -1,29 +1,50 @@
 <!DOCTYPE html>
-<div class="bbs-operate" >
+<div class="bbs-operate">
 
     <a href="__INDEX__bbs/publish" class="btn btn-info">发布问题</a>
 </div>
 <hr>
 <ul class="api-bbs-list">
-{foreach $info as $v}
+    {foreach $list as $v}
+
     <li>
         <div class="list-img">
 
-            <img src="__S__images/paopao/{$v.head_img}" class="img-circle" alt="">
+            <img src="__S__images/paopao/{$v.user.head_img}" class="img-circle" alt="">
         </div>
         <div class="list-content">
-            <h4><a href="__INDEX__bbs/discuss/id/{$v.id}">{$v.content}</a>{if condition="$v.status eq 1"}<span class="label label-success">热门</span>
-                {else /}<span class="label label-danger">精华</span>
-                {/if}</h4>
+            <h4><a href="__INDEX__bbs/discuss/id/{$v.id}">{$v.title}</a>
+
+
+                {eq name="v.top" value="1"}
+                <span class="label label-success">置顶</span>
+                {/eq}
+                {eq name="v.hot" value="1"}
+                <span class="label label-warning">热门</span>
+                {/eq}
+                {eq name="v.essence" value="1"}
+                <span class="label label-danger">精帖</span>
+                {/eq}
+
+
+            </h4>
             <p>
                 <small><span>创建时间:{$v.create_time|date="Y-m-d H:i:s",###}</span><span>
-                    发布者:{$v.username}
+                    发布者:{$v.user.username}
                 </span>
+                    <span><a href="user/home.html">xiaoming</a></span>
+                    <span>刚刚</span>
+                    <span>layui框架综合</span>
+            <span class="fly-list-hint">
+              <i class="iconfont" title="回答">&#xe60c;</i> {$v.comment_count}
+              <i class="iconfont" title="人气">&#xe60b;</i> {$v.visit_count}
+            </span>
                 </small>
 
             </p>
         </div>
     </li>
-{/foreach}
+    {/foreach}
 
 </ul>
+{$list->render()}
