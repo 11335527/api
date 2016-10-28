@@ -266,5 +266,18 @@ class Doc extends Controller {
         }
     }
 
+    /**
+    *编辑响应json
+    *add by zk 2016/10/28 17:29
+    */
+    public function editJson(){
+        $post=$this->request->post();
+       $info= db('list')->where(['id'=>$post['id']])->value('success');
+
+        return $info;
+    }
+
+
+
 
 }

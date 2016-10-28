@@ -152,6 +152,7 @@
                             <div class="row">
                                 <div class="col-md-12">
 
+                                    <a class="btn btn-default " data-operate="edit-json" data-id="{$v.id}">编辑json</a>
                                     <ul id="myTab{$v.id}" class="nav nav-pills">
                                         <li class="active">
                                             <a href="#success{$v.id}" data-toggle="pill">
@@ -280,17 +281,19 @@
     <script type="text/javascript">
         $(function () {
 
+            var $body = $('body');
 
+
+            //同步返回json数据到库
             var save_json,save_id;
-            $('body').on('click','.save-response-param',function(){
+            $body.on('click','.save-response-param',function(){
 
                 var type=$(this).attr('data-type');
                 console.log(type);
                 console.log(save_id);
                 console.log(save_json);
                 $.post('__INDEX__doc/saveResponseJson',{list_id:save_id,type:type,json:save_json},function(msg){
-                    console.log(11111111111111111111111111);
-                    console.log(msg);
+
                     switch (msg.status){
                         case 1:
                             $('#myModal').modal('hide');
@@ -300,6 +303,27 @@
 
                     }
                 });
+            });
+
+
+            //编辑响应参数json
+            $body.on('click','[data-operate="edit-json"]',function(){
+
+
+                var id=$(this).attr('data-id');
+                $.post('__INDEX__doc/editJson',{id:id},function(msg){
+
+                    var html=JSON.stringify(JSON.parse(msg), null, 8); // 缩进一个tab
+//                    alert(html);
+                    //页面层
+                    layer.open({
+                        type: 1,
+                        skin: 'layui-layer-rim', //加上边框
+                        area: ['80%', '60%'], //宽高
+                        content: '<html><textarea rows="20" class="form-control">'+html+'</textarea></html>'
+                    });
+                });
+
             });
 
 
@@ -321,7 +345,7 @@
 
 
 
-            var $body = $('body');
+
 
             //美化导航条
             $(".api-left-nav").niceScroll({
