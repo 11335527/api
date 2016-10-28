@@ -16,4 +16,10 @@ class Api extends Model{
     public function param(){
         return $this->hasMany('Request','list_id','id');
     }
+
+    public function response(){
+        return $this->hasMany('Response','list_id','id');
+    }
+
+
 }

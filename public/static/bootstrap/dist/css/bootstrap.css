@@ -1466,8 +1466,9 @@ abbr[data-original-title] {
 blockquote {
   padding: 10px 20px;
   margin: 0 0 20px;
-  font-size: 17.5px;
+  font-size: 14px;
   border-left: 5px solid #eeeeee;
+  background-color: #f8f8f8;
 }
 blockquote p:last-child,
 blockquote ul:last-child,
@@ -6872,4 +6873,60 @@ button.close {
   font-size: 20px;
   color: white;
   line-height: 30px;
+}
+.api-user-card2 {
+  position: relative;
+  background-color: #eeeeee;
+  border-radius: 10px;
+  height: 50px;
+  width: 150px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  float: left;
+}
+.api-user-card2 .card2-img {
+  padding: 5px ;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-right: dashed 1px white;
+}
+.api-user-card2 .card2-img img {
+  width: 40px;
+}
+.api-user-card2 .card2-name {
+  padding: 5px;
+  position: absolute;
+  left: 55px;
+}
+.api-user-card2 .card2-name p {
+  margin: 0;
+}
+.api-response-param {
+  height: 500px;
+  width: 10%;
+  border: solid 1px #eeeeee;
+}
+.api-go {
+  float: right;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border: solid 1px #eeeeee;
+  background-color: white;
+  border-radius: 25px;
+  text-align: center;
+  transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+}
+.api-go p,
+.api-go h2,
+.api-go h3,
+.api-go h4 {
+  line-height: 50px;
+}
+.api-go:hover {
+  background-color: #5fb878;
+  color: white;
+  box-shadow: 0 0 10px #5fb878;
+  border: solid 2px white;
 }

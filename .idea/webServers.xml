@@ -2,13 +2,6 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="26e52883-3bdb-4da1-8059-6f4821a8f225" name="ali" url="http://qxu1152030100.my3w.com">
-        <fileTransfer host="qxu1152030100.my3w.com" port="21" rootFolder="/htdocs/api" password="dfdbdfdbdf99df9cdf93df9cdf93df93" username="qxu1152030100">
-          <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" />
-          </advancedOptions>
-        </fileTransfer>
-      </webServer>
       <webServer id="e0a50c3e-d9dd-4d14-bc01-1083062b5a42" name="阿里服务器" url="http://112.126.84.18">
         <fileTransfer host="112.126.84.18" port="22" rootFolder="/home/api" accessType="SFTP" password="dfdbdfdbdf99df9cdf93df9cdf93df93" username="api">
           <advancedOptions>

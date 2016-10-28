@@ -51,8 +51,6 @@ class Doc extends Controller {
             }
 
         session('bug',$res);
-
-
         return $res;
     }
 
@@ -239,6 +237,10 @@ class Doc extends Controller {
         return success();
     }
 
+    /**
+    *更改左侧目录顺序
+    *add by zk 2016/10/28 16:32
+    */
     public function updateDirOrder() {
         $ids = $this->request->post('id');
         $ids = json_decode($ids);
@@ -247,4 +249,22 @@ class Doc extends Controller {
         }
         return $ids;
     }
+
+    /**
+    *添加响应数据到库
+    *add by zk 2016/10/28 16:32
+    */
+    public function saveResponseJson(){
+        $post=$this->request->post();
+        $data[$post['type']]=json_encode($post['json']);
+        $data['id']=$post['list_id'];
+        $res=db('list')->update($data);
+        if($res){
+            return success('同步成功');
+        }else{
+            return success('与库中数据相同，未修改');
+        }
+    }
+
+
 }

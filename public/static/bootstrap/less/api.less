@@ -177,3 +177,63 @@ span{
   line-height: 30px;
 }
 }
+.api-user-card2{
+
+  position: relative;
+  background-color: @gray-lighter;
+  border-radius: 10px;
+
+  height: 50px;
+  width: 150px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  //color: white;
+  float: left;
+  .card2-img{
+    padding: 5px ;
+
+    position: absolute;
+    left: 0;
+    top:0;
+    border-right: dashed 1px white;
+    img{
+      width: 40px;
+    }
+
+  }
+  .card2-name{
+    padding: 5px;
+    position: absolute;
+    left: 55px;
+    p{
+      margin: 0;
+    }
+  }
+}
+.api-response-param{
+  height: 500px;
+  width: 10%;
+  border: solid 1px @gray-lighter;
+}
+
+.api-go{
+  float: right;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border: solid 1px @gray-lighter;
+  background-color: white;
+  border-radius: 25px;
+  text-align: center;
+  p,h2,h3,h4{
+    line-height: 50px;
+  }
+  transition: background-color 0.5s,color 0.5s,box-shadow 0.5s;
+
+  &:hover{
+    background-color: @brand-success;
+    color: white;
+    box-shadow: 0 0 10px @brand-success;
+    border:  solid 2px white;
+  }
+}

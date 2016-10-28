@@ -2,13 +2,6 @@
 <project version="4">
   <component name="PublishConfigData" serverName="阿里服务器">
     <serverData>
-      <paths name="ali">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
       <paths name="topp">
         <serverdata>
           <mappings>
