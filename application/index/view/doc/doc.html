@@ -9,6 +9,7 @@
 <div class="container" style="margin-top: 80px">
 
 
+
     <div id="api-main">
 
         <div class="row">
@@ -320,7 +321,8 @@
                         type: 1,
                         skin: 'layui-layer-rim', //加上边框
                         area: ['80%', '60%'], //宽高
-                        content: '<html><textarea rows="20" class="form-control">'+html+'</textarea></html>'
+                        content: '<div style="padding: 10px"><textarea name="" class="form-control" id="" cols="30" rows="10">'+html+'</textarea>'+
+                        '<a class="btn btn-success">保存</a></div>'
                     });
                 });
 
