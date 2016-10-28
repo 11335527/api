@@ -14,10 +14,11 @@
 @brand-info: #4d75a1;
 @brand-warning: #f0ad4e;
 @brand-danger: #d9534f;
-h3{
+h3 {
   color: @brand-primary;
   font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
 .api-header {
 
   border-bottom: solid 2px @brand-primary;
@@ -42,7 +43,7 @@ h3{
       margin-left: 10px;
     }
 
-    >div{
+    > div {
       float: left;
       margin-left: 30px;
       line-height: 60px;
@@ -60,65 +61,69 @@ h3{
     }
   }
 }
-.api-body{
 
-  label{
+.api-body {
+
+  label {
     font-weight: 500;
   }
-  .list-header{
-    h4{
+  .list-header {
+    h4 {
       font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
       margin: 3px 0 9px 0;
       color: @brand-info;
 
     }
 
-    p{
+    p {
       color: @gray-light;
       margin: 7px 0 0 0;
-      .label{
+      .label {
         padding: 2px 5px;
         font-weight: 500;
         cursor: pointer;
       }
-      a{
+      a {
         margin-right: 10px;
         font-size: 12px;
       }
     }
   }
-  .request-param{
+  .request-param {
     margin-bottom: 0
 
   }
-  .param-div{
-    border: solid 1px #dddddd;padding:5px;
-    >span{
-     margin: 0 15px 5px 0;
-      .span-key{
+  .param-div {
+    border: solid 1px #dddddd;
+    padding: 5px;
+    > span {
+      margin: 0 15px 5px 0;
+      .span-key {
         color: @brand-success;
       }
-      .span-comment{
+      .span-comment {
         color: @gray-light;
       }
     }
   }
 }
-.api-nav{
+
+.api-nav {
   margin-top: 20px;
   position: fixed;
 }
 
-.alert-div{
+.alert-div {
   display: none;
   z-index: 99999;
   position: fixed;
-  left:15%; right:10%;
+  left: 15%;
+  right: 10%;
   top: 46%;
   width: auto;
   padding: 0 30px;
   text-align: center;
-  .alert{
+  .alert {
     font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 2em;
     opacity: 0.9;
@@ -159,12 +164,13 @@ h3{
     border-top: 1px solid #ededed;
   }
 }
-.login-div{
+
+.login-div {
   margin-left: 100px;
   padding: 20px 50px 5px 50px;
   border: solid 1px @gray-lighter;
   width: 350px;
-  h3{
+  h3 {
     color: @gray-light;
     margin: 0;
     padding-bottom: 10px;
@@ -174,11 +180,11 @@ h3{
 }
 
 //浮动导航
-.float-nav{
+.float-nav {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 
-  >div{
+  > div {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     background-color: @brand-primary;
@@ -190,16 +196,16 @@ h3{
   bottom: 50px;
   background-color: white;
   width: 50px;
-  padding:  0;
+  padding: 0;
 
   height: auto;
-  ul{
+  ul {
     list-style: none;
 
-    padding:0;
+    padding: 0;
     margin: 0;
   }
-  li{
+  li {
     position: relative;
     height: 50px;
     line-height: 50px;
@@ -208,34 +214,33 @@ h3{
     margin: 0 5px;
     padding: 0;
     border-top: solid 1px @gray-lighter;
-    &:first-child{
+    &:first-child {
       border-top: none;
     }
-    &:last-child{
+    &:last-child {
 
       line-height: 49px;
 
     }
 
-    &:hover{
-      a{
+    &:hover {
+      a {
         color: @brand-primary;
       }
 
     }
 
   }
-  a{
+  a {
     color: @brand-primary;
     background-color: white;
     display: block
   }
 
-
 }
 
 //浮动导航提示框
-.alert-nav{
+.alert-nav {
   z-index: -1;
   width: 0;
   position: absolute;
@@ -251,33 +256,33 @@ h3{
   overflow: hidden;
 }
 
-.api-left-nav{
+.api-left-nav {
   position: fixed;
   top: 120px;
   max-width: 180px;
   min-width: 160px;
-  overflow:scroll;
+  overflow: scroll;
   bottom: 80px;
   border-right: solid 1px @gray-lighter;
-  >li>a{
+  > li > a {
     color: @brand-info;
     font-size: 14px;
     padding: 3px 10px;
     border-left: 2px solid @brand-info;
     background-color: #eee;
   }
-  >li>ul>li>a{
+  > li > ul > li > a {
     color: @gray-light;
     font-size: 12px;
     margin-left: 10px;
     padding: 3px 10px;
-    &:hover{
+    &:hover {
       color: @brand-info;
       border-left: 2px solid @brand-info;
     }
 
   }
-  >li>ul>li>.active{
+  > li > ul > li > .active {
     color: @brand-info;
     border-left: 2px solid @brand-info;
     background-color: #eee;
@@ -285,3 +290,32 @@ h3{
   }
 }
 
+.layui-layer-api {
+
+  .layui-layer-title {
+    border: none;
+    background-color: @gray-darker;
+    color: #fff;
+  }
+}
+
+.api-doc-edit {
+  padding-bottom: 5px;
+  background-color: @gray-dark;
+  textarea {
+    color: white;
+    background-color: @gray-dark;
+    border: 1px solid @gray-dark;
+    resize: none;
+    margin-bottom: 5px;
+    &:focus{
+      border: none;
+      box-shadow: none;
+    }
+  }
+  text-align: right;
+  .btn{
+
+    margin-right: 15px;
+  }
+}

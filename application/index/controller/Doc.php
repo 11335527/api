@@ -137,6 +137,7 @@ class Doc extends Controller {
         $data['api']=$post['api'];
         $data['name']=$post['name'];
         $data['cate_id']=$post['cate_id'];
+        $data['type']=$post['type'];
 
 
         if ($post['id']) {
@@ -144,6 +145,10 @@ class Doc extends Controller {
             db('list')->update($data);
             $list_id = $post['id'];
         } else {
+
+            $json=json_encode(['status'=>'还未添加响应数据']);
+            $data['success']=$json;
+            $data['error']=$json;
             $list_id = db('list')->insertGetId($data);
         }
 
@@ -256,11 +261,17 @@ class Doc extends Controller {
     */
     public function saveResponseJson(){
         $post=$this->request->post();
-        $data[$post['type']]=json_encode($post['json']);
+
+        if(is_array($post['json'])){
+            $type=json_encode($post['json']);
+        }else{
+            $type=$post['json'];
+        }
+        $data[$post['type']]=$type;
         $data['id']=$post['list_id'];
         $res=db('list')->update($data);
         if($res){
-            return success('同步成功');
+            return success('编辑成功');
         }else{
             return success('与库中数据相同，未修改');
         }
@@ -272,7 +283,7 @@ class Doc extends Controller {
     */
     public function editJson(){
         $post=$this->request->post();
-       $info= db('list')->where(['id'=>$post['id']])->value('success');
+       $info= db('list')->where(['id'=>$post['id']])->value($post['type']);
 
         return $info;
     }

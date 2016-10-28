@@ -9,7 +9,6 @@
 <div class="container" style="margin-top: 80px">
 
 
-
     <div id="api-main">
 
         <div class="row">
@@ -46,12 +45,7 @@
             </div>
 
 
-
-
             <div class="col-md-10">
-
-
-
 
 
                 <!--<p><span class="text-danger">商品-主图：</span>./static/upload/image/goods/head_img/</p>-->
@@ -84,28 +78,30 @@
                             </div>
 
 
-                                <div class="row">
-                                    <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
 
-                                        <p>接口:<span class="api-name">{$v.api}</span> <span class="label label-success">POST</span></p>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="api-user-card2">
-                                            <div class="card2-img">
-                                                <img src="__S__images/paopao/1.jpg"  class="img-circle" alt="">
-                                            </div>
-
-                                            <div class="card2-name">
-                                                <p>周凯</p>
-                                                <p><small>16/04/21 12:21</small></p>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
+                                    <p>接口:<span class="api-name">{$v.api}</span> <span
+                                            class="label label-success">{$v.type}</span></p>
                                 </div>
 
+                                <div class="col-md-12">
+                                    <div class="api-user-card2">
+                                        <div class="card2-img">
+                                            <img src="__S__images/paopao/1.jpg" class="img-circle" alt="">
+                                        </div>
+
+                                        <div class="card2-name">
+                                            <p>周凯</p>
+                                            <p>
+                                                <small>16/04/21 12:21</small>
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
 
 
                             <form class="doc-param">
@@ -139,31 +135,36 @@
                                 </table>
                             </form>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="api-go"  data-operate="api-request"
-                                             data-type="post" data-api="{$v.api}" data-id="{$v.id}"><p>请求</p></div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="api-go" data-operate="api-request"
+                                         data-type="{$v.type}" data-api="{$v.api}" data-id="{$v.id}"><p>请求</p></div>
                                 </div>
-
-
+                            </div>
 
 
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
 
-                                    <a class="btn btn-default " data-operate="edit-json" data-id="{$v.id}">编辑json</a>
                                     <ul id="myTab{$v.id}" class="nav nav-pills">
                                         <li class="active">
                                             <a href="#success{$v.id}" data-toggle="pill">
                                                 SUCCESS
                                             </a>
+
                                         </li>
                                         <li><a href="#error{$v.id}" data-toggle="pill">ERROR</a></li>
+                                        <li class="pull-right">
+                                            <a href="javascript:void (0);" data-operate="edit-json" data-type="error"
+                                               data-id="{$v.id}"><span class="fa fa-edit (alias)"></span>error</a>
+                                        </li>
+                                        <li class="pull-right">
+                                            <a href="javascript:void (0);" data-operate="edit-json" data-type="success"
+                                               data-id="{$v.id}"><span class="fa fa-edit"></span>success</a>
+                                        </li>
 
                                     </ul>
-
 
 
                                     <div id="myTab{$v.id}Content" class="tab-content">
@@ -284,70 +285,92 @@
 
             var $body = $('body');
 
-
             //同步返回json数据到库
-            var save_json,save_id;
-            $body.on('click','.save-response-param',function(){
+            var save_json, save_id;
+            $body.on('click', '.save-response-param', function () {
 
-                var type=$(this).attr('data-type');
+                var type = $(this).attr('data-type');
                 console.log(type);
                 console.log(save_id);
                 console.log(save_json);
-                $.post('__INDEX__doc/saveResponseJson',{list_id:save_id,type:type,json:save_json},function(msg){
+                $.post('__INDEX__doc/saveResponseJson', {
+                    list_id: save_id,
+                    type: type,
+                    json: save_json
+                }, function (msg) {
 
-                    switch (msg.status){
+                    switch (msg.status) {
                         case 1:
                             $('#myModal').modal('hide');
-                            layer.msg(msg.content,{icon:1});
+                            layer.msg(msg.content, {icon: 1});
                             break;
-
 
                     }
                 });
             });
 
-
             //编辑响应参数json
-            $body.on('click','[data-operate="edit-json"]',function(){
+            $body.on('click', '[data-operate="edit-json"]', function () {
 
+                var id = $(this).attr('data-id');
+                var type = $(this).attr('data-type');
+                $.post('__INDEX__doc/editJson', {id: id, type: type}, function (msg) {
+                    if (msg) {
+                        var html = JSON.stringify(JSON.parse(msg), null, 8); // 缩进一个tab
+                    } else {
+                        var html = '';
+                    }
 
-                var id=$(this).attr('data-id');
-                $.post('__INDEX__doc/editJson',{id:id},function(msg){
-
-                    var html=JSON.stringify(JSON.parse(msg), null, 8); // 缩进一个tab
 //                    alert(html);
                     //页面层
                     layer.open({
                         type: 1,
-                        skin: 'layui-layer-rim', //加上边框
-                        area: ['80%', '60%'], //宽高
-                        content: '<div style="padding: 10px"><textarea name="" class="form-control" id="" cols="30" rows="10">'+html+'</textarea>'+
-                        '<a class="btn btn-success">保存</a></div>'
+                        title: '编辑响应数据',
+                        skin: 'layui-layer-api', //加上边框
+//                        closeBtn: 2, //不显示关闭按钮
+                        shift: 3,
+                        shadeClose: true, //开启遮罩关闭
+                        area: ['800px', '558px'], //宽高
+                        content: '<div  class="api-doc-edit"><textarea name="" class="form-control" id="" cols="30" rows="22" >' + html + '</textarea>' +
+                        '</div>',
+                        btn: '保存',
+                        yes: function (index, layero) {
+                            var json = layero.find('textarea').val();
+                            $.post('__INDEX__doc/saveResponseJson', {
+                                list_id: id,
+                                type: type,
+                                json: json
+                            }, function (msg) {
+                                layer.close(index);
+                                switch (msg.status) {
+                                    case 1:
+
+                                        layer.msg(msg.content, {icon: 1});
+                                        break;
+
+                                }
+
+                            });
+                        }
                     });
+
                 });
 
             });
 
-
-
             //格式化全局json
-            $('.responsive-param').each(function(){
-                var str=$(this).text();
-                if(str){
-                    var data_json=$(this).attr('data-json');
+            $('.responsive-param').each(function () {
+                var str = $(this).text();
+                if (str) {
+                    var data_json = $(this).attr('data-json');
                     var options = {
-                        dom: '[data-json="'+data_json+'"]' //对应容器的css选择器
+                        dom: '[data-json="' + data_json + '"]' //对应容器的css选择器
                     };
                     var jf = new JsonFormater(options); //创建对象
-                    var json_responsive=JSON.parse(str);
+                    var json_responsive = JSON.parse(str);
                     jf.doFormat(json_responsive); //格式化json
                 }
             });
-
-
-
-
-
 
             //美化导航条
             $(".api-left-nav").niceScroll({
@@ -545,13 +568,22 @@
                             str = str + option;
                         }
 
-                        var html = '<div class="api-doc-add-api"><form class="form-horizontal" id="add-api-form" role="form">' +
+                        var html = '<div class="api-doc-add-api"><form class="form-horizontal" id="add-api-form" role="form">' + '<div class="form-group form-group-sm">' +
+                                '<label  class="col-sm-2 control-label">请求方式</label>' +
+                                '<div class="col-sm-10">' +
+                                ' <label class="checkbox-inline">' +
+                                '<input type="radio" name="type" value="post" checked>POST</label>' +
+                                '<label class="checkbox-inline">' +
+                                '<input type="radio" name="type" value="get">GET</label>' +
+                                '</div>' +
+                                '</div>' +
                                 '<div class="form-group form-group-sm">' +
                                 '<label  class="col-sm-2 control-label">类别</label>' +
                                 '<div class="col-sm-10">' +
                                 '<select name="cate_id"   class="form-control">' + str + '</select>' +
                                 '</div>' +
                                 '</div>' +
+
                                 '<div class="form-group form-group-sm">' +
                                 '<label  class="col-sm-2 control-label">api名称</label>' +
                                 '<div class="col-sm-10">' +
@@ -729,7 +761,7 @@
             //go
             $('.api-body').on('click', '[data-operate="api-request"]', function () {
                 var $this = $(this);
-                save_id=$this.attr('data-id');
+                save_id = $this.attr('data-id');
                 var $form = $this.parents('.row').prev();
                 var type = $this.attr('data-type');
                 var api = $this.attr('data-api');
@@ -750,10 +782,10 @@
 
                         try {
                             //在此运行代码
-                            var r_msg=JSON.parse(msg);
+                            var r_msg = JSON.parse(msg);
                             if (typeof(r_msg) == 'object') {
                                 console.log(1);
-                                save_json=r_msg;
+                                save_json = r_msg;
                                 $('.json>textarea').empty().append(msg);
                                 var options = {
                                     dom: '.json' //对应容器的css选择器
