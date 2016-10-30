@@ -1,52 +1,36 @@
 <link rel="stylesheet" href="__S__editor/dist/css/wangEditor.min.css">
 <script src="__S__editor/dist/js/wangEditor.min.js"></script>
-
+<div class="mr_title text-center" id="tabs2-{$vc.cate_id}">
+    <span class="mr_title_l"></span><span class="mr_title_c">发布帖子</span><span
+        class="mr_title_r"></span>
+</div>
 <form role="form" class="form-horizontal">
     <div class="form-group form-group-sm">
         <label class="control-label col-md-2">标题</label>
         <div class="col-md-10">
-            <input type="text" class="form-control" name="content"  placeholder="请输入论题">
+            <input type="text" class="form-control" name="title"  placeholder="请输入论题">
         </div>
     </div>
-
+    <div class="form-group form-group-sm">
+        <label class="control-label col-md-2">分类</label>
+        <div class="col-md-10">
+            <select name="type" class="form-control">
+                <option value="1">问题反馈</option>
+                <option value="2">技术闲谈</option>
+                <option value="3">使用教程</option>
+            </select>
+        </div>
+    </div>
     <div class="form-group form-group-sm">
         <label class="control-label col-md-2">内容</label>
         <div class="col-md-10">
-            <textarea name="intro" id="editor" cols="30" rows="35"></textarea>
+            <textarea name="content" id="editor" cols="30" rows="25"></textarea>
         </div>
     </div>
     <script>
         //初始化编辑器
         var editor = new wangEditor('editor');
         editor.config.uploadImgUrl = '__INDEX__image/editorImg';//上传到图片的路径，寻找image控制器下面的editorImg方法，来实现这个图片上传到服务器，以下被注释的代码就是访问的这个
-
-/*
-        public function editorImg(){
-            $h5=$this->request->file('wangEditorH5File');
-            $paste=$this->request->file('wangEditorPasteFile');
-            if($h5){
-                $file=$h5;
-            }
-            if($paste){
-                $file=$paste;
-            }
-            $image = Img::open($file);
-            $image->thumb(200,200);
-            $save_name=md5(microtime(true)).'.'.$image->type();
-            $path='./static/upload/editor/'.$save_name;
-
-            if($image->save($path)){
-                $arr=[
-                            'save_name'=>$save_name,
-                        'width'=> $image->width(),
-                        'height'=>$image->height(),
-                        'src'=>'/static/upload/editor/'.$save_name
-            ];
-                return json($arr);
-            }else{
-                return '上传失败';
-            }
-        }*/
 
         editor.config.emotions = {
             'default': {
@@ -69,6 +53,10 @@
         };
         editor.create();
     </script>
+
+
+
+
     <div class="form-group form-group-sm">
 
         <div class="col-md-2 col-md-offset-2">
@@ -92,16 +80,10 @@
            fd.append('intro_img',JSON.stringify(intro_img));
            $.ajax({
                type: 'post',
-               url: '__INDEX__Bbs/savePublish',
+               url: '__INDEX__Bbs/saveBbs',
                data: fd,
                dataType: 'json',
                success: function (msg) {
-                 /*  $.ajax({
-               type:'post',
-               data:{content:content},
-               dataType:'json',
-               url:'__INDEX__Bbs/savePublish',
-               success:function(msg) {*/
                    console.log(msg);
                    if (msg.status == 0) {
                        layer.msg(msg.content, {icon: 2});

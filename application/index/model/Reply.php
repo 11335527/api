@@ -7,42 +7,20 @@
  */
 namespace app\index\model;
 use think\Model;
-use app\index\model\Comment;
-class Title extends Model {
+class Reply extends Model {
 
-
-    public function getCreateTimeAttr($value){
-        return $this->time_tran($value);
-    }
 
     public function user(){
         return $this->belongsTo('User','user_id','user_id');
     }
-
-    public function comment(){
-        return $this->hasMany('Comment','title_id','id');
+    public function getCreateTimeAttr($value){
+        return $this->time_tran($value);
     }
 
-    public function getCommentLastAttr($value,$data){
-        $info=Comment::where(['title_id'=>$data['id']])->order('create_time desc')->find();
-        if($info){
-
-            $arr['name']=$info->user->username;
-
-            $arr['ago']=$this->time_tran($info->create_time);
-            return $arr;
-        }
-        return false;
-
+    public function replyUser(){
+        return $this->belongsTo('User','reply_user_id','user_id');
     }
-    public function getTypeAttr($value){
-        $arr=[
-            '1'=>'问题反馈',
-            '2'=>'技术闲谈',
-            '3'=>'使用教程',
-        ];
-        return $arr[$value];
-    }
+
     public function time_tran($the_time) {
 
         $dur=time()-$the_time;
@@ -68,5 +46,4 @@ class Title extends Model {
             }
         }
     }
-
 }

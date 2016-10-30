@@ -397,9 +397,6 @@
             $body.on('click', '.save-response-param', function () {
 
                 var type = $(this).attr('data-type');
-                console.log(type);
-                console.log(save_id);
-                console.log(save_json);
                 $.post('__INDEX__doc/saveResponseJson', {
                     list_id: save_id,
                     type: type,
@@ -428,7 +425,7 @@
                         var html = '';
                     }
 
-//                    alert(html);
+
                     //页面层
                     layer.open({
                         type: 1,
@@ -447,12 +444,12 @@
                                 list_id: id,
                                 type: type,
                                 json: json
-                            }, function (msg) {
+                            }, function (res) {
                                 layer.close(index);
-                                switch (msg.status) {
+                                switch (res.status) {
                                     case 1:
 
-                                        layer.msg(msg.content, {icon: 1});
+                                        layer.msg(res.content, {icon: 1});
                                         break;
 
                                 }

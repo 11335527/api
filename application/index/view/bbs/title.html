@@ -1,0 +1,325 @@
+<link rel="stylesheet" href="__S__editor/dist/css/wangEditor.min.css">
+<script src="__S__editor/dist/js/wangEditor.min.js"></script>
+<div class="row">
+    <div class="col-md-9">
+        <div class="title-header">
+
+
+            <div class="bbs-list">
+
+
+                <img src="__S__images/paopao/{$info.user.head_img}" class="img-circle" alt="">
+
+                <div class="bbs-list-content">
+                    <h4><a href="__SITE__title/{$v.id}">{$info.title}</a>
+
+
+                        {eq name="info.top" value="1"}
+                        <span class="label label-success">置顶</span>
+                        {/eq}
+                        {eq name="info.hot" value="1"}
+                        <span class="label label-warning">热门</span>
+                        {/eq}
+                        {eq name="info.essence" value="1"}
+                        <span class="label label-danger">精帖</span>
+                        {/eq}
+
+
+                    </h4>
+                    <div class="bbs-list-bottom">
+                        <small>
+                            <span>{$info.type}</span>
+                            <span>发布者:{$info.user.username}&nbsp;&nbsp;{$info.create_time}</span>
+                            {notempty name="info.comment" }
+                            <span>最后评论：{$info.comment.name}&nbsp;&nbsp;{$info.comment.ago}</span>
+                            {/notempty}
+
+            <span class="pull-right">
+              <i class="fa fa-comment-o"></i>{$info.comment_count}
+              <i class="fa fa-eye"></i>{$info.visit_count}
+            </span>
+                        </small>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            {$info.content}
+        </div>
+        <div style="margin: 80px 0">
+
+            <textarea name="comment" id="editor" cols="30" rows="2"></textarea>
+            <a class="btn btn-success" id="title-comment" style="margin-top: 10px">评论</a>
+
+            <div id="api-title-comment">
+                {foreach $info.comment as $v}
+                <div class="title-comment-list">
+                    <div class="comment-header">
+                        <img src="__S__images/paopao/{$v.user.head_img}" class="img-circle" alt="">
+                        <div>
+                            <p>{$v.user.username}</p>
+                            <small>{$v.create_time}</small>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        {$v.content}
+                    </div>
+                    <div class="comment-operate">
+                        <a data-operate="delete-comment" data-id="{$v.id}" ><span class="fa fa-trash-o"></span>删除</a>
+                        <a data-operate="reply-comment" data-id="{$v.id}" data-name="{$v.user.username}"><span class="fa fa-comments-o"></span>回复</a>
+                    </div>
+                    {notempty name="v.reply"}
+                    <div class="comment-reply">
+
+                        {foreach $v.reply as $vr}
+                        <div class="title-comment-list">
+                            <div class="comment-header">
+                                <img src="__S__images/paopao/{$vr.user.head_img}" class="img-circle" alt="">
+                                <div>
+                                    <p>{$vr.user.username}</p>
+                                    <small>{$vr.create_time}</small>
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                {notempty name="vr.replyUser"}
+                                回复<strong class="text-info">{$vr.replyUser.username}</strong>
+                                {/notempty}
+                                {$vr.content}
+                            </div>
+                            <div class="comment-operate">
+                                <a data-operate="delete-reply" data-id="{$vr.id}" ><span class="fa fa-trash-o"></span>删除</a>
+                                <a data-operate="reply-reply" data-id="{$vr.id}" data-comment="{$v.id}" data-reply-user-id="{$vr.user_id}" data-name="{$vr.user.username}"><span class="fa fa-comments-o"></span>回复</a>
+                            </div>
+                        </div>
+                        {/foreach}
+                    </div>
+                    {/notempty}
+                </div>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        //初始化编辑器
+        var editor = new wangEditor('editor');
+        // 普通的自定义菜单
+        editor.config.menus = [
+            'bold',
+            'italic',
+            'eraser',
+            'forecolor',
+            'link',
+            'emotion'
+        ];
+        editor.config.emotions = {
+            'default': {
+                title: '默认',  // 组名称
+                data: '__S__/editor/emotions.data'  // data 可以是一个url地址，访问该地址要能返回表情包的json文件
+            }
+        };
+        editor.create();
+
+        //评论title
+        $('#title-comment').on('click',function(){
+
+            var html = editor.$txt.html();
+            $.post('__INDEX__bbs/addComment',{content:html,title_id:'{$info.id}'},function(msg){
+
+                if(msg.status==1){
+                    layer.msg('评论成功',{icon:1});
+                    var comment = $('<div class="title-comment-list">' +
+                            '<div class="comment-header">' +
+                            '<img src="__S__images/paopao/{$Request.session.user.head_img}" class="img-circle" alt="">' +
+                            '<div>' +
+                            '<p>{$Request.session.user.username}</p>' +
+                            '<small>刚刚</small>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="comment-content">' +html+
+                            '</div>' +
+                            '<div class="comment-operate">' +
+                            '<a data-operate="delete-comment" data-id="'+msg.content.id+'" data-name="{$Request.session.user.username}"><span class="fa fa-trash-o"></span>删除</a>' +
+                            '<a data-operate="reply-comment" data-id="'+msg.content.id+'" data-name="{$Request.session.user.username}"><span class="fa fa-comments-o"></span>回复</a>' +
+                            '</div>' +
+                            '</div>');
+                    $('#api-title-comment').prepend(comment);
+
+                }
+            });
+            console.log(html);
+        });
+
+        var $title_comment=$('#api-title-comment');
+        //回复评论
+        $title_comment.on('click','[data-operate="reply-comment"]',function(){
+            var $this=$(this);
+            var id=$(this).attr('data-id');
+            var name=$(this).attr('data-name');
+
+
+            //页面层
+            layer.open({
+                type: 1,
+                title: '回复【'+name+'】的评论',
+                skin: 'layui-layer-api', //加上边框
+                shift: 3,
+                shadeClose: true, //开启遮罩关闭
+                area: ['50%', '170px'], //宽高
+                content: '<div><textarea name="" class="form-control" style="border: none;resize: none;"  cols="30" rows="3" ></textarea>' +
+                '</div>',
+                btn: '保存',
+                yes: function (index, layero) {
+                    var content = layero.find('textarea').val();
+                    $.post('__INDEX__bbs/addReply', {
+                        comment_id: id,
+                        content: content
+                    }, function (res) {
+                        layer.close(index);
+                        switch (res.status) {
+                            case 1:
+
+                                layer.msg('回复成功', {icon: 1});
+                                    var reply=$('<div class="title-comment-list">' +
+                                            '<div class="comment-header">' +
+                                            '<img src="__S__images/paopao/{$Request.session.user.head_img}" class="img-circle" alt="">' +
+                                            '<div>' +
+                                            '<p>{$Request.session.user.username}</p>' +
+                                            '<small>刚刚</small>' +
+                                            '</div>' +
+                                            '</div>' +
+                                            '<div class="comment-content">回复<strong class="text-info">zhou</strong>' +content+
+                                            '</div>' +
+                                            '<div class="comment-operate">' +
+                                            '<a data-operate="delete-reply" data-id="'+res.content.id+'"  data-name="{$Request.session.user.username}"><span class="fa fa-trash-o"></span>删除</a>' +
+                                            '<a data-operate="reply-reply" data-id="'+res.content.id+'" data-comment="'+id+'"  data-name="{$Request.session.user.username}"><span class="fa fa-comments-o"></span>回复</a>' +
+                                            '</div>' +
+                                            '</div>');
+
+                                    if($this.parent().next('.comment-reply').length){
+                                        $this.parent().next().append(reply);
+                                    }else {
+
+                                        var comment_reply=$('<div class="comment-reply"></div>');
+                                        comment_reply.append(reply);
+                                        $this.parent().after(comment_reply);
+                                    }
+                                break;
+
+                        }
+
+                    });
+                }
+            });
+        });
+
+        //回复评论的回复
+        $title_comment.on('click','[data-operate="reply-reply"]',function(){
+            var $this=$(this);
+            var reply_id=$this.attr('data-id');
+            var name=$this.attr('data-name');
+            var comment_id=$this.attr('data-comment');
+            var reply_user_id=$this.attr('data-reply-user-id');
+
+
+
+            //页面层
+            layer.open({
+                type: 1,
+                title: '回复【'+name+'】的评论',
+                skin: 'layui-layer-api', //加上边框
+                shift: 3,
+                shadeClose: true, //开启遮罩关闭
+                area: ['50%', '170px'], //宽高
+                content: '<div><textarea name="" class="form-control" style="border: none;resize: none;"  cols="30" rows="3" ></textarea>' +
+                '</div>',
+                btn: '保存',
+                yes: function (index, layero) {
+                    var content = layero.find('textarea').val();
+                    $.post('__INDEX__bbs/addReplyAgain', {
+                        comment_id: comment_id,
+                        content: content,
+                        reply_id:reply_id,
+                        reply_user_id:reply_user_id
+                    }, function (res) {
+                        layer.close(index);
+                        switch (res.status) {
+                            case 1:
+
+                                layer.msg('回复成功', {icon: 1});
+                                var reply=$('<div class="title-comment-list">' +
+                                        '<div class="comment-header">' +
+                                        '<img src="__S__images/paopao/{$Request.session.user.head_img}" class="img-circle" alt="">' +
+                                        '<div>' +
+                                        '<p>{$Request.session.user.username}</p>' +
+                                        '<small>刚刚</small>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div class="comment-content">回复<strong class="text-info">zhou</strong>' +content+
+                                        '</div>' +
+                                        '<div class="comment-operate">' +
+                                        '<a data-operate="delete-reply" data-id="'+res.content.id+'" data-name="{$Request.session.user.username}"><span class="fa fa-trash-o"></span>删除</a>' +
+                                        '<a data-operate="reply-reply" data-id="'+res.content.id+'" data-comment="'+comment_id+'" data-name="{$Request.session.user.username}"><span class="fa fa-comments-o"></span>回复</a>' +
+                                        '</div>' +
+                                        '</div>');
+                                $this.parent().parent().after(reply);
+                                break;
+
+                        }
+
+                    });
+                }
+            });
+        });
+
+
+
+        //删除评论
+        $title_comment.on('click','[data-operate="delete-comment"]',function(){
+
+            var $this=$(this);
+            var id=$this.attr('data-id');
+            //询问框
+            layer.confirm('删除这个奇葩评论？', {
+                title:'操作提示',
+                skin:'layui-layer-api',
+                btn: ['确认','取消'] //按钮
+            }, function(){
+
+                $.post('__INDEX__bbs/deleteComment',{id:id},function(res){
+
+                    if(res.status==1){
+                        layer.msg('删除成功', {icon: 1});
+                        $this.parent().parent().remove();
+                    }
+                });
+            });
+        });
+
+        //删除回复
+        $title_comment.on('click','[data-operate="delete-reply"]',function(){
+
+            var $this=$(this);
+            var id=$this.attr('data-id');
+            //询问框
+            layer.confirm('删除这个奇葩回复？', {
+                title:'操作提示',
+                skin:'layui-layer-api',
+                btn: ['确认','取消'] //按钮
+            }, function(){
+
+                $.post('__INDEX__bbs/deleteReply',{id:id},function(res){
+
+                    if(res.status==1){
+                        layer.msg('删除成功', {icon: 1});
+                        $this.parent().parent().remove();
+                    }
+                });
+            });
+        });
+    });
+</script>
