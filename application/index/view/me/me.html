@@ -5,20 +5,16 @@
     <div class="col-md-3 api-me-left">
 
 <div style="background-image: url('__S__images/me_bg_img.jpg' ) ;background-position: center;
-background-repeat: no-repeat;background-size:100%;padding: 30px 10px 10px 30px;color: white;border-top-left-radius: 50px ">
+background-repeat: no-repeat;background-size:100%;padding: 30px;color: white;text-align: center">
     
 
         <div class="api-me-head-img"><img src="__S__images/paopao/{$info.head_img}" class="img-circle" alt=""></div>
-        <p class="text-center">{$info.username}</p>
+        <h4 class="text-center">{$info.username}</h4>
 
-        <div class="api-me-notify">
-            <p>
 
-                <a href="javascript:void (0)" data-operate="read-notify"><h4 style="display: inline"><span class="fa fa-envelope" ></span>{present name="invite_count"}<span class="badge" style="background-color: #00AA88;position: relative;top: -5px;left: -5px">{$invite_count}</span>{/present}</h4></a>
-                <a href="__SITE__editUser/{$info.user_id}" data-operate="edit-user"><h4 style="display: inline"><span class="fa fa-cog" ></span></h4></a>
+        <a href="javascript:void (0)" data-operate="read-notify" style="color: orange"><h4 style="display: inline"><span class="fa fa-envelope" ></span>{present name="invite_count"}<span class="badge" style="background-color: #00AA88;position: relative;top: -5px;left: -5px">{$invite_count}</span>{/present}</h4></a>
+        <a href="__SITE__editUser/{$info.user_id}" data-operate="edit-user" style="color: #eee"><h4 style="display: inline"><span class="fa fa-cog" ></span></h4></a>
 
-            </p>
-        </div>
 </div>
         <ul class="list-group" style="margin-top: 20px">
             <li class="list-group-item active">我的团队</li>
@@ -84,8 +80,9 @@ background-repeat: no-repeat;background-size:100%;padding: 30px 10px 10px 30px;c
                 layer.open({
                     type: 1,
                     title:'消息中心',
-                    skin: 'layui-layer-rim', //加上边框
-                    area: ['420px', '240px'], //宽高
+                    skin: 'layui-layer-api',
+                    shift:3,
+                    area: ['520px', '350px'], //宽高
                     content: str
                 });
             }
@@ -121,6 +118,7 @@ background-repeat: no-repeat;background-size:100%;padding: 30px 10px 10px 30px;c
         //prompt层
         layer.prompt({
             title: '请输入新项目名称',
+//            skin:'layui-layer-api',
             formType: 0 //prompt风格，支持0-2
         }, function(pass){
 

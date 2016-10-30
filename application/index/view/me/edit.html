@@ -1,17 +1,40 @@
-<!DOCTYPE html>
-
-<img src="__S__images/paopao/{$info.head_img}" data-name="{$info.head_img}" class="edit-head-img" id="current-head-img" alt="">
-<p>选择头像：</p>
-<div class="head-div">
-    {for start="1" end="24" }
-    <div class="head-img-div">
-        <img src="__S__images/paopao/{$i}.jpg" data-name="{$i}.jpg" class="img-circle" alt="">
-    </div>
-    {/for}
+<div class="mr_title text-center" id="tabs2-{$vc.cate_id}">
+<span class="mr_title_l"></span><span class="mr_title_c">编辑个人信息</span><span
+class="mr_title_r"></span>
 </div>
-<input type="text" class="form-control" id="username" placeholder="昵称" name="username" value="{$info.username}">
-<input type="hidden" class="form-control" name="user_id" value="{$info.user_id}">
-<a class="btn btn-success" id="submit">保存</a>
+
+<div class="row">
+    <div class="col-md-2">
+
+        <div style="width: 100px;text-align: center;float: right">
+            <img src="__S__images/paopao/{$info.head_img}" data-name="{$info.head_img}" class="edit-head-img" id="current-head-img" alt="">
+            <p>选择头像</p>
+        </div>
+
+    </div>
+    <div class="col-md-10">
+        <div class="head-div">
+            {for start="1" end="24" }
+            <div class="head-img-div">
+                <img src="__S__images/paopao/{$i}.jpg" data-name="{$i}.jpg" class="img-circle" alt="">
+            </div>
+            {/for}
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 20px">
+    <div class="col-md-2"><p class="text-right">昵称</p></div>
+    <div class="col-md-10">
+        <input type="text" class="form-control" id="username" placeholder="昵称" name="username" value="{$info.username}">
+        <input type="hidden" class="form-control" name="user_id" value="{$info.user_id}">
+    </div>
+    <div class="col-md-2 col-md-offset-2"  style="margin-top: 20px">
+        <a class="btn btn-success" id="submit">保存</a>
+    </div>
+</div>
+
+
+
 
 <script>
 

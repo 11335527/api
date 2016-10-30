@@ -22,8 +22,16 @@
                 <!--{/foreach}-->
                 <!--</ul>-->
                 <nav class="hidden-print hidden-xs hidden-sm" id="accordion">
-                    <ul class="nav api-left-nav">
 
+                    <ul class="nav api-left-nav">
+                        {eq name="Request.session.user.role" value="2"}
+                        <li>
+                            <div class="left-nav-operate">
+                                <a class="btn btn-primary btn-xs" id="add-api-cate-btn">添加分类</a>
+                                <a href="__SITE__cate" class="btn btn-default btn-xs">管理分类</a>
+                            </div>
+                        </li>
+                        {/eq}
                         {foreach $list as $v}
                         <li class="" data-id="{$v.cate_id}">
                             <a data-toggle="collapse" data-parent="#accordion"
@@ -45,24 +53,24 @@
             </div>
 
 
-
-
             <div class="col-md-10">
 
 
 
-
-
-                <!--<p><span class="text-danger">商品-主图：</span>./static/upload/image/goods/head_img/</p>-->
-                <!--<p><span class="text-danger">用户-头像：</span>./static/upload/image/head_img/</p>-->
                 <div class="api-body">
+
+                    <div class="api-body-header">
+                        <h4>项目: <span>{$project}</span></h4>
+                        <p>接口地址：<span id="current-site">http://{$site.0.site}</span></p>
+                    </div>
+
                     {foreach $list as $vc}
                     {notempty name="vc.api"}
 
-                    <div class="mr_title text-center" id="tabs2-{$vc.cate_id}">
-                        <span class="mr_title_l"></span><span class="mr_title_c">{$vc.name}</span><span
-                            class="mr_title_r"></span>
-                    </div>
+                    <!--<div class="mr_title text-center" id="tabs2-{$vc.cate_id}">-->
+                        <!--<span class="mr_title_l"></span><span class="mr_title_c">{$vc.name}</span><span-->
+                            <!--class="mr_title_r"></span>-->
+                    <!--</div>-->
 
 
                     <ul class="api-doc-list">
@@ -83,28 +91,32 @@
                             </div>
 
 
-                                <div class="row">
-                                    <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 style="margin-bottom: 0" >请求</h4>
+                                    <hr style="margin-top: 5px">
 
-                                        <p>接口:<span class="api-name">{$v.api}</span> <span class="label label-success">POST</span></p>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="api-user-card2">
-                                            <div class="card2-img">
-                                                <img src="__S__images/paopao/1.jpg"  class="img-circle" alt="">
-                                            </div>
-
-                                            <div class="card2-name">
-                                                <p>周凯</p>
-                                                <p><small>16/04/21 12:21</small></p>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
+                                    <p>接口:<span class="api-name">{$v.api}</span> <span
+                                            class="label label-success">{$v.type}</span></p>
                                 </div>
 
+                                <div class="col-md-12">
+                                    <div class="api-user-card2">
+                                        <div class="card2-img">
+                                            <img src="__S__images/paopao/{$v.user.head_img}" class="img-circle" alt="">
+                                        </div>
+
+                                        <div class="card2-name">
+                                            <p>{$v.user.username}</p>
+                                            <p>
+                                                <small>{$v.update_time}</small>
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
 
 
                             <form class="doc-param">
@@ -138,31 +150,37 @@
                                 </table>
                             </form>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="api-go"  data-operate="api-request"
-                                             data-type="post" data-api="{$v.api}" data-id="{$v.id}"><p>请求</p></div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="api-go" data-operate="api-request"
+                                         data-type="{$v.type}" data-api="{$v.api}" data-id="{$v.id}"><p>请求</p></div>
                                 </div>
+                            </div>
 
 
-
-
-                            <hr>
+                            <h4 style="margin-bottom: 0">响应</h4>
+                            <hr style="margin-top: 5px">
                             <div class="row">
                                 <div class="col-md-12">
 
-                                    <a class="btn btn-default " data-operate="edit-json" data-id="{$v.id}">编辑json</a>
                                     <ul id="myTab{$v.id}" class="nav nav-pills">
                                         <li class="active">
                                             <a href="#success{$v.id}" data-toggle="pill">
                                                 SUCCESS
                                             </a>
+
                                         </li>
                                         <li><a href="#error{$v.id}" data-toggle="pill">ERROR</a></li>
+                                        <li class="pull-right">
+                                            <a href="javascript:void (0);" data-operate="edit-json" data-type="error"
+                                               data-id="{$v.id}"><span class="fa fa-edit (alias)"></span>error</a>
+                                        </li>
+                                        <li class="pull-right">
+                                            <a href="javascript:void (0);" data-operate="edit-json" data-type="success"
+                                               data-id="{$v.id}"><span class="fa fa-edit"></span>success</a>
+                                        </li>
 
                                     </ul>
-
 
 
                                     <div id="myTab{$v.id}Content" class="tab-content">
@@ -183,11 +201,11 @@
                                 <div class="col-md-12" style="margin-top: 20px">
                                     {empty name="v.response"}
                                     <p>
-                                        <a class="btn btn-default btn-xs">添加响应参数说明</a>
+                                        <a class="btn btn-default btn-xs" data-operate="edit-response-param" data-id="{$v.id}">添加响应参数说明</a>
                                     </p>
                                     {else/}
                                     <p>
-                                        部分响应参数说明：<a class="btn btn-default btn-xs pull-right">编辑</a>
+                                        部分响应参数说明：<a class="btn btn-default btn-xs pull-right" data-operate="edit-response-param" data-id="{$v.id}">编辑</a>
                                     </p>
                                     <blockquote>
                                         <dl class="dl-horizontal" style="margin-bottom: 0">
@@ -235,32 +253,31 @@
 
     <div class="float-nav hidden-xs">
         <ul>
-            <li>
-                <div class="alert-nav"><p>返回顶部</p></div>
-                <a href="javascript:void(0);" id="return-top"><i class="fa fa-angle-up"></i></a>>
+            <li id="return-top"  data-title="返回顶部">
+                <a href="javascript:void(0);"><i class="fa fa-angle-up"></i></a>>
             </li>
 
-            <li>
-                <div class="alert-nav"><p>添加分类</p></div>
-                <a href="javascript:void(0);" id="add-api-cate-btn"><i class="fa fa-sitemap"></i></a></li>
-            <li>
-                <div class="alert-nav"><p>添加API</p></div>
-                <a href="javascript:void(0);" id="add-api"><i class="fa fa-pencil-square"></i></a></li>
+            <li  id="add-api" data-title="添加API">
+
+                <a href="javascript:void(0);"><i class="fa fa-pencil-square"></i></a></li>
         </ul>
-        <div><img src="__S__images/mama_samll.png" class="img-responsive" alt=""></div>
+        <div><img src="__S__images/logo_small.png" class="img-responsive" alt=""></div>
     </div>
 
     <script>
         $(function () {
             $('.float-nav li').on('mouseenter mouseleave', function (event) {
                 var $this = $(this);
+                var id=$this.attr('id');
+                var title=$this.attr('data-title');
                 var alert = $this.children('.alert-nav');
                 switch (event.type) {
                     case 'mouseenter':
-                        alert.animate({right: '45px', width: '80px'}, 'fast');
+                        layer.tips(title,'#'+id,{tips:[2, '#222']});
                         break;
                     case 'mouseleave':
-                        alert.animate({right: '0', width: '0'}, 'fast');
+                        var index = layer.tips();
+                            layer.close(index);
                         break;
                 }
             });
@@ -284,73 +301,188 @@
             var $body = $('body');
 
 
-            //同步返回json数据到库
-            var save_json,save_id;
-            $body.on('click','.save-response-param',function(){
+            //site切换事件
+            $('#site').on('change',function(){
 
-                var type=$(this).attr('data-type');
+                $('#current-site').html($(this).val());
+            });
+
+            //添加response参数
+            $('[data-operate="edit-response-param"]').on('click', function () {
+
+
+
+                var id=$(this).attr('data-id');
+
+
+
+
+                $.post('__INDEX__doc/getResponseParam', {id: id}, function (msg) {
+                    var str='';
+                    if(msg.status==1){
+
+                        var data=msg.content;
+
+                        for(var key in data){
+                            var tr='<tr class="response-param">' +
+                                    '<td> <input type="text" name="response_param_key[]" class="form-control input-sm" placeholder="请输入参数名" value="'+data[key].name+'"></td>' +
+                                    '<td> <input type="text" name="response_param_comment[]" class="form-control input-sm" placeholder="请输入参数说明" value="'+data[key].comment+'"></td>' +
+                                    '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param" >删除</a></td>' +
+                                    '</tr>';
+                            str=str+tr;
+
+                        }
+
+                    }
+
+                    var html = '<div class="form-edit-response-param" style="padding: 10px"><form class="form-horizontal" id="edit-response" role="form">' +
+                            '<table class="table table-condensed">' +
+                            '<thead>' +
+                            '<tr>' +
+                            '<th>参数名</th>' +
+                            '<th>参数说明</th>' +
+                            '<th> <a href="javascript:void (0);" id="add-response-param" class="btn btn-info btn-xs"><i class="fa fa-plus-square"></i>&nbsp;添加</a></th>' +
+                            '</tr>' +
+                            '</thead>' +
+                            '<tbody id="response-tbody">' +str+
+                            '</tbody>' +
+                            '</table>' +
+                            '</form></div>';
+                    //页面层
+                    layer.open({
+                        type: 1,
+                        title: '编辑响应参数',
+                        skin: 'layui-layer-api', //加上边框
+//                        closeBtn: 2, //不显示关闭按钮
+                        shift: 1,
+                        shadeClose: true, //开启遮罩关闭
+                        area: ['800px', '558px'], //宽高
+                        content: html,
+                        btn: '保存',
+                        yes: function (index, layero) {
+                            var form = layero.find('form');
+
+                            var fd=new FormData(form[0]);
+                            fd.append('id',id);
+                            $.ajax({
+                               type:'post',
+                                url:'__INDEX__doc/saveResponseParam',
+                                data:fd,
+                                dataType:'json',
+                                success:function(msg){
+
+                                    switch (msg.status) {
+                                        case 1:
+
+                                                layer.close(index);
+                                            layer.msg(msg.content, {icon: 1});
+                                            break;
+
+                                    }
+                                },
+                                processData:false,
+                                contentType:false
+                            });
+
+                        }
+                    });
+
+
+                });
+
+            });
+
+            //同步返回json数据到库
+            var save_json, save_id;
+            $body.on('click', '.save-response-param', function () {
+
+                var type = $(this).attr('data-type');
                 console.log(type);
                 console.log(save_id);
                 console.log(save_json);
-                $.post('__INDEX__doc/saveResponseJson',{list_id:save_id,type:type,json:save_json},function(msg){
+                $.post('__INDEX__doc/saveResponseJson', {
+                    list_id: save_id,
+                    type: type,
+                    json: save_json
+                }, function (msg) {
 
-                    switch (msg.status){
+                    switch (msg.status) {
                         case 1:
                             $('#myModal').modal('hide');
-                            layer.msg(msg.content,{icon:1});
+                            layer.msg(msg.content, {icon: 1});
                             break;
-
 
                     }
                 });
             });
 
-
             //编辑响应参数json
-            $body.on('click','[data-operate="edit-json"]',function(){
+            $body.on('click', '[data-operate="edit-json"]', function () {
 
+                var id = $(this).attr('data-id');
+                var type = $(this).attr('data-type');
+                $.post('__INDEX__doc/editJson', {id: id, type: type}, function (msg) {
+                    if (msg) {
+                        var html = JSON.stringify(JSON.parse(msg), null, 8); // 缩进一个tab
+                    } else {
+                        var html = '';
+                    }
 
-                var id=$(this).attr('data-id');
-                $.post('__INDEX__doc/editJson',{id:id},function(msg){
-
-                    var html=JSON.stringify(JSON.parse(msg), null, 8); // 缩进一个tab
 //                    alert(html);
                     //页面层
                     layer.open({
                         type: 1,
-                        skin: 'layui-layer-rim', //加上边框
-                        area: ['80%', '60%'], //宽高
-                        content: '<html><textarea rows="20" class="form-control">'+html+'</textarea></html>'
+                        title: '编辑响应数据',
+                        skin: 'layui-layer-api', //加上边框
+//                        closeBtn: 2, //不显示关闭按钮
+                        shift: 3,
+                        shadeClose: true, //开启遮罩关闭
+                        area: ['800px', '558px'], //宽高
+                        content: '<div  class="api-doc-edit"><textarea name="" class="form-control" id="" cols="30" rows="22" >' + html + '</textarea>' +
+                        '</div>',
+                        btn: '保存',
+                        yes: function (index, layero) {
+                            var json = layero.find('textarea').val();
+                            $.post('__INDEX__doc/saveResponseJson', {
+                                list_id: id,
+                                type: type,
+                                json: json
+                            }, function (msg) {
+                                layer.close(index);
+                                switch (msg.status) {
+                                    case 1:
+
+                                        layer.msg(msg.content, {icon: 1});
+                                        break;
+
+                                }
+
+                            });
+                        }
                     });
+
                 });
 
             });
 
-
-
             //格式化全局json
-            $('.responsive-param').each(function(){
-                var str=$(this).text();
-                if(str){
-                    var data_json=$(this).attr('data-json');
+            $('.responsive-param').each(function () {
+                var str = $(this).text();
+                if (str) {
+                    var data_json = $(this).attr('data-json');
                     var options = {
-                        dom: '[data-json="'+data_json+'"]' //对应容器的css选择器
+                        dom: '[data-json="' + data_json + '"]' //对应容器的css选择器
                     };
                     var jf = new JsonFormater(options); //创建对象
-                    var json_responsive=JSON.parse(str);
+                    var json_responsive = JSON.parse(str);
                     jf.doFormat(json_responsive); //格式化json
                 }
             });
 
-
-
-
-
-
             //美化导航条
             $(".api-left-nav").niceScroll({
                 cursorborder: "#ffffff",
-                cursorcolor: "#337ab7",
+                cursorcolor: "#5FB878",
                 cursorwidth: "1px",
                 zindex: 1,
                 boxzoom: false,
@@ -420,7 +552,7 @@
 
             //添加参数
             $body.on('click', '#add-param', function () {
-                console.log($('#add-api-tbody'));
+
 
                 var $tr = $(' <tr class="input-param">' +
                         '<td> <input type="text" name="param_key[]" class="form-control input-sm" placeholder="请输入参数名"></td>' +
@@ -429,6 +561,16 @@
                         '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param" >删除</a></td>' +
                         '</tr>');
                 $('#add-api-tbody').append($tr);
+            });
+            //添加响应注释参数
+            $body.on('click','#add-response-param',function(){
+
+                var tr = $('<tr class="response-param">' +
+                        '<td> <input type="text" name="response_param_key[]" class="form-control input-sm" placeholder="请输入参数名"></td>' +
+                        '<td> <input type="text" name="response_param_comment[]" class="form-control input-sm" placeholder="请输入参数说明"></td>' +
+                        '<td> <a href="javascript:void (0);" class="btn btn-danger btn-sm" data-operate="delete-param" >删除</a></td>' +
+                        '</tr>');
+                $('#response-tbody').append(tr);
             });
 
             //提交添加site
@@ -463,33 +605,7 @@
                 $("body").animate({scrollTop: 0});
             });
 
-            //提交添加cate
-            $('#add-api-cate-submit').on('click', function () {
 
-                $.post('__INDEX__doc/addCate', {
-                    name: $('#api-cate-name').val(),
-                    id: $('#api-cate-id').val(),
-                    project_id: '{$Request.param.id}'
-                }, function (msg) {
-                    if (msg.status == 1) {
-
-                        var alert = $('<div class="alert-div"><div class="alert alert-success">添加分类成功</div></div>');
-                        $('body').prepend(alert);
-                        alert.fadeIn("slow");
-                        setTimeout(function () {
-                                    alert.fadeOut("slow");
-                                    setTimeout(function () {
-                                                alert.remove();
-
-                                            },
-                                            2000);
-                                    api_cate_modal.modal('hide');
-                                },
-                                2000);
-                    }
-                });
-
-            });
 
             //提交添加api
             $body.on('click', '#add-api-submit', function () {
@@ -543,13 +659,22 @@
                             str = str + option;
                         }
 
-                        var html = '<div class="api-doc-add-api"><form class="form-horizontal" id="add-api-form" role="form">' +
+                        var html = '<div class="api-doc-add-api"><form class="form-horizontal" id="add-api-form" role="form">' + '<div class="form-group form-group-sm">' +
+                                '<label  class="col-sm-2 control-label">请求方式</label>' +
+                                '<div class="col-sm-10">' +
+                                ' <label class="checkbox-inline">' +
+                                '<input type="radio" name="type" value="post" checked>POST</label>' +
+                                '<label class="checkbox-inline">' +
+                                '<input type="radio" name="type" value="get">GET</label>' +
+                                '</div>' +
+                                '</div>' +
                                 '<div class="form-group form-group-sm">' +
                                 '<label  class="col-sm-2 control-label">类别</label>' +
                                 '<div class="col-sm-10">' +
                                 '<select name="cate_id"   class="form-control">' + str + '</select>' +
                                 '</div>' +
                                 '</div>' +
+
                                 '<div class="form-group form-group-sm">' +
                                 '<label  class="col-sm-2 control-label">api名称</label>' +
                                 '<div class="col-sm-10">' +
@@ -588,9 +713,11 @@
                         //页面层
                         layer.open({
                             type: 1,
-                            title: '添加api',
-                            skin: 'layui-layer-rim', //加上边框
-                            area: ['850px', '540px'], //宽高
+                            title: '添加API',
+                            skin: 'layui-layer-api', //加上边框
+                            shift:1,
+                            shadeClose:true,
+                            area: ['850px', '580px'], //宽高
                             content: html
                         });
                     }
@@ -681,9 +808,11 @@
                     //页面层
                     layer.open({
                         type: 1,
-                        title: '编辑api',
-                        skin: 'layui-layer-rim', //加上边框
-                        area: ['850px', '540px'], //宽高
+                        title: '编辑API',
+                        skin: 'layui-layer-api', //加上边框
+                        shift:3,
+                        shadeClose:true,
+                        area: ['850px', '580px'], //宽高
                         content: html
                     });
 
@@ -713,9 +842,35 @@
             });
 
             //添加api-cate按钮
-            var api_cate_modal = $('#add-api-cate');
+
             $('#add-api-cate-btn').on('click', function () {
-                api_cate_modal.modal();
+
+                var html = '<div style="width: 300px;margin: 20px 20px 10px 20px"><input type="text" class="form-control" id="api-cate-name" placeholder="请输入分类名称"></div>';
+
+
+
+                //页面层
+                layer.open({
+                    type: 1,
+                    title: '添加分类',
+                    skin: 'layui-layer-api', //加上边框
+                    shift:3,
+                    btn:'添加',
+                    shadeClose:true,
+                    area: ['340px', '160px'], //宽高
+                    content: html,
+                    yes:function(index,msgInfo){
+                        $.post('__INDEX__doc/addCate', {
+                            name: msgInfo.find('input').val(),
+                            project_id: '{$Request.param.id}'
+                        }, function (msg) {
+                            if (msg.status == 1) {
+                                layer.close(index);
+                                layer.msg('添加成功',{icon:1});
+                            }
+                        });
+                    }
+                });
             });
             //添加api-site按钮
             var api_site_modal = $('#add-api-site');
@@ -727,7 +882,7 @@
             //go
             $('.api-body').on('click', '[data-operate="api-request"]', function () {
                 var $this = $(this);
-                save_id=$this.attr('data-id');
+                save_id = $this.attr('data-id');
                 var $form = $this.parents('.row').prev();
                 var type = $this.attr('data-type');
                 var api = $this.attr('data-api');
@@ -748,10 +903,10 @@
 
                         try {
                             //在此运行代码
-                            var r_msg=JSON.parse(msg);
+                            var r_msg = JSON.parse(msg);
                             if (typeof(r_msg) == 'object') {
                                 console.log(1);
-                                save_json=r_msg;
+                                save_json = r_msg;
                                 $('.json>textarea').empty().append(msg);
                                 var options = {
                                     dom: '.json' //对应容器的css选择器
@@ -811,6 +966,7 @@
                 document.getElementById('#error-modal').html('');
 
             });
+
 
         });
     </script>

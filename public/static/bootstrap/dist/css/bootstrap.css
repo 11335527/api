@@ -4080,7 +4080,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
   color: #ffffff;
-  background-color: #393d49;
+  background-color: #5fb878;
 }
 .nav-stacked > li {
   float: none;
@@ -6777,6 +6777,7 @@ button.close {
 }
 .api-doc-list .api-list-title h4 {
   margin: 10px;
+  color: #393d49;
 }
 .api-doc-list .api-list-title a {
   line-height: 38px;

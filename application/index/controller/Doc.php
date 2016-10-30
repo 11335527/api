@@ -15,7 +15,7 @@ class Doc extends Controller {
         }
     }
     public function doc($id) {
-//        $project_id=$GLOBALS['params']['project_id'];
+
         $project_id = $id;
         session('current_project', $id);
         $user_id = $GLOBALS['params']['user_id'];
@@ -29,6 +29,10 @@ class Doc extends Controller {
                 $va->param;
             }
         }
+
+        //项目名称
+        $name=db('project')->where(['id'=>$id])->value('name');
+        $this->assign('project',$name);
         $this->assign('list', $list);
         return $this->fetch();
     }
@@ -131,12 +135,15 @@ class Doc extends Controller {
 
     public function addApi(Request $request) {
         $post = $request->post();
-//        dump($post);exit;
+
 
 
         $data['api']=$post['api'];
         $data['name']=$post['name'];
         $data['cate_id']=$post['cate_id'];
+        $data['type']=$post['type'];
+        $data['user_id']=session('user')['user_id'];
+        $data['update_time']=time();
 
 
         if ($post['id']) {
@@ -144,6 +151,10 @@ class Doc extends Controller {
             db('list')->update($data);
             $list_id = $post['id'];
         } else {
+
+            $json=json_encode(['status'=>'还未添加响应数据']);
+            $data['success']=$json;
+            $data['error']=$json;
             $list_id = db('list')->insertGetId($data);
         }
 
@@ -183,6 +194,7 @@ class Doc extends Controller {
         $post = $request->post('id');
         db('list')->delete($post);
         db('request')->where(['list_id' => $post])->delete();
+        db('response')->where(['list_id' => $post])->delete();
         return success();
     }
 
@@ -256,11 +268,17 @@ class Doc extends Controller {
     */
     public function saveResponseJson(){
         $post=$this->request->post();
-        $data[$post['type']]=json_encode($post['json']);
+
+        if(is_array($post['json'])){
+            $type=json_encode($post['json']);
+        }else{
+            $type=$post['json'];
+        }
+        $data[$post['type']]=$type;
         $data['id']=$post['list_id'];
         $res=db('list')->update($data);
         if($res){
-            return success('同步成功');
+            return success('编辑成功');
         }else{
             return success('与库中数据相同，未修改');
         }
@@ -272,12 +290,48 @@ class Doc extends Controller {
     */
     public function editJson(){
         $post=$this->request->post();
-       $info= db('list')->where(['id'=>$post['id']])->value('success');
+       $info= db('list')->where(['id'=>$post['id']])->value($post['type']);
 
         return $info;
     }
 
+    /**
+    *获取某api响应参数
+    *add by zk 2016/10/29 10:11
+    */
+    public function getResponseParam(){
+        $post=$this->request->post();
+        $list=db('response')->where(['list_id'=>$post['id']])->select();
+        if($list){
+            return success($list);
 
+        }else{
+            return error();
+        }
+    }
+    /**
+    *保存编辑响应参数
+    *add by zk 2016/10/29 10:11
+    */
+    public function saveResponseParam(){
+        $post=$this->request->post();
+        db('response')->where(['list_id'=>$post['id']])->delete();
+        $arr=[];
+        foreach($post['response_param_key'] as $k=>$v){
+            $data=[];
+            $data['name']=$v;
+            $data['comment']=$post['response_param_comment'][$k];
+            $data['list_id']=$post['id'];
+            $arr[]=$data;
+        }
+        if(db('response')->insertAll($arr)){
+            return success('保存成功');
+        }else{
+            return error();
+        }
+
+
+    }
 
 
 }

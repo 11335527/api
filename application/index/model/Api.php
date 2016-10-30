@@ -21,5 +21,11 @@ class Api extends Model{
         return $this->hasMany('Response','list_id','id');
     }
 
+    public function user(){
+        return $this->belongsTo('User','user_id','user_id');
+    }
 
+    public function getUpdateTimeAttr($value){
+        return date('y/m/d H:i',$value);
+    }
 }
