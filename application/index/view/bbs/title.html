@@ -66,8 +66,12 @@
                         {$v.content}
                     </div>
                     <div class="comment-operate">
+                        {if condition="$Request.session.user.user_id==$v.user_id"}
                         <a data-operate="delete-comment" data-id="{$v.id}" ><span class="fa fa-trash-o"></span>删除</a>
+                        {else/}
+
                         <a data-operate="reply-comment" data-id="{$v.id}" data-name="{$v.user.username}"><span class="fa fa-comments-o"></span>回复</a>
+                        {/if}
                     </div>
                     {notempty name="v.reply"}
                     <div class="comment-reply">
@@ -88,8 +92,12 @@
                                 {$vr.content}
                             </div>
                             <div class="comment-operate">
+                                {if condition="$Request.session.user.user_id==$vr.user_id"}
                                 <a data-operate="delete-reply" data-id="{$vr.id}" ><span class="fa fa-trash-o"></span>删除</a>
+                                {else/}
                                 <a data-operate="reply-reply" data-id="{$vr.id}" data-comment="{$v.id}" data-reply-user-id="{$vr.user_id}" data-name="{$vr.user.username}"><span class="fa fa-comments-o"></span>回复</a>
+                                {/if}
+
                             </div>
                         </div>
                         {/foreach}
@@ -144,10 +152,11 @@
                             '</div>' +
                             '<div class="comment-operate">' +
                             '<a data-operate="delete-comment" data-id="'+msg.content.id+'" data-name="{$Request.session.user.username}"><span class="fa fa-trash-o"></span>删除</a>' +
-                            '<a data-operate="reply-comment" data-id="'+msg.content.id+'" data-name="{$Request.session.user.username}"><span class="fa fa-comments-o"></span>回复</a>' +
+//                            '<a data-operate="reply-comment" data-id="'+msg.content.id+'" data-name="{$Request.session.user.username}"><span class="fa fa-comments-o"></span>回复</a>' +
                             '</div>' +
                             '</div>');
                     $('#api-title-comment').prepend(comment);
+                    editor.$txt.html('<p><br></p>');
 
                 }
             });
@@ -192,11 +201,11 @@
                                             '<small>刚刚</small>' +
                                             '</div>' +
                                             '</div>' +
-                                            '<div class="comment-content">回复<strong class="text-info">zhou</strong>' +content+
+                                            '<div class="comment-content">' +content+
                                             '</div>' +
                                             '<div class="comment-operate">' +
                                             '<a data-operate="delete-reply" data-id="'+res.content.id+'"  data-name="{$Request.session.user.username}"><span class="fa fa-trash-o"></span>删除</a>' +
-                                            '<a data-operate="reply-reply" data-id="'+res.content.id+'" data-comment="'+id+'"  data-name="{$Request.session.user.username}"><span class="fa fa-comments-o"></span>回复</a>' +
+//                                            '<a data-operate="reply-reply" data-id="'+res.content.id+'" data-comment="'+id+'"  data-name="{$Request.session.user.username}"><span class="fa fa-comments-o"></span>回复</a>' +
                                             '</div>' +
                                             '</div>');
 
@@ -259,11 +268,11 @@
                                         '<small>刚刚</small>' +
                                         '</div>' +
                                         '</div>' +
-                                        '<div class="comment-content">回复<strong class="text-info">zhou</strong>' +content+
+                                        '<div class="comment-content">回复<strong class="text-info">'+name+'</strong>' +content+
                                         '</div>' +
                                         '<div class="comment-operate">' +
                                         '<a data-operate="delete-reply" data-id="'+res.content.id+'" data-name="{$Request.session.user.username}"><span class="fa fa-trash-o"></span>删除</a>' +
-                                        '<a data-operate="reply-reply" data-id="'+res.content.id+'" data-comment="'+comment_id+'" data-name="{$Request.session.user.username}"><span class="fa fa-comments-o"></span>回复</a>' +
+//                                        '<a data-operate="reply-reply" data-id="'+res.content.id+'" data-comment="'+comment_id+'" data-name="{$Request.session.user.username}"><span class="fa fa-comments-o"></span>回复</a>' +
                                         '</div>' +
                                         '</div>');
                                 $this.parent().parent().after(reply);
