@@ -28,14 +28,15 @@ class Qq extends Controller {
         if ($info) {
             session('user', $info);
         } else {
-//            cookie('access_token',$access_token);
-//            cookie('open_id',$open_id);
+
+            //获取QQ用户信息
             $qc = new \QC($access_token, $open_id);
             $bb = $qc->get_user_info();
-
-//            dump();exit;
+            //保存头像到本地
             $name = md5(microtime(true)).'.png';
             $arr_img = $this->getImage($bb['figureurl_qq_2'], './static/images/head_img/', $name);
+
+            //组装参数
             $user['username'] = $bb['nickname'];
             $user['head_img'] = 'head_img/' . $arr_img['file_name'];
             $user['openid'] = $open_id;
@@ -47,13 +48,6 @@ class Qq extends Controller {
         $this->redirect(__SITE__ . 'me');
     }
 
-    public function test() {
-        $name = md5(microtime(true)). '.png';
-        $url = 'http://q.qlogo.cn/qqapp/101362222/20E8D90BC4791E4BD27B93850B7A148E/100';
-//        $fileName = './static/images/head-img/' . $name;
-        $bb = $this->getImage($url, './static/images/head_img/', $name);
-        dump($bb);
-    }
 
     /*
     *功能：php完美实现下载远程图片保存到本地
