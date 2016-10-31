@@ -29,6 +29,11 @@ class Bbs extends Controller {
     public function title($id){
         $info=Title::get($id);
         $info['comment']=$info->comment()->order(['create_time'=>'desc'])->select();
+        $data['id']=$info['id'];
+        $data['visit_count']=$info['visit_count']+1;
+        db('title')->update($data);
+
+        $info['visit_count']=$data['visit_count'];
         $this->assign('info',$info);
         return $this->fetch();
     }
@@ -47,7 +52,7 @@ class Bbs extends Controller {
 
         $intro_img = json_decode($post['intro_img']);
         unset($post['intro_img']);
-        $post['create_time'] = time();
+        $post['create_time'] =time();
         $user = session('user');
         $user_id = $user['user_id'];
         $post['user_id'] = $user_id;
@@ -70,6 +75,8 @@ class Bbs extends Controller {
         if($id=db('comment')->insertGetId($post)){
 
 
+            $sql="update api_title set comment_count=comment_count+1 WHERE id={$post['title_id']}";
+            Db::execute($sql);
             $data['id']=$id;
             return success($data);
         }else{

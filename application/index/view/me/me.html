@@ -33,7 +33,7 @@ background-repeat: no-repeat;background-size:100%;padding: 30px;color: white;tex
     </div>
     <div class="col-md-9">
 
-        <div class="text-right"><a href="javascript:void (0);" class="btn btn-info" id="create-project">创建项目</a>
+        <div class="text-right"><a href="javascript:void (0);" class="btn btn-default" id="create-project">创建项目</a>
             <hr></div>
 
         <ul class="api-me-list">
@@ -46,7 +46,7 @@ background-repeat: no-repeat;background-size:100%;padding: 30px;color: white;tex
                     <p>
                         <small><span>创建时间:{$v.project.create_time}</span><span style="margin-left: 10px">{empty name="v.project.update_time"} {else/}修改时间1：{$v.project.update_time}{/empty}</span>
                         </small>
-                        {if condition="$v.type eq 1"}<a href="__SITE__invite/{$v.project.id}" class="btn btn-primary btn-xs">邀请</a>{/if}
+                        {if condition="$v.type eq 1"}<a href="__SITE__invite/{$v.project.id}" class="btn btn-default btn-xs">邀请</a>{/if}
                     </p>
                 </div>
             </li>
@@ -113,6 +113,7 @@ background-repeat: no-repeat;background-size:100%;padding: 30px;color: white;tex
 
     });
 
+    //创建项目
     $('#create-project').on('click',function(){
 
         //prompt层
@@ -127,7 +128,7 @@ background-repeat: no-repeat;background-size:100%;padding: 30px;color: white;tex
                 if(msg.status==1){
                     var $li=$('<li><div><h4>' +
                             '<a href="__SITE__doc/'+msg.content.id+'">'+msg.content.name+'</a><span class="label label-success">创建</span>' +
-                            '</h4><p><small><span>创建时间:'+msg.content.create_time+'</span></small></p></div></li>');
+                            '</h4><p><small><span>创建时间:'+msg.content.create_time+'</span></small><a href="__SITE__invite/'+msg.content.id+'" class="btn btn-default btn-xs">邀请</a></p></div></li>');
                     $('.api-me-list').append($li);
 
                     layer.msg('创建成功' ,{icon:1});

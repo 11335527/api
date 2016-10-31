@@ -30,9 +30,7 @@
                         <small>
                             <span>{$info.type}</span>
                             <span>发布者:{$info.user.username}&nbsp;&nbsp;{$info.create_time}</span>
-                            {notempty name="info.comment" }
-                            <span>最后评论：{$info.comment.name}&nbsp;&nbsp;{$info.comment.ago}</span>
-                            {/notempty}
+
 
             <span class="pull-right">
               <i class="fa fa-comment-o"></i>{$info.comment_count}

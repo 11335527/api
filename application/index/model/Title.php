@@ -29,7 +29,8 @@ class Title extends Model {
 
             $arr['name']=$info->user->username;
 
-            $arr['ago']=$this->time_tran($info->create_time);
+            $arr['ago']=$info->create_time;
+
             return $arr;
         }
         return false;
