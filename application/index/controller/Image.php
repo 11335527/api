@@ -26,21 +26,38 @@ class Image extends Controller
     }
 
     /**
-    *商品主图
+    *QQ头像
     *add by zk 2016/8/15 16:59
     */
-    public function goodsHeadImg()
+    public function qqImg($url)
     {
 
-        $file = $this->request->file('file');
 
-        $image=Img::open($file);
-        $image->thumb(800,800,3);
-        $save_name=md5(microtime(true)).'.'.$image->type();
-        $path='./static/upload/image/goods/head_img/'.$save_name;
+        //初始化
+        $ch = curl_init();
+        //设置选项，包括URL
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//将curl_exec()获取的信息以文件流的形式返回，而不是直接输出。
 
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        //执行并获取HTML文档内容
+        $output = curl_exec($ch);
+        //释放curl句柄
+        curl_close($ch);
+        //打印获得的数据
+        return $output;
+
+//dump($url);exit;
+
+//        $file = $this->request->file($url);
+        $image=Img::open($url);
+        return $image;
+        $save_name=md5(microtime(true)).'.gif';
+        $path='./static/image/head_img/'.$save_name;
+
+        $fp = fopen($path, 'wb');
         if($image->save($path)){
-            return $save_name;
+            return 'head_img/'.$save_name;
         }else{
             return '上传失败';
         }
@@ -77,20 +94,6 @@ class Image extends Controller
         }
     }
 
-    public function areaBgImg(){
-
-        $file = $this->request->file('file');
-        $image=Img::open($file);
-        $image->thumb(206,206,3);
-        $save_name=md5(microtime(true)).'.'.$image->type();
-        $path='./static/upload/image/area/'.$save_name;
-
-        if($image->save($path)){
-            return $save_name;
-        }else{
-            return '上传失败';
-        }
-    }
 
 
     /**

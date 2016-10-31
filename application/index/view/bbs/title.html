@@ -8,7 +8,7 @@
             <div class="bbs-list">
 
 
-                <img src="__S__images/paopao/{$info.user.head_img}" class="img-circle" alt="">
+                <img src="__S__images/{$info.user.head_img}" class="img-circle" alt="">
 
                 <div class="bbs-list-content">
                     <h4><a href="__SITE__title/{$v.id}">{$info.title}</a>
@@ -56,7 +56,7 @@
                 {foreach $info.comment as $v}
                 <div class="title-comment-list">
                     <div class="comment-header">
-                        <img src="__S__images/paopao/{$v.user.head_img}" class="img-circle" alt="">
+                        <img src="__S__images/{$v.user.head_img}" class="img-circle" alt="">
                         <div>
                             <p>{$v.user.username}</p>
                             <small>{$v.create_time}</small>
@@ -79,7 +79,7 @@
                         {foreach $v.reply as $vr}
                         <div class="title-comment-list">
                             <div class="comment-header">
-                                <img src="__S__images/paopao/{$vr.user.head_img}" class="img-circle" alt="">
+                                <img src="__S__images/{$vr.user.head_img}" class="img-circle" alt="">
                                 <div>
                                     <p>{$vr.user.username}</p>
                                     <small>{$vr.create_time}</small>
@@ -142,7 +142,7 @@
                     layer.msg('评论成功',{icon:1});
                     var comment = $('<div class="title-comment-list">' +
                             '<div class="comment-header">' +
-                            '<img src="__S__images/paopao/{$Request.session.user.head_img}" class="img-circle" alt="">' +
+                            '<img src="__S__images/{$Request.session.user.head_img}" class="img-circle" alt="">' +
                             '<div>' +
                             '<p>{$Request.session.user.username}</p>' +
                             '<small>刚刚</small>' +
@@ -195,7 +195,7 @@
                                 layer.msg('回复成功', {icon: 1});
                                     var reply=$('<div class="title-comment-list">' +
                                             '<div class="comment-header">' +
-                                            '<img src="__S__images/paopao/{$Request.session.user.head_img}" class="img-circle" alt="">' +
+                                            '<img src="__S__images/{$Request.session.user.head_img}" class="img-circle" alt="">' +
                                             '<div>' +
                                             '<p>{$Request.session.user.username}</p>' +
                                             '<small>刚刚</small>' +
@@ -262,7 +262,7 @@
                                 layer.msg('回复成功', {icon: 1});
                                 var reply=$('<div class="title-comment-list">' +
                                         '<div class="comment-header">' +
-                                        '<img src="__S__images/paopao/{$Request.session.user.head_img}" class="img-circle" alt="">' +
+                                        '<img src="__S__images/{$Request.session.user.head_img}" class="img-circle" alt="">' +
                                         '<div>' +
                                         '<p>{$Request.session.user.username}</p>' +
                                         '<small>刚刚</small>' +

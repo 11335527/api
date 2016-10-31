@@ -7,7 +7,7 @@ class="mr_title_r"></span>
     <div class="col-md-2">
 
         <div style="width: 100px;text-align: center;float: right">
-            <img src="__S__images/paopao/{$info.head_img}" data-name="{$info.head_img}" class="edit-head-img" id="current-head-img" alt="">
+            <img src="__S__images/{$info.head_img}" data-name="{$info.head_img}" class="edit-head-img" id="current-head-img" alt="">
             <p>选择头像</p>
         </div>
 
@@ -48,7 +48,7 @@ class="mr_title_r"></span>
 
     $('#submit').on('click',function(){
              var id=$('[name="user_id"]').val();
-            var head_img= $('#current-head-img').attr('data-name');
+            var head_img= 'paopao/'+$('#current-head-img').attr('data-name');
             var username=$('[name="username"]').val();
             $.ajax({
                 type:'post',

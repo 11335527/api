@@ -1,0 +1,2 @@
+<?php die('forbidden'); ?>
+{"appid":"101362222","appkey":"d8441a841e3e4a255a0f09f6ac7d4baf","callback":"http://www.maapi.cn/index/qq/callBack","scope":"get_user_info","errorReport":true,"storageType":"file","host":"localhost","user":"root","password":"root","database":"test"}

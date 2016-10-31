@@ -87,7 +87,7 @@ class Login extends Controller{
         }
 
         unset($post['re_password']);
-        $post['head_img']=rand(1,24).'.jpg';
+        $post['head_img']='paopao/'.rand(1,24).'.jpg';
         $id=db('user')->insertGetId($post);
         if($id){
             return success($post);
