@@ -34,6 +34,7 @@ class Bbs extends Controller {
         db('title')->update($data);
 
         $info['visit_count']=$data['visit_count'];
+        //var_dump($info);exit;
         $this->assign('info',$info);
         return $this->fetch();
     }

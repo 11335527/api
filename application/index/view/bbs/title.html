@@ -11,7 +11,7 @@
                 <img src="__S__images/{$info.user.head_img}" class="img-circle" alt="">
 
                 <div class="bbs-list-content">
-                    <h4><a href="__SITE__title/{$v.id}">{$info.title}</a>
+                    <h4><a href="#">{$info.title}</a>
 
 
                         {eq name="info.top" value="1"}
@@ -67,7 +67,6 @@
                         {if condition="$Request.session.user.user_id==$v.user_id"}
                         <a data-operate="delete-comment" data-id="{$v.id}" ><span class="fa fa-trash-o"></span>删除</a>
                         {else/}
-
                         <a data-operate="reply-comment" data-id="{$v.id}" data-name="{$v.user.username}"><span class="fa fa-comments-o"></span>回复</a>
                         {/if}
                     </div>
@@ -75,7 +74,7 @@
                     <div class="comment-reply">
 
                         {foreach $v.reply as $vr}
-                        <div class="title-comment-list">
+                          <div class="title-comment-list">
                             <div class="comment-header">
                                 <img src="__S__images/{$vr.user.head_img}" class="img-circle" alt="">
                                 <div>
@@ -153,8 +152,8 @@
 //                            '<a data-operate="reply-comment" data-id="'+msg.content.id+'" data-name="{$Request.session.user.username}"><span class="fa fa-comments-o"></span>回复</a>' +
                             '</div>' +
                             '</div>');
-                    $('#api-title-comment').prepend(comment);
-                    editor.$txt.html('<p><br></p>');
+                    $('#api-title-comment').prepend(comment);//添加
+                    editor.$txt.html('<p><br></p>');//清空
 
                 }
             });
@@ -165,11 +164,11 @@
         //回复评论
         $title_comment.on('click','[data-operate="reply-comment"]',function(){
             var $this=$(this);
-            var id=$(this).attr('data-id');
-            var name=$(this).attr('data-name');
+            var id=$(this).attr('data-id');//回复主题的评论id
+            var name=$(this).attr('data-name');//回复评论的哪个用户
 
 
-            //页面层
+            //回复弹出的页面层
             layer.open({
                 type: 1,
                 title: '回复【'+name+'】的评论',
@@ -181,7 +180,7 @@
                 '</div>',
                 btn: '保存',
                 yes: function (index, layero) {
-                    var content = layero.find('textarea').val();
+                    var content = layero.find('textarea').val();//弹出页面层的内容
                     $.post('__INDEX__bbs/addReply', {
                         comment_id: id,
                         content: content
@@ -208,6 +207,7 @@
                                             '</div>');
 
                                     if($this.parent().next('.comment-reply').length){
+
                                         $this.parent().next().append(reply);
                                     }else {
 
