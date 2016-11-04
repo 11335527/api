@@ -15,6 +15,14 @@ use think\Validate;
 class Bbs extends Controller {
 
 
+    public function check(){
+        if (($GLOBALS['params'] === 0)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function bbs() {
 
         $list=Title::order(['top'=>'desc','essence'=>'desc','hot'=>'desc','create_time'=>'desc'])->paginate(15);
@@ -23,6 +31,10 @@ class Bbs extends Controller {
     }
 
     public function add() {
+        //先登录才能发布帖子
+        if (($GLOBALS['params'] === 0)) {
+            $this->redirect(url('index/login/login'));
+        }
         return $this->fetch();
     }
 
@@ -70,6 +82,9 @@ class Bbs extends Controller {
     *add by zk 2016/10/30 20:23
     */
     public function addComment(){
+        if($this->check()){
+            return ['status'=>90];
+        }
         $post=$this->request->post();
         $post['user_id']=session('user')['user_id'];
         $post['create_time']=time();
@@ -91,7 +106,9 @@ class Bbs extends Controller {
     *add by zk 2016/10/30 21:26
     */
     public function addReply(){
-
+        if($this->check()){
+            return ['status'=>90];
+        }
         $post=$this->request->post();
         $post['user_id']=session('user')['user_id'];
         $post['create_time']=time();
@@ -110,7 +127,9 @@ class Bbs extends Controller {
      *add by zk 2016/10/30 21:26
      */
     public function addReplyAgain(){
-
+        if($this->check()){
+            return ['status'=>90];
+        }
         $post=$this->request->post();
         $post['user_id']=session('user')['user_id'];
         $post['create_time']=time();
@@ -131,6 +150,9 @@ class Bbs extends Controller {
     *add by zk 2016/10/30 21:40
     */
     public function deleteComment(){
+        if($this->check()){
+            return ['status'=>90];
+        }
         $post=$this->request->post();
         if(db('comment')->delete($post['id'])){
             db('reply')->where(['comment_id'=>$post['id']])->delete();
@@ -145,6 +167,9 @@ class Bbs extends Controller {
     *add by zk 2016/10/30 22:14
     */
     public function deleteReply(){
+        if($this->check()){
+            return ['status'=>90];
+        }
         $post=$this->request->post();
         if(db('reply')->delete($post['id'])){
             return success();

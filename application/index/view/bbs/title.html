@@ -155,6 +155,8 @@
                     $('#api-title-comment').prepend(comment);//添加
                     editor.$txt.html('<p><br></p>');//清空
 
+                }else if(msg.status==90){
+                    layer.msg('请先登录',{icon:2});
                 }
             });
             console.log(html);
@@ -216,6 +218,11 @@
                                         $this.parent().after(comment_reply);
                                     }
                                 break;
+                            case 90:
+
+                                layer.msg('请先登录',{icon:2});
+
+                                break;
 
                         }
 
@@ -275,6 +282,11 @@
                                         '</div>');
                                 $this.parent().parent().after(reply);
                                 break;
+                            case 90:
+
+                                layer.msg('请先登录',{icon:2});
+
+                                break;
 
                         }
 
@@ -302,6 +314,8 @@
                     if(res.status==1){
                         layer.msg('删除成功', {icon: 1});
                         $this.parent().parent().remove();
+                    }else if(msg.status==90){
+                        layer.msg('请先登录',{icon:2});
                     }
                 });
             });
@@ -324,6 +338,8 @@
                     if(res.status==1){
                         layer.msg('删除成功', {icon: 1});
                         $this.parent().parent().remove();
+                    }else if(msg.status==90){
+                        layer.msg('请先登录',{icon:2});
                     }
                 });
             });
